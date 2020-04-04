@@ -59,7 +59,7 @@ const initServer = (config) => {
   return server;
 };
 
-initServer(config);
+initServer(config).start();
 
 module.exports = {
   initServer,
