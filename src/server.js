@@ -18,7 +18,8 @@ const initServer = (config) => {
       options: {
         validate: {
           payload: joi.object({
-            hook: joi.object({ "events": joi.array().items(joi.string()) }).required().unknown(),
+            action: joi.string(),
+            hook: joi.object({ "events": joi.array().items(joi.string()) }).unknown(),
             sender: joi.object({login: joi.string().required()}).required().unknown(),
             repository: joi.object({full_name: joi.string().required()}).required().unknown(),
           }).unknown(),
@@ -42,12 +43,22 @@ const initServer = (config) => {
             message: `Configured *${repositoryFullName}*`,
           });
 
-          return 'starring';
+          return h.response().code(200);
         }
 
-        return {
+        if (event === 'star' && request.payload.action === 'created') {
+          await axios.post(STREAMLABS_ENDPOINT, {
+            access_token: config.STREAMLABS_TOKEN,
+            type: 'follow',
+            message: `*${senderLogin}* just starred *${repositoryFullName}*`,
+          });
+
+          return h.response().code(200);
+        }
+
+        return h.response({
           message: `Ignoring event: '${event}'`,
-        };
+        });
       },
     }
   ]);
