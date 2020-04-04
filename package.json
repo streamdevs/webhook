@@ -4,9 +4,12 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@hapi/hapi": "^19.1.1"
+    "@hapi/hapi": "^19.1.1",
+    "@hapi/joi": "^17.1.1",
+    "axios": "^0.19.2"
   },
   "devDependencies": {
+    "@types/hapi": "^18.0.3",
     "jest": "^25.2.7"
   }
 }
