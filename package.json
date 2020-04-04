@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
   "dependencies": {
     "@hapi/hapi": "^19.1.1"
   },
