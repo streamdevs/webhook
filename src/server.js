@@ -18,7 +18,7 @@ const initServer = (config) => {
       options: {
         validate: {
           payload: joi.object({
-            action: joi.string().required(),
+            hook: joi.object({ "events": joi.array().items(joi.string()) }).required().unknown(),
             sender: joi.object({login: joi.string().required()}).required().unknown(),
             repository: joi.object({full_name: joi.string().required()}).required().unknown(),
           }).unknown(),
@@ -26,7 +26,8 @@ const initServer = (config) => {
       },
       handler: async (request, h) => {
         const {
-          action, sender: {
+          hook: { events },
+          sender: {
             login: senderLogin
           },
           repository: {
@@ -34,7 +35,7 @@ const initServer = (config) => {
           },
         } = request.payload;
 
-        if (action === 'star') {
+        if (events.includes('star')) {
           await axios.post(STREAMLABS_ENDPOINT, {
             access_token: config.STREAMLABS_TOKEN,
             type: 'follow',
@@ -45,7 +46,7 @@ const initServer = (config) => {
         }
 
         return {
-          message: `Ignoring action '${action}'`,
+          message: `Ignoring actions: '${events.join(',')}'`,
         };
       },
     }

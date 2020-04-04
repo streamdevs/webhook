@@ -16,7 +16,7 @@ describe("server", () => {
       expect(statusCode).toBe(400);
     });
 
-    it("Handles unknown actions gracefully", async () => {
+    it("handles unknown actions gracefully", async () => {
       const subject = initServer(config);
 
       const { statusCode, result } = await subject.inject({
@@ -24,7 +24,7 @@ describe("server", () => {
         url: "/github",
         headers: {'Content-Type': 'application/json'},
         payload: {
-          action: 'created',
+          hook: {events: ['created']},
           sender: {
             login: 'user'
           },
@@ -35,7 +35,7 @@ describe("server", () => {
       });
 
       expect(statusCode).toBe(200);
-      expect(result).toEqual({message: `Ignoring action 'created'`});
+      expect(result).toEqual({message: `Ignoring actions: 'created'`});
   });
 
     it("Understands the GitHub event format for 'star' events", async () => {
@@ -50,7 +50,7 @@ describe("server", () => {
         url: "/github",
         headers: {'Content-Type': 'application/json'},
         payload: {
-          "action": "star",
+          "hook": {"events": ["star"]},
           "starred_at": "2019-05-15T15:20:40Z",
           "repository": {
             "id": 186853002,
