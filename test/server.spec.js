@@ -15,6 +15,29 @@ describe("server", () => {
       const { statusCode } = await subject.inject({
         method: "POST",
         url: "/github",
+        headers: {
+          "X-GitHub-Event": "ping",
+        },
+      });
+
+      expect(statusCode).toBe(400);
+    });
+
+    it("returns 400 on requests without 'X-GitHub-Event' header", async () => {
+      const subject = initServer(config);
+
+      const { statusCode } = await subject.inject({
+        method: "POST",
+        url: "/github",
+        payload: {
+          action: "created",
+          repository: {
+            full_name: 'a',
+          },
+          sender: {
+            login: 'b',
+          },
+        },
       });
 
       expect(statusCode).toBe(400);
