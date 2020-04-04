@@ -1,5 +1,5 @@
 {
-    "name": "uri-qr-generator",
+    "name": "streamdevs/webhook,
     "logo": "https://cdn.rawgit.com/streamdevs/webhook/master/logo.svg",
     "description": "An HTTP Webhook to forward GitHub events to StreamLabs",
     "repository": "https://github.com/streamdevs/webhook",
