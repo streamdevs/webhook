@@ -1,0 +1,24 @@
+{
+    "name": "uri-qr-generator",
+    "logo": "https://cdn.rawgit.com/streamdevs/webhook/master/logo.svg",
+    "description": "An HTTP Webhook to forward GitHub events to StreamLabs",
+    "repository": "https://github.com/streamdevs/webhook",
+    "keywords": [
+        "github",
+        "webhooks",
+        "twitch",
+        "streaming"
+    ],
+    "scripts": {
+        "postdeploy": "yarn install"
+    },
+    "success_url": "/",
+    "image": "heroku/nodejs",
+    "env": {
+        "STREAMLABS_TOKEN": {
+            "description": "A token to use the StreamLabs API.",
+            "value": "",
+            "required": true
+        }
+    }
+}
