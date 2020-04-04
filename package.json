@@ -2,7 +2,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "start": "node src/server.js"
+    "start": "node src/index.js"
   },
   "dependencies": {
     "@hapi/hapi": "^19.1.1",
