@@ -26,7 +26,6 @@ const initServer = (config) => {
       },
       handler: async (request, h) => {
         const {
-          hook: { events },
           sender: {
             login: senderLogin
           },
@@ -34,19 +33,20 @@ const initServer = (config) => {
             full_name: repositoryFullName
           },
         } = request.payload;
+        const event = request.headers['x-github-event'];
 
-        if (events.includes('star')) {
+        if (event === 'ping' && request.payload.hook.events.includes('star')) {
           await axios.post(STREAMLABS_ENDPOINT, {
             access_token: config.STREAMLABS_TOKEN,
             type: 'follow',
-            message: `*${senderLogin}* just starred *${repositoryFullName}*`,
+            message: `Configured *${repositoryFullName}*`,
           });
 
           return 'starring';
         }
 
         return {
-          message: `Ignoring actions: '${events.join(',')}'`,
+          message: `Ignoring event: '${event}'`,
         };
       },
     }
