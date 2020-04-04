@@ -1,6 +1,7 @@
 # webhook
 
 ![license](https://img.shields.io/github/license/streamdevs/webhook.svg)
+![Node.js CI](https://github.com/streamdevs/webhook/workflows/Node.js%20CI/badge.svg)
 
 A webhook to forward GitHub events to StreamLabs custom messages
 
