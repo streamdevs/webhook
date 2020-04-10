@@ -7,11 +7,11 @@
   "dependencies": {
     "@hapi/hapi": "^19.1.1",
     "@hapi/joi": "^17.1.1",
-    "@types/hapi__joi": "^16.0.12",
     "axios": "^0.19.2"
   },
   "devDependencies": {
     "@types/hapi": "^18.0.3",
+    "@types/hapi__joi": "^16.0.12",
     "jest": "^25.2.7"
   }
 }
