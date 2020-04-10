@@ -720,6 +720,11 @@
     "@types/podium" "*"
     "@types/shot" "*"
 
+"@types/hapi__joi@^16.0.12":
+  version "16.0.12"
+  resolved "https://registry.yarnpkg.com/@types/hapi__joi/-/hapi__joi-16.0.12.tgz#fb9113f17cf5764d6b3586ae9817d1606cc7c90c"
+  integrity sha512-xJYifuz59jXdWY5JMS15uvA3ycS3nQYOGqoIIE0+fwQ0qI3/4CxBc6RHsOTp6wk9M0NWEdpcTl02lOQOKMifbQ==
+
 "@types/iron@*":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@types/iron/-/iron-5.0.1.tgz#5420bbda8623c48ee51b9a78ebad05d7305b4b24"
