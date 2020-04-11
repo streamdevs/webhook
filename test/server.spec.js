@@ -10,7 +10,7 @@ describe('server', () => {
 		const config = { port: 8080 };
 
 		it('returns 400 on requests without payload', async () => {
-			const subject = initServer(config);
+			const subject = await initServer(config);
 
 			const { statusCode } = await subject.inject({
 				method: 'POST',
@@ -24,7 +24,7 @@ describe('server', () => {
 		});
 
 		it("returns 400 on requests without 'X-GitHub-Event' header", async () => {
-			const subject = initServer(config);
+			const subject = await initServer(config);
 
 			const { statusCode } = await subject.inject({
 				method: 'POST',
@@ -44,7 +44,7 @@ describe('server', () => {
 		});
 
 		it('handles unknown actions gracefully', async () => {
-			const subject = initServer(config);
+			const subject = await initServer(config);
 
 			const { statusCode, result } = await subject.inject({
 				method: 'POST',
@@ -70,7 +70,7 @@ describe('server', () => {
 
 		describe("GitHub 'ping' event", () => {
 			it('sends a webhook configured notification to StreamLabs', async () => {
-				const subject = initServer(config);
+				const subject = await initServer(config);
 				const spy = jest.spyOn(axios, 'post');
 				spy.mockImplementationOnce(() => {});
 
@@ -299,7 +299,7 @@ describe('server', () => {
 
 		describe("GitHub 'star' event", () => {
 			it('sends a started notification to StreamLabs when a created star event is received', async () => {
-				const subject = initServer(config);
+				const subject = await initServer(config);
 				const spy = jest.spyOn(axios, 'post');
 				spy.mockImplementationOnce(() => {});
 
@@ -334,7 +334,7 @@ describe('server', () => {
 			});
 
 			it('ignores the deleted star event', async () => {
-				const subject = initServer(config);
+				const subject = await initServer(config);
 				const spy = jest.spyOn(axios, 'post');
 				spy.mockImplementationOnce(() => {});
 

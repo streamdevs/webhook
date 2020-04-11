@@ -5,4 +5,6 @@ const config = {
 	port: process.env['PORT'] || process.env['HTTP_PORT'] || 8080,
 };
 
-initServer(config).start();
+initServer(config).then(async (server) => {
+	await server.start();
+});

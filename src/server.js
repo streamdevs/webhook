@@ -1,14 +1,31 @@
 const { Server } = require('@hapi/hapi');
 const joi = require('@hapi/joi');
 const axios = require('axios');
+const laabr = require('laabr');
 
 // TODO: Validate arguments before starting
 
 const STREAMLABS_ENDPOINT = 'https://streamlabs.com/api/v1.0/alerts';
 
-const initServer = (config) => {
+/**
+ *
+ * @param config
+ * @returns {Promise<Server>}
+ */
+const initServer = async (config) => {
 	const server = new Server({
 		port: config.port,
+	});
+
+	await server.register({
+		plugin: laabr,
+		options: {
+			formats: {
+				'request': 'error.json',
+				'request-error': 'error.stackjson',
+				'uncaught': 'error.stackjson',
+			},
+		},
 	});
 
 	server.route([
