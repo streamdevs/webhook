@@ -1,17 +1,23 @@
 {
-  "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "start": "node src/index.js"
-  },
-  "dependencies": {
-    "@hapi/hapi": "^19.1.1",
-    "@hapi/joi": "^17.1.1",
-    "axios": "^0.19.2"
-  },
-  "devDependencies": {
-    "@types/hapi": "^18.0.3",
-    "@types/hapi__joi": "^16.0.12",
-    "jest": "^25.2.7"
-  }
+	"scripts": {
+		"test": "jest",
+		"test:watch": "jest --watch",
+		"start": "node src/index.js",
+		"ci:lint": "eslint src/**/*.js test/**/*.js",
+		"ci:format": "prettier -l src/**/*.js test/**/*.js",
+		"lint": "eslint src/**/*.js test/**/*.js --fix",
+		"format": "prettier -l src/**/*.js test/**/*.js --write"
+	},
+	"dependencies": {
+		"@hapi/hapi": "^19.1.1",
+		"@hapi/joi": "^17.1.1",
+		"axios": "^0.19.2"
+	},
+	"devDependencies": {
+		"@types/hapi": "^18.0.3",
+		"@types/hapi__joi": "^16.0.12",
+		"eslint": "^6.8.0",
+		"jest": "^25.2.7",
+		"prettier": "^2.0.4"
+	}
 }
