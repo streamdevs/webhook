@@ -2,7 +2,7 @@ const { initServer } = require("../src/server");
 const axios = require("axios");
 
 describe("server", () => {
-  afterEach(() => {    
+  afterEach(() => {
     jest.clearAllMocks();
   });
 
@@ -32,10 +32,10 @@ describe("server", () => {
         payload: {
           action: "created",
           repository: {
-            full_name: 'a',
+            full_name: "a",
           },
           sender: {
-            login: 'b',
+            login: "b",
           },
         },
       });
@@ -73,10 +73,10 @@ describe("server", () => {
         const subject = initServer(config);
         const spy = jest.spyOn(axios, "post");
         spy.mockImplementationOnce(() => {});
-  
+
         const repositoryFullName = "streamdevs/webhook",
           senderLogin = "orestes";
-  
+
         await subject.inject({
           method: "POST",
           url: "/github",
@@ -137,7 +137,8 @@ describe("server", () => {
                   "https://api.github.com/users/streamdevs/starred{/owner}{/repo}",
                 subscriptions_url:
                   "https://api.github.com/users/streamdevs/subscriptions",
-                organizations_url: "https://api.github.com/users/streamdevs/orgs",
+                organizations_url:
+                  "https://api.github.com/users/streamdevs/orgs",
                 repos_url: "https://api.github.com/users/streamdevs/repos",
                 events_url:
                   "https://api.github.com/users/streamdevs/events{/privacy}",
@@ -151,13 +152,16 @@ describe("server", () => {
                 "A webhook to forward GitHub events to StreamLabs custom messages",
               fork: false,
               url: "https://api.github.com/repos/streamdevs/webhook",
-              forks_url: "https://api.github.com/repos/streamdevs/webhook/forks",
+              forks_url:
+                "https://api.github.com/repos/streamdevs/webhook/forks",
               keys_url:
                 "https://api.github.com/repos/streamdevs/webhook/keys{/key_id}",
               collaborators_url:
                 "https://api.github.com/repos/streamdevs/webhook/collaborators{/collaborator}",
-              teams_url: "https://api.github.com/repos/streamdevs/webhook/teams",
-              hooks_url: "https://api.github.com/repos/streamdevs/webhook/hooks",
+              teams_url:
+                "https://api.github.com/repos/streamdevs/webhook/teams",
+              hooks_url:
+                "https://api.github.com/repos/streamdevs/webhook/hooks",
               issue_events_url:
                 "https://api.github.com/repos/streamdevs/webhook/issues/events{/number}",
               events_url:
@@ -257,14 +261,16 @@ describe("server", () => {
               login: senderLogin,
               id: 7255298,
               node_id: "MDQ6VXNlcjcyNTUyOTg=",
-              avatar_url: "https://avatars2.githubusercontent.com/u/7255298?v=4",
+              avatar_url:
+                "https://avatars2.githubusercontent.com/u/7255298?v=4",
               gravatar_id: "",
               url: "https://api.github.com/users/SantiMA10",
               html_url: "https://github.com/SantiMA10",
               followers_url: "https://api.github.com/users/SantiMA10/followers",
               following_url:
                 "https://api.github.com/users/SantiMA10/following{/other_user}",
-              gists_url: "https://api.github.com/users/SantiMA10/gists{/gist_id}",
+              gists_url:
+                "https://api.github.com/users/SantiMA10/gists{/gist_id}",
               starred_url:
                 "https://api.github.com/users/SantiMA10/starred{/owner}{/repo}",
               subscriptions_url:
@@ -280,13 +286,13 @@ describe("server", () => {
             },
           },
         });
-  
+
         const expectedPayload = {
           access_token: config.STREAMLABS_TOKEN,
           type: "follow",
-          message: `Configured *${repositoryFullName}*`,
+          message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *star* events 🎉`,
         };
-  
+
         expect(spy).toHaveBeenCalledWith(expect.any(String), expectedPayload);
       });
     });
@@ -296,10 +302,10 @@ describe("server", () => {
         const subject = initServer(config);
         const spy = jest.spyOn(axios, "post");
         spy.mockImplementationOnce(() => {});
-  
+
         const repositoryFullName = "streamdevs/webhook",
           senderLogin = "orestes";
-  
+
         await subject.inject({
           method: "POST",
           url: "/github",
@@ -317,24 +323,24 @@ describe("server", () => {
             },
           },
         });
-  
+
         const expectedPayload = {
           access_token: config.STREAMLABS_TOKEN,
           type: "follow",
           message: `*${senderLogin}* just starred *${repositoryFullName}*`,
         };
-  
+
         expect(spy).toHaveBeenCalledWith(expect.any(String), expectedPayload);
       });
-  
+
       it("ignores the deleted star event", async () => {
         const subject = initServer(config);
         const spy = jest.spyOn(axios, "post");
         spy.mockImplementationOnce(() => {});
-  
+
         const repositoryFullName = "streamdevs/webhook",
           senderLogin = "orestes";
-  
+
         await subject.inject({
           method: "POST",
           url: "/github",
@@ -352,7 +358,7 @@ describe("server", () => {
             },
           },
         });
-  
+
         expect(spy).not.toHaveBeenCalled();
       });
     });

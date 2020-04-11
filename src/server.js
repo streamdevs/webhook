@@ -17,7 +17,9 @@ const initServer = (config) => {
       path: "/github",
       options: {
         validate: {
-          headers: joi.object({ "x-github-event": joi.string().required() }).unknown(),
+          headers: joi
+            .object({ "x-github-event": joi.string().required() })
+            .unknown(),
           payload: joi
             .object({
               action: joi.string(),
@@ -47,7 +49,7 @@ const initServer = (config) => {
           await axios.post(STREAMLABS_ENDPOINT, {
             access_token: config.STREAMLABS_TOKEN,
             type: "follow",
-            message: `Configured *${repositoryFullName}*`,
+            message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *star* events 🎉`,
           });
 
           return h.response().code(200);
