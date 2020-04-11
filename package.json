@@ -7,20 +7,20 @@
 		"ci:format": "prettier -l src/**/*.js test/**/*.js",
 		"lint": "eslint src/**/*.js test/**/*.js --fix",
 		"format": "prettier -l src/**/*.js test/**/*.js --write",
-        "dev": "nodemon src/index.js"
+		"dev": "nodemon src/index.js"
 	},
 	"dependencies": {
 		"@hapi/hapi": "^19.1.1",
 		"@hapi/joi": "^17.1.1",
 		"axios": "^0.19.2",
-        "laabr": "^6.0.2"
+		"laabr": "^6.0.2"
 	},
 	"devDependencies": {
 		"@types/hapi": "^18.0.3",
 		"@types/hapi__joi": "^16.0.12",
 		"eslint": "^6.8.0",
 		"jest": "^25.2.7",
-        "nodemon": "^2.0.3",
+		"nodemon": "^2.0.3",
 		"prettier": "^2.0.4"
 	}
 }
