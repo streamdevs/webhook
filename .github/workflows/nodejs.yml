@@ -18,8 +18,11 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - name: Count commits on ${{ github.event_path }}
-        run: echo We have commits on ${{ github.event_path }}
+      - name: Count commits
+        run: echo We have ${{ github.event.size }} commits to check
+
+      - name: Show commits messages
+        run: echo ${{ toJson(github.event.commits.*.message) }}
 
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
