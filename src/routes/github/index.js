@@ -65,6 +65,22 @@ const routes = (config) => [
 				return h.response().code(200);
 			}
 
+			if (
+				event === 'pull_request' &&
+				payload.action === 'closed' &&
+				payload.pull_request.merged
+			) {
+				const {
+					sender: { login: senderLogin },
+				} = payload;
+
+				await axios.post(config.STREAMLABS_ENDPOINT, {
+					access_token: config.STREAMLABS_TOKEN,
+					type: 'follow',
+					message: `The pull request from *${senderLogin}* just merged *${repositoryFullName}*`,
+				});
+			}
+
 			return h.response({
 				message: `Ignoring event: '${event}'`,
 			});
