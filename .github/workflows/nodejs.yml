@@ -17,13 +17,13 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - name: Boolean comparison in env variable checks out
-        if: env.SKIP_BUILD == false
-        run: echo "YAML false is equal to expression literal false"
+      - name: String comparison in env variable checks out
+        if: env.SKIP_BUILD == 'false'
+        run: echo "YAML false is equal to string expression 'false'"
 
-      - name: Boolean comparison in env variable FAILS
-        if: env.SKIP_BUILD != false
-        run: echo "YAML false is NOT EQUAL to expression literal false"
+      - name: String comparison in env variable FAILS
+        if: env.SKIP_BUILD != 'false'
+        run: echo "YAML false is NOT EQUAL to string expression 'false'"
 
       - uses: actions/checkout@v1
 
