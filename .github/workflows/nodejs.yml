@@ -10,9 +10,9 @@ on:
     branches: [master]
 
 jobs:
-  env:
-    COMMIT_COUNT: ${{ github.event.commits.length }}
   build:
+    env:
+      COMMIT_COUNT: ${{ github.event.commits.length }}
     runs-on: ubuntu-latest
 
     strategy:
