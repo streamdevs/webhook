@@ -9,6 +9,8 @@ on:
 
 jobs:
   build:
+    env:
+      ALLOW_SKIP_ON_PR: false
     runs-on: ubuntu-latest
 
     strategy:
@@ -18,7 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Get HEAD commit message
+      - name: Get HEAD commit message from PR
+        if: env.ALLOW_SKIP_ON_PR == 'true' && github.event_name == 'pull_request' # We are in a PR
         run: |
           echo "::set-env name=COMMIT_MESSAGE::$(git log --format=%B -n 1 ${{ github.event.after }})"
 
