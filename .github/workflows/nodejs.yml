@@ -10,6 +10,8 @@ on:
     branches: [master]
 
 jobs:
+  env:
+    COMMIT_COUNT: ${{ github.event.commits.length }}
   build:
     runs-on: ubuntu-latest
 
@@ -19,7 +21,7 @@ jobs:
 
     steps:
       - name: Count commits
-        run: echo We have ${{ github.event.commits.length }} commits
+        run: echo We have $COMMIT_COUNT commits
 
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
