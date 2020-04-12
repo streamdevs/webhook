@@ -17,14 +17,6 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - name: String comparison in env variable checks out
-        if: env.SKIP_BUILD == 'false'
-        run: echo "YAML false is equal to string expression 'false'"
-
-      - name: String comparison in env variable FAILS
-        if: env.SKIP_BUILD != 'false'
-        run: echo "YAML false is NOT EQUAL to string expression 'false'"
-
       - uses: actions/checkout@v1
 
       - name: Get HEAD commit message
@@ -37,34 +29,34 @@ jobs:
           echo "::set-env name=SKIP_BUILD::true"
 
       - name: "[skip ci] Skipping this build"
-        if: env.SKIP_BUILD != false
+        if: env.SKIP_BUILD != 'false'
         run: echo "Build should be SKIPPED"
 
       - name: Use Node.js ${{ matrix.node-version }}
-        if: env.SKIP_CI == false
+        if: env.SKIP_CI == 'false'
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
       - uses: actions/cache@v1
-        if: env.SKIP_CI == false
+        if: env.SKIP_CI == 'false'
         id: yarn-cache
         with:
           path: node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Dependencies
-        if: env.SKIP_CI == false && steps.yarn-cache.outputs.cache-hit != 'true'
+        if: env.SKIP_CI == 'false' && steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
       - name: Lint
-        if: env.SKIP_CI == false
+        if: env.SKIP_CI == 'false'
         run: yarn ci:lint
 
       - name: Format
-        if: env.SKIP_CI == false
+        if: env.SKIP_CI == 'false'
         run: yarn ci:format
 
       - name: Run unit tests
-        if: env.SKIP_CI == false
+        if: env.SKIP_CI == 'false'
         run: yarn test
