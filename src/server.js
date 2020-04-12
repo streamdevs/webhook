@@ -12,16 +12,18 @@ const initServer = async (config) => {
 		port: config.port,
 	});
 
-	await server.register({
-		plugin: laabr,
-		options: {
-			formats: {
-				'request': 'error.json',
-				'request-error': 'error.stackjson',
-				'uncaught': 'error.stackjson',
+	if (config.logging) {
+		await server.register({
+			plugin: laabr,
+			options: {
+				formats: {
+					'request': 'error.json',
+					'request-error': 'error.stackjson',
+					'uncaught': 'error.stackjson',
+				},
 			},
-		},
-	});
+		});
+	}
 
 	server.route(routes(config));
 
