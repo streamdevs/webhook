@@ -25,11 +25,11 @@ jobs:
           echo "::set-env name=COMMIT_MESSAGE::$(git log --format=%B -n 1 ${{ github.event.after }})"
 
       - name: Skip the the build
-        if: contains('${{ COMMIT_MESSAGE }}', '[skip ci]') == true
+        if: contains('${{ env.COMMIT_MESSAGE }}', '[skip ci]') == true
         run: echo "Build should be SKIPPED"
 
       - name: Do not the the build
-        if: contains('${{ COMMIT_MESSAGE }}', '[skip ci]') == false
+        if: contains('${{ env.COMMIT_MESSAGE }}', '[skip ci]') == false
         run: echo "Build should be RUN"
 
       - name: Use Node.js ${{ matrix.node-version }}
