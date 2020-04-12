@@ -1,4 +1,5 @@
-const joi = require('@hapi/joi');
+const { gitHubWebhookPayload } = require('../../schemas/gitHubWebhookPayload');
+const { gitHubWebhookHeaders } = require('../../schemas/gitHubWebhookHeaders');
 const axios = require('axios');
 
 /**
@@ -11,25 +12,8 @@ const routes = (config) => [
 		path: '/github',
 		options: {
 			validate: {
-				headers: joi
-					.object({ 'x-github-event': joi.string().required() })
-					.unknown(),
-				payload: joi
-					.object({
-						action: joi.string(),
-						hook: joi
-							.object({ events: joi.array().items(joi.string()) })
-							.unknown(),
-						sender: joi
-							.object({ login: joi.string().required() })
-							.required()
-							.unknown(),
-						repository: joi
-							.object({ full_name: joi.string().required() })
-							.required()
-							.unknown(),
-					})
-					.unknown(),
+				headers: gitHubWebhookHeaders(),
+				payload: gitHubWebhookPayload(),
 			},
 		},
 		handler: async (request, h) => {
