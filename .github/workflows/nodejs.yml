@@ -18,10 +18,11 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - name: Dump GitHub Event context
-        env:
-          GITHUB_EVENT_CONTEXT: ${{ toJson(github.event) }}
-        run: echo "$GITHUB_EVENT_CONTEXT"
+      - name: Get HEAD commit message
+        run: ::set-env name=COMMIT_MESSAGE::$(git log --format=%B -n 1 ${{ github.event.after }})
+
+      - name: Dump HEAD commit message
+        run: echo "$COMMIT_MESSAGE"
 
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
