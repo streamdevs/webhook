@@ -47,6 +47,20 @@ const routes = (config) => [
 				return h.response().code(200);
 			}
 
+			if (event === 'pull_request' && request.payload.action === 'opened') {
+				const {
+					sender: { login: senderLogin },
+				} = payload;
+
+				await axios.post(config.STREAMLABS_ENDPOINT, {
+					access_token: config.STREAMLABS_TOKEN,
+					type: 'follow',
+					message: `*${senderLogin}* just opened a pull request in *${repositoryFullName}*`,
+				});
+
+				return h.response().code(200);
+			}
+
 			return h.response({
 				message: `Ignoring event: '${event}'`,
 			});

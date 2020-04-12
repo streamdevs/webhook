@@ -367,5 +367,54 @@ describe('server', () => {
 				expect(spy).not.toHaveBeenCalled();
 			});
 		});
+
+		describe("GitHub 'pull_request' event", () => {
+			it('sends the notification to StreamLabs when a pull request was opened', async () => {
+				const subject = await initServer(config);
+				const spy = jest.spyOn(axios, 'post');
+				spy.mockImplementationOnce(() => {});
+				const repositoryFullName = 'streamdevs/webhook';
+				const senderLogin = 'SantiMA10';
+
+				await subject.inject({
+					method: 'POST',
+					url: '/github',
+					payload: {
+						action: 'opened',
+						repository: { full_name: repositoryFullName },
+						sender: { login: senderLogin },
+					},
+					headers: { 'x-github-event': 'pull_request' },
+				});
+
+				const expectedPayload = {
+					access_token: config.STREAMLABS_TOKEN,
+					type: 'follow',
+					message: `*${senderLogin}* just opened a pull request in *${repositoryFullName}*`,
+				};
+				expect(spy).toHaveBeenCalledWith(expect.any(String), expectedPayload);
+			});
+
+			it("ignores other 'pull_request' event", async () => {
+				const subject = await initServer(config);
+				const spy = jest.spyOn(axios, 'post');
+				spy.mockImplementationOnce(() => {});
+				const repositoryFullName = 'streamdevs/webhook';
+				const senderLogin = 'SantiMA10';
+
+				await subject.inject({
+					method: 'POST',
+					url: '/github',
+					payload: {
+						action: 'assigned',
+						repository: { full_name: repositoryFullName },
+						sender: { login: senderLogin },
+					},
+					headers: { 'x-github-event': 'pull_request' },
+				});
+
+				expect(spy).not.toHaveBeenCalled();
+			});
+		});
 	});
 });
