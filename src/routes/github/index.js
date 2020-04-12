@@ -68,6 +68,7 @@ const routes = (config) => [
 			if (
 				event === 'pull_request' &&
 				payload.action === 'closed' &&
+				payload.pull_request &&
 				payload.pull_request.merged
 			) {
 				const {
