@@ -18,10 +18,14 @@ jobs:
         node-version: [12.x]
 
     steps:
+      - run: |
+          echo "::set-env name=VARIABLE::value"
+
       - uses: actions/checkout@v2
 
       - name: Get HEAD commit message
-        run: echo "::set-env name=COMMIT_MESSAGE::$(git log --format=%B -n 1 ${{ github.event.after }})"
+        run: |
+          echo "::set-env name=COMMIT_MESSAGE::$(git log --format=%B -n 1 ${{ github.event.after }})"
 
       - name: Dump HEAD commit message
         run: echo "$COMMIT_MESSAGE"
