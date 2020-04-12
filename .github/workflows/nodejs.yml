@@ -27,8 +27,8 @@ jobs:
 
       - name: Get HEAD commit message from PUSH
         if: github.event_name == 'push' # We are in a PUSH
-        env:
-          - COMMIT_MESSAGE: github.event.commits[0].message
+        run: |
+          echo "::set-env name=COMMIT_MESSAGE::${{ github.event.commits[0].message }}"
 
       - name: Set the SKIP_BUILD env flag
         if: contains(env.COMMIT_MESSAGE, '[skip ci]') == true
