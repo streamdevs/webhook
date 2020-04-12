@@ -18,8 +18,10 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - name: Debug event object
-        run: echo ${{ toJson(github.event) }}
+      - name: Dump GitHub Event context
+        env:
+          GITHUB_EVENT_CONTEXT: ${{ toJson(github.event) }}
+        run: echo "$GITHUB_EVENT_CONTEXT"
 
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
