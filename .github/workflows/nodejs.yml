@@ -21,7 +21,7 @@ jobs:
       - run: |
           echo "::set-env name=VARIABLE::value"
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v1
 
       - name: Get HEAD commit message
         run: |
