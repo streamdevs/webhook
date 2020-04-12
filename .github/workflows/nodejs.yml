@@ -11,8 +11,6 @@ on:
 
 jobs:
   build:
-    env:
-      COMMIT_COUNT: ${{ github.event.commits.length }}
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,8 +18,8 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - name: Count commits
-        run: echo We have $COMMIT_COUNT commits
+      - name: Count commits on ${{ github.event_path }}
+        run: echo We have commits on ${{ github.event_path }}
 
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
