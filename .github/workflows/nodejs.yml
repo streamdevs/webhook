@@ -31,30 +31,30 @@ jobs:
         run: echo "Build should be SKIPPED"
 
       - name: Use Node.js ${{ matrix.node-version }}
-        if: eenv.SKIP_BUILD != 'true'
+        if: env.SKIP_BUILD != 'true'
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
       - uses: actions/cache@v1
-        if: eenv.SKIP_BUILD != 'true'
+        if: env.SKIP_BUILD != 'true'
         id: yarn-cache
         with:
           path: node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Dependencies
-        if: eenv.SKIP_BUILD != 'true' && steps.yarn-cache.outputs.cache-hit != 'true'
+        if: env.SKIP_BUILD != 'true' && steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
       - name: Lint
-        if: eenv.SKIP_BUILD != 'true'
+        if: env.SKIP_BUILD != 'true'
         run: yarn ci:lint
 
       - name: Format
-        if: eenv.SKIP_BUILD != 'true'
+        if: env.SKIP_BUILD != 'true'
         run: yarn ci:format
 
       - name: Run unit tests
-        if: eenv.SKIP_BUILD != 'true'
+        if: env.SKIP_BUILD != 'true'
         run: yarn test
