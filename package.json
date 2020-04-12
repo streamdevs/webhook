@@ -3,10 +3,10 @@
 		"test": "jest",
 		"test:watch": "jest --watch",
 		"start": "node src/index.js",
-		"ci:lint": "eslint src/**/*.js test/**/*.js",
-		"ci:format": "prettier -l src/**/*.js test/**/*.js",
-		"lint": "eslint src/**/*.js test/**/*.js --fix",
-		"format": "prettier -l src/**/*.js test/**/*.js --write",
+		"ci:lint": "eslint --ext .js --ignore-path .gitignore .",
+		"ci:format": "prettier --ignore-path .gitignore -l .",
+		"lint": "yarn ci:lint --fix",
+		"format": "yarn ci:format --write",
 		"dev": "nodemon src/index.js"
 	},
 	"dependencies": {
