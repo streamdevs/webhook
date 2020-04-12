@@ -26,12 +26,12 @@ yarn start
 
 ## Configuration
 
-If they're present, we make use of the following environment variables:
+We make use of the following environment variables:
 
-| Variable         | Setting                              | Default |
-| ---------------- | ------------------------------------ | ------- |
-| PORT             | Where the HTTP server should listen. | `8080`  |
-| STREAMLABS_TOKEN | A token to use the StreamLabs API.   | _empty_ |
+| Variable         | Setting                               | Mandatory               | Default |
+|------------------|---------------------------------------|-------------------------|---------|
+| PORT             | Where the HTTP server should listen.  | No                      | `8080`  |
+| STREAMLABS_TOKEN | A token to use the StreamLabs API.    | **Yes**                 | *empty* |
 
 ## Contributors ✨
 
