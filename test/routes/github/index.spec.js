@@ -1,4 +1,4 @@
-const { initServer } = require('../src/server');
+const { initServer } = require('../../../src/server');
 const axios = require('axios');
 
 describe('server', () => {
@@ -7,7 +7,10 @@ describe('server', () => {
 	});
 
 	describe('POST /github', () => {
-		const config = { port: 8080 };
+		const config = {
+			port: 8080,
+			STREAMLABS_ENDPOINT: 'https://streamlabs.com/api/v1.0/alerts',
+		};
 
 		it('returns 400 on requests without payload', async () => {
 			const subject = await initServer(config);
