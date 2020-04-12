@@ -18,17 +18,15 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - run: |
-          echo "::set-env name=VARIABLE::value"
-
       - uses: actions/checkout@v1
 
       - name: Get HEAD commit message
         run: |
           echo "::set-env name=COMMIT_MESSAGE::$(git log --format=%B -n 1 ${{ github.event.after }})"
 
-      - name: Dump HEAD commit message
-        run: echo "$COMMIT_MESSAGE"
+      - name: Skip the the build
+        if: contains('${{ COMMIT_MESSAGE }}', '[skip ci]') == true
+        run: echo "Build should be skipped"
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
