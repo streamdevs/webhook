@@ -3,7 +3,7 @@ const getConfig = () => {
 		return {
 			logging: false,
 			STREAMLABS_TOKEN: 'token',
-			STREAMLABS_ENDPOINT: 'https://streamlabs.com/api/v1.0/alerts',
+			STREAMLABS_ENDPOINT: 'https://streamlabs.com/api/v1.0/alerts', // TODO: remove
 			port: 8080,
 		};
 	}
@@ -12,7 +12,7 @@ const getConfig = () => {
 	return {
 		logging: true,
 		STREAMLABS_TOKEN: process.env['STREAMLABS_TOKEN'],
-		STREAMLABS_ENDPOINT: 'https://streamlabs.com/api/v1.0/alerts',
+		STREAMLABS_ENDPOINT: 'https://streamlabs.com/api/v1.0/alerts', // TODO: remove
 		port: process.env['PORT'] || process.env['HTTP_PORT'] || 8080,
 	};
 };
