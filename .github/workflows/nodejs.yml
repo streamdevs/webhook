@@ -26,7 +26,11 @@ jobs:
 
       - name: Skip the the build
         if: contains('${{ COMMIT_MESSAGE }}', '[skip ci]') == true
-        run: echo "Build should be skipped"
+        run: echo "Build should be SKIPPED"
+
+      - name: Do not the the build
+        if: contains('${{ COMMIT_MESSAGE }}', '[skip ci]') == false
+        run: echo "Build should be RUN"
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
