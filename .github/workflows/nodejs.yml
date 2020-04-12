@@ -11,6 +11,8 @@ on:
 
 jobs:
   build:
+    env:
+      SKIP_BUILD: false
     runs-on: ubuntu-latest
 
     strategy:
@@ -24,33 +26,40 @@ jobs:
         run: |
           echo "::set-env name=COMMIT_MESSAGE::$(git log --format=%B -n 1 ${{ github.event.after }})"
 
-      - name: Skip the the build
+      - name: Set the SKIP_BUILD env flag
         if: contains(env.COMMIT_MESSAGE, '[skip ci]') == true
+        run: |
+          echo "::set-env name=SKIP_BUILD::true"
+
+      - name: [skip ci] Skipping this build
+        if: env.SKIP_BUILD == false
         run: echo "Build should be SKIPPED"
 
-      - name: Do not the the build
-        if: contains(env.COMMIT_MESSAGE, '[skip ci]') == false
-        run: echo "Build should be RUN"
-
       - name: Use Node.js ${{ matrix.node-version }}
+        if: env.SKIP_CI == false
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
       - uses: actions/cache@v1
+        if: env.SKIP_CI == false
         id: yarn-cache
         with:
           path: node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        if: env.SKIP_CI == false && steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
       - name: Lint
+        if: env.SKIP_CI == false
         run: yarn ci:lint
 
       - name: Format
+        if: env.SKIP_CI == false
         run: yarn ci:format
 
-      - run: yarn test
+      - name: Run unit tests
+        if: env.SKIP_CI == false
+        run: yarn test
