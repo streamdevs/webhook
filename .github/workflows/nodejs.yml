@@ -11,6 +11,7 @@ on:
 
 jobs:
   build:
+    if: contains(toJson(github.event.commits), '[skip ci]') == false
     runs-on: ubuntu-latest
 
     strategy:
