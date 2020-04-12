@@ -18,8 +18,8 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - run: echo ${{ github.event.name}}
-      - run: echo ${{ toJson(github.event.commits) }}
+      - name: Count commits
+        run: echo We have ${{ github.event.commits.length }} commits
 
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
