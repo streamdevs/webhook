@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [master]
 
-
 jobs:
   build:
     env:
@@ -35,7 +34,7 @@ jobs:
         run: |
           echo "::set-env name=SKIP_BUILD::true"
 
-      - name: "[skip ci] Skipping this build"
+      - name: '[skip ci] Skipping this build'
         if: env.SKIP_BUILD == 'true'
         run: echo "Build should be SKIPPED"
 
