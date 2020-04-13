@@ -300,5 +300,78 @@ describe('server', () => {
 				expect(spy).not.toHaveBeenCalled();
 			});
 		});
+
+		describe("GitHub 'pull_request' event", () => {
+			it("ignores other 'pull_request' event", async () => {
+				const subject = await initServer(config);
+				const spy = jest.spyOn(axios, 'post');
+				spy.mockImplementationOnce(() => {});
+				const repositoryFullName = 'streamdevs/webhook';
+				const senderLogin = 'SantiMA10';
+
+				await subject.inject({
+					method: 'POST',
+					url: '/github',
+					payload: {
+						action: 'assigned',
+						repository: { full_name: repositoryFullName },
+						sender: { login: senderLogin },
+					},
+					headers: { 'x-github-event': 'pull_request' },
+				});
+
+				expect(spy).not.toHaveBeenCalled();
+			});
+
+			it("ignores other 'closed' event when it is not merged", async () => {
+				const subject = await initServer(config);
+				const spy = jest.spyOn(axios, 'post');
+				spy.mockImplementationOnce(() => {});
+				const repositoryFullName = 'streamdevs/webhook';
+				const senderLogin = 'SantiMA10';
+
+				const { statusCode } = await subject.inject({
+					method: 'POST',
+					url: '/github',
+					payload: {
+						action: 'closed',
+						repository: { full_name: repositoryFullName },
+						sender: { login: senderLogin },
+					},
+					headers: { 'x-github-event': 'pull_request' },
+				});
+
+				expect(spy).not.toHaveBeenCalled();
+				expect(statusCode).toEqual(200);
+			});
+
+			it('sends a notification to StreamLabs when a pull request was merged', async () => {
+				const subject = await initServer(config);
+				const spy = jest.spyOn(axios, 'post');
+				spy.mockImplementationOnce(() => {});
+				const repositoryFullName = 'streamdevs/webhook';
+				const senderLogin = 'SantiMA10';
+
+				await subject.inject({
+					method: 'POST',
+					url: '/github',
+					payload: {
+						action: 'closed',
+						repository: { full_name: repositoryFullName },
+						sender: { login: senderLogin },
+						pull_request: { merged: true },
+					},
+					headers: { 'x-github-event': 'pull_request' },
+				});
+
+				const expectedPayload = {
+					access_token: config.STREAMLABS_TOKEN,
+					type: 'follow',
+					message: `The pull request from *${senderLogin}* has been merged into *${repositoryFullName}*`,
+				};
+
+				expect(spy).toHaveBeenCalledWith(expect.any(String), expectedPayload);
+			});
+		});
 	});
 });
