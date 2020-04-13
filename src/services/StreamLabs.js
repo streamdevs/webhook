@@ -1,9 +1,10 @@
 const axios = require('axios');
 
 class StreamLabs {
-	constructor({ token }) {
+	constructor({ token }, logger) {
 		this.base = 'https://streamlabs.com/api/v1.0';
 		this.token = token;
+		this.logger = logger;
 	}
 
 	alert({ message }) {
