@@ -23,11 +23,15 @@ const routes = (config) => [
 				repository: { full_name: repositoryFullName },
 			} = payload;
 
-			if (event === 'ping' && request.payload.hook.events.includes('star')) {
+			if (
+				event === 'ping' &&
+				(request.payload.hook.events.includes('star') ||
+					request.payload.hook.events.includes('pull_request'))
+			) {
 				await axios.post(config.STREAMLABS_ENDPOINT, {
 					access_token: config.STREAMLABS_TOKEN,
 					type: 'follow',
-					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *star* events 🎉`,
+					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *${request.payload.hook.events}* events 🎉`,
 				});
 
 				return h.response().code(200);
@@ -42,6 +46,20 @@ const routes = (config) => [
 					access_token: config.STREAMLABS_TOKEN,
 					type: 'follow',
 					message: `*${senderLogin}* just starred *${repositoryFullName}*`,
+				});
+
+				return h.response().code(200);
+			}
+
+			if (event === 'pull_request' && request.payload.action === 'opened') {
+				const {
+					sender: { login: senderLogin },
+				} = payload;
+
+				await axios.post(config.STREAMLABS_ENDPOINT, {
+					access_token: config.STREAMLABS_TOKEN,
+					type: 'follow',
+					message: `*${senderLogin}* just opened a pull request in *${repositoryFullName}*`,
 				});
 
 				return h.response().code(200);
