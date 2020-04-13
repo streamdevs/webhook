@@ -78,7 +78,7 @@ const routes = (config) => [
 				await axios.post(config.STREAMLABS_ENDPOINT, {
 					access_token: config.STREAMLABS_TOKEN,
 					type: 'follow',
-					message: `The pull request from *${senderLogin}* just merged *${repositoryFullName}*`,
+					message: `The pull request from *${senderLogin}* has been merged into *${repositoryFullName}*`,
 				});
 			}
 

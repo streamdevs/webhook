@@ -367,7 +367,7 @@ describe('server', () => {
 				const expectedPayload = {
 					access_token: config.STREAMLABS_TOKEN,
 					type: 'follow',
-					message: `The pull request from *${senderLogin}* just merged *${repositoryFullName}*`,
+					message: `The pull request from *${senderLogin}* has been merged into *${repositoryFullName}*`,
 				};
 
 				expect(spy).toHaveBeenCalledWith(expect.any(String), expectedPayload);
