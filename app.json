@@ -1,6 +1,6 @@
 {
 	"name": "streamdevs-webhook",
-	"logo": "https://cdn.rawgit.com/streamdevs/webhook/master/streamdevs-webhook-logo.png",
+	"logo": "https://github.com/streamdevs/webhook/blob/master/streamdevs-webhook-logo.png?raw=true",
 	"description": "An HTTP Webhook to forward GitHub events to StreamLabs",
 	"repository": "https://github.com/streamdevs/webhook",
 	"keywords": ["github", "webhooks", "twitch", "streaming"],
