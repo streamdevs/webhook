@@ -23,7 +23,7 @@ const routes = (config) => [
 			const {
 				repository: { full_name: repositoryFullName },
 			} = payload;
-			const streamlabs = new StreamLabs({ token: config.STREAMLABS_TOKEN });
+			const streamlabs = new StreamLabs({ token: config.STREAMLABS_TOKEN }, request);
 			const twitchChat = new TwitchChat({
 				identity: {
 					username: config.TWITCH_BOT_NAME,

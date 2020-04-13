@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios = require('axios').default;
 
 class StreamLabs {
 	constructor({ token }, logger) {
@@ -16,7 +16,7 @@ class StreamLabs {
 			});
 		} catch (error) {
 			if (this.logger) {
-				this.logger.log('error', 'StreamLabs API error', error);
+				this.logger.log(['error', 'streamlabs'], {data: error.response.data });
 			}
 
 			throw error;
