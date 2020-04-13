@@ -2,6 +2,13 @@ const axios = require('axios');
 const { StreamLabs } = require('../../src/services/StreamLabs');
 
 describe('StreamLabs', () => {
+	describe('#constructor', () => {
+		it('takes an optional logger argument', () => {
+			const subject = new StreamLabs({ token: '' }, { log: jest.fn() });
+
+			expect(subject).toBeInstanceOf(StreamLabs);
+		});
+	});
 	describe('#alert', () => {
 		let axiosSpy;
 
