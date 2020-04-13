@@ -6,7 +6,7 @@ const getConfig = () => {
 			STREAMLABS_ENDPOINT: 'https://streamlabs.com/api/v1.0/alerts', // TODO: remove
 			TWITCH_BOT_NAME: '',
 			TWITCH_BOT_TOKEN: '',
-			TWITCH_BOT_CHANEL: '',
+			TWITCH_BOT_CHANNEL: '',
 			port: 8080,
 		};
 	}
@@ -18,7 +18,7 @@ const getConfig = () => {
 		STREAMLABS_ENDPOINT: 'https://streamlabs.com/api/v1.0/alerts', // TODO: remove
 		TWITCH_BOT_NAME: process.env['TWITCH_BOT_NAME'],
 		TWITCH_BOT_TOKEN: process.env['TWITCH_BOT_TOKEN'],
-		TWITCH_BOT_CHANEL: process.env['TWITCH_BOT_CHANEL'],
+		TWITCH_BOT_CHANNEL: process.env['TWITCH_BOT_CHANNEL'],
 		port: process.env['PORT'] || process.env['HTTP_PORT'] || 8080,
 	};
 };

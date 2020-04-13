@@ -25,7 +25,7 @@
 			"value": "",
 			"required": true
 		},
-		"TWITCH_BOT_CHANEL": {
+		"TWITCH_BOT_CHANNEL": {
 			"description": "The Twitch channel name where you want to run the bot.",
 			"value": "",
 			"required": true
