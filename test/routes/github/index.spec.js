@@ -1,6 +1,6 @@
 const { initServer } = require('../../../src/server');
 const { getConfig } = require('../../../src/config');
-const axios = require('axios');
+const { StreamLabs } = require('../../../src/services/StreamLabs');
 
 describe('server', () => {
 	afterEach(() => {
@@ -74,9 +74,9 @@ describe('server', () => {
 		});
 
 		describe("GitHub 'ping' event", () => {
-			it("sends a webhook configured notification to StreamLabs with 'star' events", async () => {
+			it('calls the alert method with the expected message', async () => {
 				const subject = await initServer(config);
-				const spy = jest.spyOn(axios, 'post');
+				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
 
 				const repositoryFullName = 'streamdevs/webhook',
@@ -103,17 +103,15 @@ describe('server', () => {
 				});
 
 				const expectedPayload = {
-					access_token: config.STREAMLABS_TOKEN,
-					type: 'follow',
 					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *star* events 🎉`,
 				};
 
-				expect(spy).toHaveBeenCalledWith(expect.any(String), expectedPayload);
+				expect(spy).toHaveBeenCalledWith(expectedPayload);
 			});
 
 			it("sends a webhook configured notification to StreamLabs with 'pull_request' events", async () => {
 				const subject = await initServer(config);
-				const spy = jest.spyOn(axios, 'post');
+				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
 
 				const repositoryFullName = 'streamdevs/webhook',
@@ -140,17 +138,15 @@ describe('server', () => {
 				});
 
 				const expectedPayload = {
-					access_token: config.STREAMLABS_TOKEN,
-					type: 'follow',
 					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *pull_request* events 🎉`,
 				};
 
-				expect(spy).toHaveBeenCalledWith(expect.any(String), expectedPayload);
+				expect(spy).toHaveBeenCalledWith(expectedPayload);
 			});
 
 			it("sends a webhook configured notification to StreamLabs with 'pull_request' and 'star' events", async () => {
 				const subject = await initServer(config);
-				const spy = jest.spyOn(axios, 'post');
+				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
 
 				const repositoryFullName = 'streamdevs/webhook',
@@ -177,19 +173,17 @@ describe('server', () => {
 				});
 
 				const expectedPayload = {
-					access_token: config.STREAMLABS_TOKEN,
-					type: 'follow',
 					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *pull_request,star* events 🎉`,
 				};
 
-				expect(spy).toHaveBeenCalledWith(expect.any(String), expectedPayload);
+				expect(spy).toHaveBeenCalledWith(expectedPayload);
 			});
 		});
 
 		describe("GitHub 'star' event", () => {
 			it('sends a started notification to StreamLabs when a created star event is received', async () => {
 				const subject = await initServer(config);
-				const spy = jest.spyOn(axios, 'post');
+				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
 
 				const repositoryFullName = 'streamdevs/webhook',
@@ -214,17 +208,15 @@ describe('server', () => {
 				});
 
 				const expectedPayload = {
-					access_token: config.STREAMLABS_TOKEN,
-					type: 'follow',
 					message: `*${senderLogin}* just starred *${repositoryFullName}*`,
 				};
 
-				expect(spy).toHaveBeenCalledWith(expect.any(String), expectedPayload);
+				expect(spy).toHaveBeenCalledWith(expectedPayload);
 			});
 
 			it('ignores the deleted star event', async () => {
 				const subject = await initServer(config);
-				const spy = jest.spyOn(axios, 'post');
+				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
 
 				const repositoryFullName = 'streamdevs/webhook',
@@ -255,7 +247,7 @@ describe('server', () => {
 		describe("GitHub 'pull_request' event", () => {
 			it('sends the notification to StreamLabs when a pull request was opened', async () => {
 				const subject = await initServer(config);
-				const spy = jest.spyOn(axios, 'post');
+				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
 				const repositoryFullName = 'streamdevs/webhook';
 				const senderLogin = 'SantiMA10';
@@ -272,16 +264,14 @@ describe('server', () => {
 				});
 
 				const expectedPayload = {
-					access_token: config.STREAMLABS_TOKEN,
-					type: 'follow',
 					message: `*${senderLogin}* just opened a pull request in *${repositoryFullName}*`,
 				};
-				expect(spy).toHaveBeenCalledWith(expect.any(String), expectedPayload);
+				expect(spy).toHaveBeenCalledWith(expectedPayload);
 			});
 
 			it("ignores other 'pull_request' event", async () => {
 				const subject = await initServer(config);
-				const spy = jest.spyOn(axios, 'post');
+				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
 				const repositoryFullName = 'streamdevs/webhook';
 				const senderLogin = 'SantiMA10';
@@ -304,7 +294,7 @@ describe('server', () => {
 		describe("GitHub 'pull_request' event", () => {
 			it("ignores other 'pull_request' event", async () => {
 				const subject = await initServer(config);
-				const spy = jest.spyOn(axios, 'post');
+				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
 				const repositoryFullName = 'streamdevs/webhook';
 				const senderLogin = 'SantiMA10';
@@ -325,7 +315,7 @@ describe('server', () => {
 
 			it("ignores other 'closed' event when it is not merged", async () => {
 				const subject = await initServer(config);
-				const spy = jest.spyOn(axios, 'post');
+				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
 				const repositoryFullName = 'streamdevs/webhook';
 				const senderLogin = 'SantiMA10';
@@ -347,7 +337,7 @@ describe('server', () => {
 
 			it('sends a notification to StreamLabs when a pull request was merged', async () => {
 				const subject = await initServer(config);
-				const spy = jest.spyOn(axios, 'post');
+				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
 				const repositoryFullName = 'streamdevs/webhook';
 				const senderLogin = 'SantiMA10';
@@ -365,12 +355,10 @@ describe('server', () => {
 				});
 
 				const expectedPayload = {
-					access_token: config.STREAMLABS_TOKEN,
-					type: 'follow',
 					message: `The pull request from *${senderLogin}* has been merged into *${repositoryFullName}*`,
 				};
 
-				expect(spy).toHaveBeenCalledWith(expect.any(String), expectedPayload);
+				expect(spy).toHaveBeenCalledWith(expectedPayload);
 			});
 		});
 	});

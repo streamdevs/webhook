@@ -1,6 +1,6 @@
 const { gitHubWebhookPayload } = require('../../schemas/gitHubWebhookPayload');
 const { gitHubWebhookHeaders } = require('../../schemas/gitHubWebhookHeaders');
-const axios = require('axios');
+const { StreamLabs } = require('../../services/StreamLabs');
 
 /**
  *
@@ -22,15 +22,14 @@ const routes = (config) => [
 			const {
 				repository: { full_name: repositoryFullName },
 			} = payload;
+			const streamlabs = new StreamLabs({ token: config.STREAMLABS_TOKEN });
 
 			if (
 				event === 'ping' &&
 				(request.payload.hook.events.includes('star') ||
 					request.payload.hook.events.includes('pull_request'))
 			) {
-				await axios.post(config.STREAMLABS_ENDPOINT, {
-					access_token: config.STREAMLABS_TOKEN,
-					type: 'follow',
+				await streamlabs.alert({
 					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *${request.payload.hook.events}* events 🎉`,
 				});
 
@@ -42,9 +41,7 @@ const routes = (config) => [
 					sender: { login: senderLogin },
 				} = payload;
 
-				await axios.post(config.STREAMLABS_ENDPOINT, {
-					access_token: config.STREAMLABS_TOKEN,
-					type: 'follow',
+				await streamlabs.alert({
 					message: `*${senderLogin}* just starred *${repositoryFullName}*`,
 				});
 
@@ -56,9 +53,7 @@ const routes = (config) => [
 					sender: { login: senderLogin },
 				} = payload;
 
-				await axios.post(config.STREAMLABS_ENDPOINT, {
-					access_token: config.STREAMLABS_TOKEN,
-					type: 'follow',
+				await streamlabs.alert({
 					message: `*${senderLogin}* just opened a pull request in *${repositoryFullName}*`,
 				});
 
@@ -75,9 +70,7 @@ const routes = (config) => [
 					sender: { login: senderLogin },
 				} = payload;
 
-				await axios.post(config.STREAMLABS_ENDPOINT, {
-					access_token: config.STREAMLABS_TOKEN,
-					type: 'follow',
+				await streamlabs.alert({
 					message: `The pull request from *${senderLogin}* has been merged into *${repositoryFullName}*`,
 				});
 			}
