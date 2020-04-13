@@ -46,6 +46,34 @@ describe('StreamLabs', () => {
 			);
 		});
 
+		it('logs the response body for failed HTTP 401 requests', async () => {
+			axiosSpy.mockClear(); // remove previous mock
+			const mockAxiosErrorResponse = {
+				response: { data: 'Reason for error response', status: 401 },
+			};
+			axiosSpy.mockImplementationOnce(
+				jest.fn().mockRejectedValue(mockAxiosErrorResponse),
+			);
+
+			await axios.post(); // should reject with the mocked response
+
+			const spyLogger = { log: jest.fn() };
+			const config = {
+				token: 'fake-token',
+			};
+
+			const subject = new StreamLabs(config, spyLogger);
+
+			await expect(subject.alert({ message: 'hello' })).rejects.toEqual(
+				expect.any(Object),
+			);
+			expect(spyLogger.log).toHaveBeenLastCalledWith(
+				'error',
+				'StreamLabs API error',
+				mockAxiosErrorResponse,
+			);
+		});
+
 		it("uses the text given as an argument as message to 'StreamLabs'", async () => {
 			const subject = new StreamLabs({});
 
