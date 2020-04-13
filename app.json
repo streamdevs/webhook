@@ -14,6 +14,21 @@
 			"description": "A token to use the StreamLabs API.",
 			"value": "",
 			"required": true
+		},
+		"TWITCH_BOT_NAME": {
+			"description": "The account (username) that the chatbot uses to send chat messages.",
+			"value": "",
+			"required": true
+		},
+		"TWITCH_BOT_TOKEN": {
+			"description": "Generate this with https://twitchapps.com/tmi/.",
+			"value": "",
+			"required": true
+		},
+		"TWITCH_BOT_CHANEL": {
+			"description": "The Twitch channel name where you want to run the bot.",
+			"value": "",
+			"required": true
 		}
 	}
 }
