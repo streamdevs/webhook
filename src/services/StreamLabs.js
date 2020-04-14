@@ -16,7 +16,7 @@ class StreamLabs {
 			});
 		} catch (error) {
 			if (this.logger) {
-				this.logger.log(['error', 'streamlabs'], {data: error.response.data });
+				this.logger.log(['error', 'streamlabs'], { data: error.response.data });
 			}
 
 			throw error;

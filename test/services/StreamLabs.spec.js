@@ -74,7 +74,7 @@ describe('StreamLabs', () => {
 			);
 			expect(spyLogger.log).toHaveBeenLastCalledWith(
 				expect.any(Array),
-				expect.objectContaining({data: mockAxiosErrorResponse.response.data}),
+				expect.objectContaining({ data: mockAxiosErrorResponse.response.data }),
 			);
 		});
 

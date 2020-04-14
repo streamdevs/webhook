@@ -22,7 +22,10 @@ const routes = (config) => [
 			const {
 				repository: { full_name: repositoryFullName },
 			} = payload;
-			const streamlabs = new StreamLabs({ token: config.STREAMLABS_TOKEN }, request);
+			const streamlabs = new StreamLabs(
+				{ token: config.STREAMLABS_TOKEN },
+				request,
+			);
 
 			if (
 				event === 'ping' &&
