@@ -250,7 +250,7 @@ describe('server', () => {
 				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
 				const repositoryFullName = 'streamdevs/webhook';
-				const senderLogin = 'SantiMA10';
+				const pullRequestLogin = 'SantiMA10';
 
 				await subject.inject({
 					method: 'POST',
@@ -258,13 +258,14 @@ describe('server', () => {
 					payload: {
 						action: 'opened',
 						repository: { full_name: repositoryFullName },
-						sender: { login: senderLogin },
+						pull_request: { login: pullRequestLogin },
+						sender: { login: 'pepe' },
 					},
 					headers: { 'x-github-event': 'pull_request' },
 				});
 
 				const expectedPayload = {
-					message: `*${senderLogin}* just opened a pull request in *${repositoryFullName}*`,
+					message: `*${pullRequestLogin}* just opened a pull request in *${repositoryFullName}*`,
 				};
 				expect(spy).toHaveBeenCalledWith(expectedPayload);
 			});
@@ -274,43 +275,22 @@ describe('server', () => {
 				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
 				const repositoryFullName = 'streamdevs/webhook';
-				const senderLogin = 'SantiMA10';
+				const pullRequestLogin = 'SantiMA10';
 
-				await subject.inject({
+				const { statusCode } = await subject.inject({
 					method: 'POST',
 					url: '/github',
 					payload: {
 						action: 'assigned',
 						repository: { full_name: repositoryFullName },
-						sender: { login: senderLogin },
+						pull_request: { login: pullRequestLogin },
+						sender: { login: 'pepe' },
 					},
 					headers: { 'x-github-event': 'pull_request' },
 				});
 
 				expect(spy).not.toHaveBeenCalled();
-			});
-		});
-
-		describe("GitHub 'pull_request' event", () => {
-			it("ignores other 'pull_request' event", async () => {
-				const subject = await initServer(config);
-				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
-				spy.mockImplementationOnce(() => {});
-				const repositoryFullName = 'streamdevs/webhook';
-				const senderLogin = 'SantiMA10';
-
-				await subject.inject({
-					method: 'POST',
-					url: '/github',
-					payload: {
-						action: 'assigned',
-						repository: { full_name: repositoryFullName },
-						sender: { login: senderLogin },
-					},
-					headers: { 'x-github-event': 'pull_request' },
-				});
-
-				expect(spy).not.toHaveBeenCalled();
+				expect(statusCode).toBe(200);
 			});
 
 			it("ignores other 'closed' event when it is not merged", async () => {
@@ -318,7 +298,7 @@ describe('server', () => {
 				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
 				const repositoryFullName = 'streamdevs/webhook';
-				const senderLogin = 'SantiMA10';
+				const pullRequestLogin = 'SantiMA10';
 
 				const { statusCode } = await subject.inject({
 					method: 'POST',
@@ -326,7 +306,8 @@ describe('server', () => {
 					payload: {
 						action: 'closed',
 						repository: { full_name: repositoryFullName },
-						sender: { login: senderLogin },
+						pull_request: { login: pullRequestLogin },
+						sender: { login: 'pepe' },
 					},
 					headers: { 'x-github-event': 'pull_request' },
 				});
@@ -340,7 +321,7 @@ describe('server', () => {
 				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
 				const repositoryFullName = 'streamdevs/webhook';
-				const senderLogin = 'SantiMA10';
+				const pullRequestLogin = 'SantiMA10';
 
 				await subject.inject({
 					method: 'POST',
@@ -348,14 +329,14 @@ describe('server', () => {
 					payload: {
 						action: 'closed',
 						repository: { full_name: repositoryFullName },
-						sender: { login: senderLogin },
-						pull_request: { merged: true },
+						pull_request: { login: pullRequestLogin, merged: true },
+						sender: { login: 'pepe' },
 					},
 					headers: { 'x-github-event': 'pull_request' },
 				});
 
 				const expectedPayload = {
-					message: `The pull request from *${senderLogin}* has been merged into *${repositoryFullName}*`,
+					message: `The pull request from *${pullRequestLogin}* has been merged into *${repositoryFullName}*`,
 				};
 
 				expect(spy).toHaveBeenCalledWith(expectedPayload);
