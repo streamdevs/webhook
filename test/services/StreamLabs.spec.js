@@ -12,13 +12,18 @@ describe('StreamLabs', () => {
 	describe('#alert', () => {
 		let axiosSpy;
 
-		beforeEach(() => {
-			jest.restoreAllMocks();
+		const setupDefaultAxiosSpy = () => {
 			axiosSpy = jest.spyOn(axios, 'post');
 			axiosSpy.mockImplementationOnce(() => {});
+		};
+
+		afterEach(() => {
+			jest.restoreAllMocks();
 		});
 
 		it("uses axios to perform a 'POST' to the StreamLabs url", async () => {
+			setupDefaultAxiosSpy();
+
 			const config = {
 				token: 'token',
 			};
@@ -33,6 +38,8 @@ describe('StreamLabs', () => {
 		});
 
 		it("uses the given token as 'access_token'", async () => {
+			setupDefaultAxiosSpy();
+
 			const config = {
 				token: 'token',
 			};
@@ -47,15 +54,13 @@ describe('StreamLabs', () => {
 		});
 
 		it('logs the response body for failed HTTP 401 requests', async () => {
-			axiosSpy.mockClear(); // remove previous mock
+			axiosSpy = jest.spyOn(axios, 'post');
 			const mockAxiosErrorResponse = {
 				response: { data: 'Reason for error response', status: 401 },
 			};
 			axiosSpy.mockImplementationOnce(
 				jest.fn().mockRejectedValue(mockAxiosErrorResponse),
 			);
-
-			await axios.post(); // should reject with the mocked response
 
 			const spyLogger = { log: jest.fn() };
 			const config = {
@@ -74,6 +79,8 @@ describe('StreamLabs', () => {
 		});
 
 		it("uses the text given as an argument as message to 'StreamLabs'", async () => {
+			setupDefaultAxiosSpy();
+
 			const subject = new StreamLabs({});
 
 			await subject.alert({ message: 'alert' });
@@ -85,6 +92,8 @@ describe('StreamLabs', () => {
 		});
 
 		it("sends the alerts with the type 'follow'", async () => {
+			setupDefaultAxiosSpy();
+
 			const subject = new StreamLabs({});
 
 			await subject.alert({ message: 'alert' });
