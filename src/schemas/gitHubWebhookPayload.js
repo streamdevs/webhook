@@ -5,6 +5,12 @@ function gitHubWebhookPayload() {
 		.object({
 			action: joi.string(),
 			hook: joi.object({ events: joi.array().items(joi.string()) }).unknown(),
+			pull_request: joi
+				.object({
+					login: joi.string().required(),
+					merged: joi.boolean(),
+				})
+				.unknown(),
 			sender: joi
 				.object({ login: joi.string().required() })
 				.required()

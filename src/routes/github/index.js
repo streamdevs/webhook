@@ -50,11 +50,11 @@ const routes = (config) => [
 
 			if (event === 'pull_request' && request.payload.action === 'opened') {
 				const {
-					sender: { login: senderLogin },
+					pull_request: { login },
 				} = payload;
 
 				await streamlabs.alert({
-					message: `*${senderLogin}* just opened a pull request in *${repositoryFullName}*`,
+					message: `*${login}* just opened a pull request in *${repositoryFullName}*`,
 				});
 
 				return h.response().code(200);
@@ -63,15 +63,14 @@ const routes = (config) => [
 			if (
 				event === 'pull_request' &&
 				payload.action === 'closed' &&
-				payload.pull_request &&
 				payload.pull_request.merged
 			) {
 				const {
-					sender: { login: senderLogin },
+					pull_request: { login },
 				} = payload;
 
 				await streamlabs.alert({
-					message: `The pull request from *${senderLogin}* has been merged into *${repositoryFullName}*`,
+					message: `The pull request from *${login}* has been merged into *${repositoryFullName}*`,
 				});
 			}
 
