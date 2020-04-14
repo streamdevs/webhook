@@ -1,6 +1,7 @@
 const { gitHubWebhookPayload } = require('../../schemas/gitHubWebhookPayload');
 const { gitHubWebhookHeaders } = require('../../schemas/gitHubWebhookHeaders');
 const { StreamLabs } = require('../../services/StreamLabs');
+const { TwitchChat } = require('../../services/TwitchChat');
 
 /**
  *
@@ -23,6 +24,13 @@ const routes = (config) => [
 				repository: { full_name: repositoryFullName },
 			} = payload;
 			const streamlabs = new StreamLabs({ token: config.STREAMLABS_TOKEN });
+			const twitchChat = new TwitchChat({
+				identity: {
+					username: config.TWITCH_BOT_NAME,
+					password: config.TWITCH_BOT_TOKEN,
+				},
+				channels: [config.TWITCH_BOT_CHANNEL],
+			});
 
 			if (
 				event === 'ping' &&
@@ -39,11 +47,13 @@ const routes = (config) => [
 			if (event === 'star' && request.payload.action === 'created') {
 				const {
 					sender: { login: senderLogin },
+					repository: { html_url },
 				} = payload;
 
 				await streamlabs.alert({
 					message: `*${senderLogin}* just starred *${repositoryFullName}*`,
 				});
+				await twitchChat.send(`${senderLogin} just starred ${html_url}`);
 
 				return h.response().code(200);
 			}
