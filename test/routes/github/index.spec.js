@@ -1,6 +1,7 @@
 const { initServer } = require('../../../src/server');
 const { getConfig } = require('../../../src/config');
 const { StreamLabs } = require('../../../src/services/StreamLabs');
+const { TwitchChat } = require('../../../src/services/TwitchChat');
 
 describe('server', () => {
 	afterEach(() => {
@@ -181,66 +182,119 @@ describe('server', () => {
 		});
 
 		describe("GitHub 'star' event", () => {
-			it('sends a started notification to StreamLabs when a created star event is received', async () => {
-				const subject = await initServer(config);
-				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
-				spy.mockImplementationOnce(() => {});
+			let spyTwitchChat;
+			let spyStreamLabs;
+			let payload;
 
-				const repositoryFullName = 'streamdevs/webhook',
-					senderLogin = 'orestes';
+			beforeEach(() => {
+				spyTwitchChat = jest.spyOn(TwitchChat.prototype, 'send');
+				spyTwitchChat.mockImplementationOnce(async () => ({}));
 
-				await subject.inject({
-					method: 'POST',
-					url: '/github',
-					headers: {
-						'Content-Type': 'application/json',
-						'X-GitHub-Event': 'star',
+				spyStreamLabs = jest.spyOn(StreamLabs.prototype, 'alert');
+				spyStreamLabs.mockImplementationOnce(() => {});
+
+				payload = {
+					action: 'created',
+					repository: {
+						full_name: 'streamdevs/webhook',
+						html_url: 'https://github.com/streamdevs/webhook',
 					},
-					payload: {
-						action: 'created',
-						repository: {
-							full_name: repositoryFullName,
-						},
-						sender: {
-							login: senderLogin,
-						},
+					sender: {
+						login: 'orestes',
 					},
-				});
-
-				const expectedPayload = {
-					message: `*${senderLogin}* just starred *${repositoryFullName}*`,
 				};
-
-				expect(spy).toHaveBeenCalledWith(expectedPayload);
 			});
 
-			it('ignores the deleted star event', async () => {
-				const subject = await initServer(config);
-				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
-				spy.mockImplementationOnce(() => {});
+			describe('StreamLabs events', () => {
+				it('sends a started notification to StreamLabs when a created star event is received', async () => {
+					const subject = await initServer(config);
 
-				const repositoryFullName = 'streamdevs/webhook',
-					senderLogin = 'orestes';
+					await subject.inject({
+						method: 'POST',
+						url: '/github',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-GitHub-Event': 'star',
+						},
+						payload,
+					});
 
-				await subject.inject({
-					method: 'POST',
-					url: '/github',
-					headers: {
-						'Content-Type': 'application/json',
-						'X-GitHub-Event': 'star',
-					},
-					payload: {
-						action: 'deleted',
-						repository: {
-							full_name: repositoryFullName,
-						},
-						sender: {
-							login: senderLogin,
-						},
-					},
+					const expectedPayload = {
+						message: `*${payload.sender.login}* just starred *${payload.repository.full_name}*`,
+					};
+
+					expect(spyStreamLabs).toHaveBeenCalledWith(expectedPayload);
 				});
 
-				expect(spy).not.toHaveBeenCalled();
+				it('ignores the deleted star event', async () => {
+					const subject = await initServer(config);
+
+					await subject.inject({
+						method: 'POST',
+						url: '/github',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-GitHub-Event': 'star',
+						},
+						payload: {
+							...payload,
+							action: 'deleted',
+						},
+					});
+
+					expect(spyStreamLabs).not.toHaveBeenCalled();
+				});
+			});
+
+			describe('TwitchChat messages', () => {
+				it('send a started message to Twitch Chat when the start event is received', async () => {
+					const subject = await initServer(config);
+
+					const repositoryUrl = 'https://github.com/streamdevs/webhook';
+					const senderLogin = 'orestes';
+
+					await subject.inject({
+						method: 'POST',
+						url: '/github',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-GitHub-Event': 'star',
+						},
+						payload: {
+							action: 'created',
+							repository: {
+								full_name: 'blablabla',
+								html_url: repositoryUrl,
+							},
+							sender: {
+								login: senderLogin,
+							},
+						},
+					});
+
+					expect(spyTwitchChat).toHaveBeenCalledWith(
+						`${senderLogin} just starred ${repositoryUrl}`,
+					);
+				});
+
+				it('ignores the deleted star event', async () => {
+					const subject = await initServer(config);
+
+					await subject.inject({
+						method: 'POST',
+						url: '/github',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-GitHub-Event': 'star',
+						},
+						payload: {
+							...payload,
+							action: 'deleted',
+						},
+					});
+
+					expect(spyTwitchChat).not.toHaveBeenCalled();
+				});
 			});
 		});
 
