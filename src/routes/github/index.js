@@ -46,6 +46,9 @@ const routes = (config) => [
 				await streamlabs.alert({
 					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *${request.payload.hook.events}* events 🎉`,
 				});
+				await twitchChat.send(
+					`🎉 Your repo ${repositoryFullName} is configured correctly for ${request.payload.hook.events} events 🎉`,
+				);
 
 				return h.response().code(200);
 			}
