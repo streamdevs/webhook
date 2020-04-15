@@ -63,12 +63,16 @@ const routes = (config) => [
 
 			if (event === 'pull_request' && request.payload.action === 'opened') {
 				const {
+					repository: { html_url },
 					pull_request: { login },
 				} = payload;
 
 				await streamlabs.alert({
 					message: `*${login}* just opened a pull request in *${repositoryFullName}*`,
 				});
+				await twitchChat.send(
+					`${login} just opened a pull request in ${html_url}`,
+				);
 
 				return h.response().code(200);
 			}
@@ -79,12 +83,16 @@ const routes = (config) => [
 				payload.pull_request.merged
 			) {
 				const {
+					repository: { html_url },
 					pull_request: { login },
 				} = payload;
 
 				await streamlabs.alert({
 					message: `The pull request from *${login}* has been merged into *${repositoryFullName}*`,
 				});
+				await twitchChat.send(
+					`The pull request from ${login} has been merged into ${html_url}`,
+				);
 			}
 
 			return h.response({
