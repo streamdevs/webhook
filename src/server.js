@@ -17,9 +17,9 @@ const initServer = async (config) => {
 			plugin: laabr,
 			options: {
 				formats: {
-					'request': 'error.json',
-					'request-error': 'error.stackjson',
-					'uncaught': 'error.stackjson',
+					'request': '{ timestamp::time, level::level, tags::tags message::message  }',
+					'request-error': '{ timestamp::time, level::level, tags::tags message::message, error::error, environment::environment, stack::error[stack] }',
+					'uncaught': '{ timestamp::time, level::level, tags::tags message::message, error::error, environment::environment, stack::error[stack] }',
 				},
 			},
 		});
