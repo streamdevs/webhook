@@ -57,7 +57,7 @@ describe('server', () => {
 				url: '/github',
 				headers: {
 					'Content-Type': 'application/json',
-					'X-GitHub-Event': 'fork',
+					'X-GitHub-Event': 'project',
 				},
 				payload: {
 					hook: { events: ['created'] },
@@ -71,7 +71,7 @@ describe('server', () => {
 			});
 
 			expect(statusCode).toBe(200);
-			expect(result).toEqual({ message: `Ignoring event: 'fork'` });
+			expect(result).toEqual({ message: `Ignoring event: 'project'` });
 		});
 
 		describe("GitHub 'ping' event", () => {
@@ -394,6 +394,34 @@ describe('server', () => {
 				};
 
 				expect(spy).toHaveBeenCalledWith(expectedPayload);
+			});
+		});
+
+		describe("GitHub 'fork' event", () => {
+			it('sends an alert to StreamLabs', async () => {
+				const streamLabsSpy = jest.spyOn(StreamLabs.prototype, 'alert');
+
+				const config = {};
+				const subject = await initServer(config);
+
+				const forkOwner = 'john';
+				const repositoryFullName = 'john/repo';
+
+				const response = await subject.inject({
+					method: 'POST',
+					url: '/github',
+					payload: {
+						repository: { full_name: repositoryFullName },
+						forkee: { owner: { login: forkOwner } },
+						sender: { login: 'unknown' },
+					},
+					headers: { 'x-github-event': 'fork' },
+				});
+
+				expect(response.statusCode).toEqual(200);
+				expect(streamLabsSpy).toHaveBeenCalledWith(
+					`*${forkOwner}* just forked 🍴 *${repositoryFullName}*`,
+				);
 			});
 		});
 	});
