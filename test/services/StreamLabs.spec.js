@@ -1,3 +1,4 @@
+const nock = require('nock');
 const axios = require('axios');
 const { StreamLabs } = require('../../src/services/StreamLabs');
 
@@ -9,12 +10,13 @@ describe('StreamLabs', () => {
 			expect(subject).toBeInstanceOf(StreamLabs);
 		});
 	});
+
 	describe('#alert', () => {
 		let axiosSpy;
 
 		const setupDefaultAxiosSpy = () => {
 			axiosSpy = jest.spyOn(axios, 'post');
-			axiosSpy.mockImplementationOnce(() => {});
+			nock('https://streamlabs.com').post('/api/v1.0/alerts').reply(200);
 		};
 
 		afterEach(() => {
@@ -54,13 +56,9 @@ describe('StreamLabs', () => {
 		});
 
 		it('logs the response body for failed HTTP 401 requests', async () => {
-			axiosSpy = jest.spyOn(axios, 'post');
-			const mockAxiosErrorResponse = {
-				response: { data: 'Reason for error response', status: 401 },
-			};
-			axiosSpy.mockImplementationOnce(
-				jest.fn().mockRejectedValue(mockAxiosErrorResponse),
-			);
+			nock('https://streamlabs.com')
+				.post('/api/v1.0/alerts')
+				.reply(401, { error: 'boom' });
 
 			const spyLogger = { log: jest.fn() };
 			const config = {
@@ -74,7 +72,7 @@ describe('StreamLabs', () => {
 			);
 			expect(spyLogger.log).toHaveBeenLastCalledWith(
 				['error', 'streamlabs'],
-				expect.objectContaining({ data: mockAxiosErrorResponse.response.data }),
+				expect.objectContaining({ data: { error: 'boom' } }),
 			);
 		});
 
