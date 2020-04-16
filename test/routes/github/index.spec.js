@@ -334,101 +334,200 @@ describe('server', () => {
 		});
 
 		describe("GitHub 'pull_request' event", () => {
-			it('sends the notification to StreamLabs when a pull request was opened', async () => {
-				const subject = await initServer(config);
-				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
-				spy.mockImplementationOnce(() => {});
-				const repositoryFullName = 'streamdevs/webhook';
-				const pullRequestLogin = 'SantiMA10';
+			let spyStreamLabs;
+			let spyTwitchChat;
 
-				await subject.inject({
-					method: 'POST',
-					url: '/github',
-					payload: {
-						action: 'opened',
-						repository: { full_name: repositoryFullName },
-						pull_request: { login: pullRequestLogin },
-						sender: { login: 'pepe' },
-					},
-					headers: { 'x-github-event': 'pull_request' },
-				});
+			beforeEach(() => {
+				spyStreamLabs = jest.spyOn(StreamLabs.prototype, 'alert');
+				spyStreamLabs.mockImplementationOnce(() => {});
 
-				const expectedPayload = {
-					message: `*${pullRequestLogin}* just opened a pull request in *${repositoryFullName}*`,
-				};
-				expect(spy).toHaveBeenCalledWith(expectedPayload);
+				spyTwitchChat = jest.spyOn(TwitchChat.prototype, 'send');
+				spyTwitchChat.mockImplementationOnce(() => {});
 			});
 
-			it("ignores other 'pull_request' event", async () => {
-				const subject = await initServer(config);
-				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
-				spy.mockImplementationOnce(() => {});
-				const repositoryFullName = 'streamdevs/webhook';
-				const pullRequestLogin = 'SantiMA10';
+			describe('StreamLabs alerts', () => {
+				it('sends the notification to StreamLabs when a pull request was opened', async () => {
+					const subject = await initServer(config);
+					const repositoryFullName = 'streamdevs/webhook';
+					const pullRequestLogin = 'SantiMA10';
 
-				const { statusCode } = await subject.inject({
-					method: 'POST',
-					url: '/github',
-					payload: {
-						action: 'assigned',
-						repository: { full_name: repositoryFullName },
-						pull_request: { login: pullRequestLogin },
-						sender: { login: 'pepe' },
-					},
-					headers: { 'x-github-event': 'pull_request' },
+					await subject.inject({
+						method: 'POST',
+						url: '/github',
+						payload: {
+							action: 'opened',
+							repository: { full_name: repositoryFullName },
+							pull_request: { login: pullRequestLogin },
+							sender: { login: 'pepe' },
+						},
+						headers: { 'x-github-event': 'pull_request' },
+					});
+
+					const expectedPayload = {
+						message: `*${pullRequestLogin}* just opened a pull request in *${repositoryFullName}*`,
+					};
+					expect(spyStreamLabs).toHaveBeenCalledWith(expectedPayload);
 				});
 
-				expect(spy).not.toHaveBeenCalled();
-				expect(statusCode).toBe(200);
+				it("ignores other 'pull_request' event", async () => {
+					const subject = await initServer(config);
+					const repositoryFullName = 'streamdevs/webhook';
+					const pullRequestLogin = 'SantiMA10';
+
+					const { statusCode } = await subject.inject({
+						method: 'POST',
+						url: '/github',
+						payload: {
+							action: 'assigned',
+							repository: { full_name: repositoryFullName },
+							pull_request: { login: pullRequestLogin },
+							sender: { login: 'pepe' },
+						},
+						headers: { 'x-github-event': 'pull_request' },
+					});
+
+					expect(spyStreamLabs).not.toHaveBeenCalled();
+					expect(statusCode).toBe(200);
+				});
+
+				it("ignores other 'closed' event when it is not merged", async () => {
+					const subject = await initServer(config);
+					const repositoryFullName = 'streamdevs/webhook';
+					const pullRequestLogin = 'SantiMA10';
+
+					const { statusCode } = await subject.inject({
+						method: 'POST',
+						url: '/github',
+						payload: {
+							action: 'closed',
+							repository: { full_name: repositoryFullName },
+							pull_request: { login: pullRequestLogin },
+							sender: { login: 'pepe' },
+						},
+						headers: { 'x-github-event': 'pull_request' },
+					});
+
+					expect(spyStreamLabs).not.toHaveBeenCalled();
+					expect(statusCode).toEqual(200);
+				});
+
+				it('sends a notification to StreamLabs when a pull request was merged', async () => {
+					const subject = await initServer(config);
+					const repositoryFullName = 'streamdevs/webhook';
+					const pullRequestLogin = 'SantiMA10';
+
+					await subject.inject({
+						method: 'POST',
+						url: '/github',
+						payload: {
+							action: 'closed',
+							repository: { full_name: repositoryFullName },
+							pull_request: { login: pullRequestLogin, merged: true },
+							sender: { login: 'pepe' },
+						},
+						headers: { 'x-github-event': 'pull_request' },
+					});
+
+					const expectedPayload = {
+						message: `The pull request from *${pullRequestLogin}* has been merged into *${repositoryFullName}*`,
+					};
+
+					expect(spyStreamLabs).toHaveBeenCalledWith(expectedPayload);
+				});
 			});
 
-			it("ignores other 'closed' event when it is not merged", async () => {
-				const subject = await initServer(config);
-				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
-				spy.mockImplementationOnce(() => {});
-				const repositoryFullName = 'streamdevs/webhook';
-				const pullRequestLogin = 'SantiMA10';
+			describe('TwitchChat send', () => {
+				it('sends the message to the Twitch chat when a pull request was opened', async () => {
+					const subject = await initServer(config);
+					const repositoryUrl = 'https://github.com/streamdevs/webhook';
+					const pullRequestLogin = 'SantiMA10';
 
-				const { statusCode } = await subject.inject({
-					method: 'POST',
-					url: '/github',
-					payload: {
-						action: 'closed',
-						repository: { full_name: repositoryFullName },
-						pull_request: { login: pullRequestLogin },
-						sender: { login: 'pepe' },
-					},
-					headers: { 'x-github-event': 'pull_request' },
+					await subject.inject({
+						method: 'POST',
+						url: '/github',
+						payload: {
+							action: 'opened',
+							repository: {
+								full_name: 'streamdevs/webhook',
+								html_url: repositoryUrl,
+							},
+							pull_request: { login: pullRequestLogin },
+							sender: { login: 'pepe' },
+						},
+						headers: { 'x-github-event': 'pull_request' },
+					});
+
+					expect(spyTwitchChat).toHaveBeenCalledWith(
+						`${pullRequestLogin} just opened a pull request in ${repositoryUrl}`,
+					);
 				});
 
-				expect(spy).not.toHaveBeenCalled();
-				expect(statusCode).toEqual(200);
-			});
+				it('sends the message to the Twitch chat when a pull request was merged', async () => {
+					const subject = await initServer(config);
+					const repositoryUrl = 'https://github.com/streamdevs/webhook';
+					const pullRequestLogin = 'SantiMA10';
 
-			it('sends a notification to StreamLabs when a pull request was merged', async () => {
-				const subject = await initServer(config);
-				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
-				spy.mockImplementationOnce(() => {});
-				const repositoryFullName = 'streamdevs/webhook';
-				const pullRequestLogin = 'SantiMA10';
+					await subject.inject({
+						method: 'POST',
+						url: '/github',
+						payload: {
+							action: 'closed',
+							repository: {
+								full_name: 'streamdevs/webhook',
+								html_url: repositoryUrl,
+							},
+							pull_request: { login: pullRequestLogin, merged: true },
+							sender: { login: 'pepe' },
+						},
+						headers: { 'x-github-event': 'pull_request' },
+					});
 
-				await subject.inject({
-					method: 'POST',
-					url: '/github',
-					payload: {
-						action: 'closed',
-						repository: { full_name: repositoryFullName },
-						pull_request: { login: pullRequestLogin, merged: true },
-						sender: { login: 'pepe' },
-					},
-					headers: { 'x-github-event': 'pull_request' },
+					expect(spyTwitchChat).toHaveBeenCalledWith(
+						`The pull request from ${pullRequestLogin} has been merged into ${repositoryUrl}`,
+					);
 				});
 
-				const expectedPayload = {
-					message: `The pull request from *${pullRequestLogin}* has been merged into *${repositoryFullName}*`,
-				};
+				it("ignores other 'pull_request' event", async () => {
+					const subject = await initServer(config);
+					const repositoryFullName = 'streamdevs/webhook';
+					const pullRequestLogin = 'SantiMA10';
 
-				expect(spy).toHaveBeenCalledWith(expectedPayload);
+					const { statusCode } = await subject.inject({
+						method: 'POST',
+						url: '/github',
+						payload: {
+							action: 'assigned',
+							repository: { full_name: repositoryFullName },
+							pull_request: { login: pullRequestLogin },
+							sender: { login: 'pepe' },
+						},
+						headers: { 'x-github-event': 'pull_request' },
+					});
+
+					expect(spyTwitchChat).not.toHaveBeenCalled();
+					expect(statusCode).toBe(200);
+				});
+
+				it("ignores other 'closed' event when it is not merged", async () => {
+					const subject = await initServer(config);
+					const repositoryFullName = 'streamdevs/webhook';
+					const pullRequestLogin = 'SantiMA10';
+
+					const { statusCode } = await subject.inject({
+						method: 'POST',
+						url: '/github',
+						payload: {
+							action: 'closed',
+							repository: { full_name: repositoryFullName },
+							pull_request: { login: pullRequestLogin },
+							sender: { login: 'pepe' },
+						},
+						headers: { 'x-github-event': 'pull_request' },
+					});
+
+					expect(spyTwitchChat).not.toHaveBeenCalled();
+					expect(statusCode).toEqual(200);
+				});
 			});
 		});
 
