@@ -145,7 +145,7 @@ describe('server', () => {
 				expect(spy).toHaveBeenCalledWith(expectedPayload);
 			});
 
-			it("sends a webhook configured notification to StreamLabs with 'pull_request' and 'star' events", async () => {
+			it("sends a webhook configured notification to StreamLabs with 'star' events", async () => {
 				const subject = await initServer(config);
 				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
@@ -162,7 +162,7 @@ describe('server', () => {
 					},
 					payload: {
 						hook: {
-							events: ['pull_request', 'star'],
+							events: ['star'],
 						},
 						repository: {
 							full_name: repositoryFullName,
@@ -174,7 +174,11 @@ describe('server', () => {
 				});
 
 				const expectedPayload = {
-					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *pull_request,star* events 🎉`,
+					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *star* events 🎉`,
+				};
+
+				expect(spy).toHaveBeenCalledWith(expectedPayload);
+			});
 				};
 
 				expect(spy).toHaveBeenCalledWith(expectedPayload);
