@@ -13,6 +13,10 @@ class StreamLabs {
 				access_token: this.token,
 				message,
 				type: 'follow',
+			}, {
+				headers: {
+					'content-type': 'application/json; charset=utf-8'
+				}
 			});
 		} catch (error) {
 			if (this.logger) {
