@@ -19,6 +19,15 @@ function gitHubWebhookPayload() {
 				.object({ full_name: joi.string().required() })
 				.required()
 				.unknown(),
+			forkee: joi
+				.object({
+					owner: joi
+						.object({
+							login: joi.string().required(),
+						})
+						.unknown(),
+				})
+				.unknown(),
 		})
 		.unknown();
 }

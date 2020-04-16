@@ -3,6 +3,8 @@ const { gitHubWebhookHeaders } = require('../../schemas/gitHubWebhookHeaders');
 const { StreamLabs } = require('../../services/StreamLabs');
 const { TwitchChat } = require('../../services/TwitchChat');
 
+const { Fork } = require('../../reactions/github');
+
 /**
  *
  * @param {any} config
@@ -38,7 +40,8 @@ const routes = (config) => [
 			if (
 				event === 'ping' &&
 				(request.payload.hook.events.includes('star') ||
-					request.payload.hook.events.includes('pull_request'))
+					request.payload.hook.events.includes('pull_request') ||
+					request.payload.hook.events.includes('fork'))
 			) {
 				await streamlabs.alert({
 					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *${request.payload.hook.events}* events 🎉`,
@@ -85,6 +88,11 @@ const routes = (config) => [
 				await streamlabs.alert({
 					message: `The pull request from *${login}* has been merged into *${repositoryFullName}*`,
 				});
+			}
+
+			if (event === 'fork') {
+				const handler = new Fork({ streamlabs });
+				await handler.handle({ payload });
 			}
 
 			return h.response({
