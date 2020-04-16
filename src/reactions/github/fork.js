@@ -1,9 +1,9 @@
 class Fork {
-	constructor(streamlabs) {
+	constructor({ streamlabs }) {
 		this.streamlabs = streamlabs;
 	}
 
-	async handle(event, payload) {
+	async handle({ payload }) {
 		const {
 			repository: { full_name: repositoryFullName },
 			forkee: {
