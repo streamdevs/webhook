@@ -75,7 +75,7 @@ describe('server', () => {
 		});
 
 		describe("GitHub 'ping' event", () => {
-			it('calls the alert method with the expected message', async () => {
+			it("sends a webhook configured notification to StreamLabs with 'fork' events", async () => {
 				const subject = await initServer(config);
 				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
 				spy.mockImplementationOnce(() => {});
@@ -92,7 +92,7 @@ describe('server', () => {
 					},
 					payload: {
 						hook: {
-							events: ['star'],
+							events: ['fork'],
 						},
 						repository: {
 							full_name: repositoryFullName,
@@ -104,7 +104,7 @@ describe('server', () => {
 				});
 
 				const expectedPayload = {
-					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *star* events 🎉`,
+					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *fork* events 🎉`,
 				};
 
 				expect(spy).toHaveBeenCalledWith(expectedPayload);
