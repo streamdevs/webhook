@@ -179,6 +179,37 @@ describe('server', () => {
 
 				expect(spy).toHaveBeenCalledWith(expectedPayload);
 			});
+
+			it("sends a webhook configured notification to StreamLabs with 'pull_request', 'fork' and 'star' events", async () => {
+				const subject = await initServer(config);
+				const spy = jest.spyOn(StreamLabs.prototype, 'alert');
+				spy.mockImplementationOnce(() => {});
+
+				const repositoryFullName = 'streamdevs/webhook',
+					senderLogin = 'orestes';
+
+				await subject.inject({
+					method: 'POST',
+					url: '/github',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-GitHub-Event': 'ping',
+					},
+					payload: {
+						hook: {
+							events: ['fork', 'pull_request', 'star'],
+						},
+						repository: {
+							full_name: repositoryFullName,
+						},
+						sender: {
+							login: senderLogin,
+						},
+					},
+				});
+
+				const expectedPayload = {
+					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *fork,pull_request,star* events 🎉`,
 				};
 
 				expect(spy).toHaveBeenCalledWith(expectedPayload);
