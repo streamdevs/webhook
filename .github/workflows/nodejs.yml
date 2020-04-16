@@ -55,6 +55,10 @@ jobs:
         if: env.SKIP_BUILD != 'true' && steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
+			- name: Build
+        if: env.SKIP_BUILD != 'true'
+        run: yarn compile:check
+
       - name: Lint
         if: env.SKIP_BUILD != 'true'
         run: yarn ci:lint
