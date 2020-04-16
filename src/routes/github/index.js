@@ -106,7 +106,7 @@ const routes = (config) => [
 			}
 
 			if (event === 'fork') {
-				const handler = new Fork({ streamlabs });
+				const handler = new Fork({ streamlabs, twitchChat });
 				await handler.handle({ payload });
 			}
 

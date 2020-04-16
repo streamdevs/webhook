@@ -1,11 +1,12 @@
 class Fork {
-	constructor({ streamlabs }) {
+	constructor({ streamlabs, twitchChat }) {
 		this.streamlabs = streamlabs;
+		this.twitchChat = twitchChat;
 	}
 
 	async handle({ payload }) {
 		const {
-			repository: { full_name: repositoryFullName },
+			repository: { full_name: repositoryFullName, html_url: repositoryUrl },
 			forkee: {
 				owner: { login: ownerLogin },
 			},
@@ -13,6 +14,7 @@ class Fork {
 		await this.streamlabs.alert({
 			message: `*${ownerLogin}* just forked 🍴 *${repositoryFullName}*`,
 		});
+		this.twitchChat.send(`*${ownerLogin}* just forked 🍴 ${repositoryUrl}`);
 	}
 }
 
