@@ -9,15 +9,19 @@ class StreamLabs {
 
 	async alert({ message }) {
 		try {
-			await axios.post(`${this.base}/alerts`, {
-				access_token: this.token,
-				message,
-				type: 'follow',
-			}, {
-				headers: {
-					'content-type': 'application/json; charset=utf-8'
-				}
-			});
+			await axios.post(
+				`${this.base}/alerts`,
+				{
+					access_token: this.token,
+					message,
+					type: 'follow',
+				},
+				{
+					headers: {
+						'content-type': 'application/json; charset=utf-8',
+					},
+				},
+			);
 		} catch (error) {
 			if (this.logger) {
 				this.logger.log(['error', 'streamlabs'], { data: error.response.data });
