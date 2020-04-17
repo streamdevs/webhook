@@ -4,11 +4,12 @@
 		"compile:check": "tsc --project . --noEmit",
 		"test": "jest",
 		"test:watch": "jest --watch",
-		"start": "node src/index.js",
+		"start": "node dist/src/index.js",
 		"ci:lint": "eslint --ext .js --ignore-path .gitignore .",
 		"ci:format": "prettier --ignore-path .gitignore -l .",
 		"lint": "yarn ci:lint --fix",
 		"format": "yarn ci:format --write",
+		"postinstall": "yarn run compile",
 		"dev": "nodemon src/index.js"
 	},
 	"dependencies": {
