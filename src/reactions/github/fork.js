@@ -14,7 +14,7 @@ class Fork {
 		await this.streamlabs.alert({
 			message: `*${ownerLogin}* just forked 🍴 *${repositoryFullName}*`,
 		});
-		this.twitchChat.send(`*${ownerLogin}* just forked 🍴 ${repositoryUrl}`);
+		await this.twitchChat.send(`*${ownerLogin}* just forked 🍴 ${repositoryUrl}`);
 	}
 }
 
