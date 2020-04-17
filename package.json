@@ -9,7 +9,7 @@
 		"ci:format": "prettier --ignore-path .gitignore -l .",
 		"lint": "yarn ci:lint --fix",
 		"format": "yarn ci:format --write",
-		"postinstall": "yarn run compile",
+		"build": "yarn compile",
 		"dev": "nodemon src/index.js"
 	},
 	"dependencies": {
