@@ -28,7 +28,7 @@ describe('POST /github', () => {
 					payload: {
 						action: 'opened',
 						repository: { full_name: repositoryFullName },
-						pull_request: { login: pullRequestLogin },
+						pull_request: { user: { login: pullRequestLogin } },
 						sender: { login: 'pepe' },
 					},
 					headers: { 'x-github-event': 'pull_request' },
@@ -51,7 +51,7 @@ describe('POST /github', () => {
 					payload: {
 						action: 'assigned',
 						repository: { full_name: repositoryFullName },
-						pull_request: { login: pullRequestLogin },
+						pull_request: { user: { login: pullRequestLogin } },
 						sender: { login: 'pepe' },
 					},
 					headers: { 'x-github-event': 'pull_request' },
@@ -72,7 +72,7 @@ describe('POST /github', () => {
 					payload: {
 						action: 'closed',
 						repository: { full_name: repositoryFullName },
-						pull_request: { login: pullRequestLogin },
+						pull_request: { user: { login: pullRequestLogin } },
 						sender: { login: 'pepe' },
 					},
 					headers: { 'x-github-event': 'pull_request' },
@@ -93,7 +93,7 @@ describe('POST /github', () => {
 					payload: {
 						action: 'closed',
 						repository: { full_name: repositoryFullName },
-						pull_request: { login: pullRequestLogin, merged: true },
+						pull_request: { user: { login: pullRequestLogin }, merged: true },
 						sender: { login: 'pepe' },
 					},
 					headers: { 'x-github-event': 'pull_request' },
@@ -122,7 +122,7 @@ describe('POST /github', () => {
 							full_name: 'streamdevs/webhook',
 							html_url: repositoryUrl,
 						},
-						pull_request: { login: pullRequestLogin },
+						pull_request: { user: { login: pullRequestLogin } },
 						sender: { login: 'pepe' },
 					},
 					headers: { 'x-github-event': 'pull_request' },
@@ -147,7 +147,7 @@ describe('POST /github', () => {
 							full_name: 'streamdevs/webhook',
 							html_url: repositoryUrl,
 						},
-						pull_request: { login: pullRequestLogin, merged: true },
+						pull_request: { user: { login: pullRequestLogin }, merged: true },
 						sender: { login: 'pepe' },
 					},
 					headers: { 'x-github-event': 'pull_request' },
@@ -169,7 +169,7 @@ describe('POST /github', () => {
 					payload: {
 						action: 'assigned',
 						repository: { full_name: repositoryFullName },
-						pull_request: { login: pullRequestLogin },
+						pull_request: { user: { login: pullRequestLogin } },
 						sender: { login: 'pepe' },
 					},
 					headers: { 'x-github-event': 'pull_request' },
@@ -190,7 +190,7 @@ describe('POST /github', () => {
 					payload: {
 						action: 'closed',
 						repository: { full_name: repositoryFullName },
-						pull_request: { login: pullRequestLogin },
+						pull_request: { user: { login: pullRequestLogin } },
 						sender: { login: 'pepe' },
 					},
 					headers: { 'x-github-event': 'pull_request' },
