@@ -23,9 +23,9 @@ describe('POST /github', () => {
 			});
 
 			expect(response.statusCode).toEqual(200);
-			expect(streamLabsSpy).toHaveBeenCalledWith(
-				`*${forkOwner}* just forked 🍴 *${repositoryFullName}*`,
-			);
+			expect(streamLabsSpy).toHaveBeenCalledWith({
+				message: `*${forkOwner}* just forked 🍴 *${repositoryFullName}*`,
+			});
 		});
 	});
 });
