@@ -10,7 +10,7 @@ class Fork {
 				owner: { login: ownerLogin },
 			},
 		} = payload;
-		this.streamlabs.alert(
+		await this.streamlabs.alert(
 			`*${ownerLogin}* just forked 🍴 *${repositoryFullName}*`,
 		);
 	}
