@@ -67,7 +67,7 @@ const routes = (config) => [
 			if (event === 'pull_request' && request.payload.action === 'opened') {
 				const {
 					repository: { html_url },
-					pull_request: { login },
+					pull_request: { user: { login } },
 				} = payload;
 
 				await streamlabs.alert({
@@ -87,7 +87,7 @@ const routes = (config) => [
 			) {
 				const {
 					repository: { html_url },
-					pull_request: { login },
+					pull_request: { user: { login } },
 				} = payload;
 
 				await streamlabs.alert({

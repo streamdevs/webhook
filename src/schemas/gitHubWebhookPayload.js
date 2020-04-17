@@ -7,13 +7,13 @@ function gitHubWebhookPayload() {
 			hook: joi.object({ events: joi.array().items(joi.string()) }).unknown(),
 			pull_request: joi
 				.object({
+					merged: joi.boolean(),
 					user: joi
 						.object({
 							login: joi.string().required(),
 						})
 						.required()
 						.unknown(),
-					merged: joi.boolean(),
 				})
 				.unknown(),
 			sender: joi

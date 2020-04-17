@@ -357,7 +357,7 @@ describe('server', () => {
 						payload: {
 							action: 'opened',
 							repository: { full_name: repositoryFullName },
-							pull_request: { login: pullRequestLogin },
+							pull_request: { user: { login: pullRequestLogin } },
 							sender: { login: 'pepe' },
 						},
 						headers: { 'x-github-event': 'pull_request' },
@@ -380,7 +380,7 @@ describe('server', () => {
 						payload: {
 							action: 'assigned',
 							repository: { full_name: repositoryFullName },
-							pull_request: { login: pullRequestLogin },
+							pull_request: { user: { login: pullRequestLogin } },
 							sender: { login: 'pepe' },
 						},
 						headers: { 'x-github-event': 'pull_request' },
@@ -401,7 +401,7 @@ describe('server', () => {
 						payload: {
 							action: 'closed',
 							repository: { full_name: repositoryFullName },
-							pull_request: { login: pullRequestLogin },
+							pull_request: { user: { login: pullRequestLogin } },
 							sender: { login: 'pepe' },
 						},
 						headers: { 'x-github-event': 'pull_request' },
@@ -451,7 +451,7 @@ describe('server', () => {
 								full_name: 'streamdevs/webhook',
 								html_url: repositoryUrl,
 							},
-							pull_request: { login: pullRequestLogin },
+							pull_request: { user: { login: pullRequestLogin } },
 							sender: { login: 'pepe' },
 						},
 						headers: { 'x-github-event': 'pull_request' },
@@ -498,7 +498,7 @@ describe('server', () => {
 						payload: {
 							action: 'assigned',
 							repository: { full_name: repositoryFullName },
-							pull_request: { login: pullRequestLogin },
+							pull_request: { user: { login: pullRequestLogin } },
 							sender: { login: 'pepe' },
 						},
 						headers: { 'x-github-event': 'pull_request' },
@@ -519,7 +519,7 @@ describe('server', () => {
 						payload: {
 							action: 'closed',
 							repository: { full_name: repositoryFullName },
-							pull_request: { login: pullRequestLogin },
+							pull_request: { user: { login: pullRequestLogin } },
 							sender: { login: 'pepe' },
 						},
 						headers: { 'x-github-event': 'pull_request' },
