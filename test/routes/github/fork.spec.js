@@ -5,7 +5,6 @@ const { TwitchChat } = require('../../../src/services/TwitchChat');
 
 describe('POST /github', () => {
 	describe("GitHub 'fork' event", () => {
-
 		let streamLabsSpy;
 		let twitchChatSpy;
 
@@ -51,7 +50,10 @@ describe('POST /github', () => {
 				method: 'POST',
 				url: '/github',
 				payload: {
-					repository: { full_name: repositoryFullName, html_url: repositoryUrl },
+					repository: {
+						full_name: repositoryFullName,
+						html_url: repositoryUrl,
+					},
 					forkee: { owner: { login: forkOwner } },
 					sender: { login: 'unknown' },
 				},
@@ -59,7 +61,9 @@ describe('POST /github', () => {
 			});
 
 			expect(response.statusCode).toEqual(200);
-			expect(twitchChatSpy).toHaveBeenCalledWith(`*${forkOwner}* just forked 🍴 ${repositoryUrl}`);
+			expect(twitchChatSpy).toHaveBeenCalledWith(
+				`*${forkOwner}* just forked 🍴 ${repositoryUrl}`,
+			);
 		});
 	});
 });
