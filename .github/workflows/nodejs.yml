@@ -55,7 +55,7 @@ jobs:
         if: env.SKIP_BUILD != 'true' && steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
-			- name: Build
+      - name: Build
         if: env.SKIP_BUILD != 'true'
         run: yarn compile:check
 
