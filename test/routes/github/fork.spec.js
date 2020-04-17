@@ -6,6 +6,7 @@ describe('POST /github', () => {
 	describe("GitHub 'fork' event", () => {
 		it('sends an alert to StreamLabs', async () => {
 			const streamLabsSpy = jest.spyOn(StreamLabs.prototype, 'alert');
+			streamLabsSpy.mockImplementationOnce(() => {});
 			const subject = await initServer(getConfig());
 
 			const forkOwner = 'john';
