@@ -12,7 +12,6 @@ class Fork {
 			},
 		} = payload;
 
-
 		const streamLabsMessage = `*${ownerLogin}* just forked 🍴 *${repositoryFullName}*`;
 		const twitchChatMessage = `*${ownerLogin}* just forked 🍴 ${repositoryUrl}`;
 
