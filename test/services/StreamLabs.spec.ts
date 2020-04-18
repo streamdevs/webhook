@@ -1,6 +1,6 @@
-const nock = require('nock');
-const axios = require('axios');
-const { StreamLabs } = require('../../src/services/StreamLabs');
+import nock from 'nock';
+import axios from 'axios';
+import { StreamLabs } from '../../src/services/StreamLabs';
 
 describe('StreamLabs', () => {
 	describe('#constructor', () => {
@@ -12,7 +12,7 @@ describe('StreamLabs', () => {
 	});
 
 	describe('#alert', () => {
-		let axiosSpy;
+		let axiosSpy: jest.SpyInstance<Promise<unknown>>;
 
 		const setupDefaultAxiosSpy = () => {
 			axiosSpy = jest.spyOn(axios, 'post');
@@ -31,7 +31,7 @@ describe('StreamLabs', () => {
 			};
 			const subject = new StreamLabs(config);
 
-			await subject.alert('alert');
+			await subject.alert({ message: 'alert' });
 
 			expect(axiosSpy).toHaveBeenCalledWith(
 				'https://streamlabs.com/api/v1.0/alerts',
@@ -79,7 +79,7 @@ describe('StreamLabs', () => {
 		it("uses the text given as an argument as message to 'StreamLabs'", async () => {
 			setupDefaultAxiosSpy();
 
-			const subject = new StreamLabs({});
+			const subject = new StreamLabs({ token: 'token' });
 
 			await subject.alert({ message: 'alert' });
 
@@ -92,7 +92,7 @@ describe('StreamLabs', () => {
 		it("sends the alerts with the type 'follow'", async () => {
 			setupDefaultAxiosSpy();
 
-			const subject = new StreamLabs({});
+			const subject = new StreamLabs({ token: 'token' });
 
 			await subject.alert({ message: 'alert' });
 
