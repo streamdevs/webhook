@@ -21,7 +21,7 @@
 		"tmi.js": "^1.5.0"
 	},
 	"devDependencies": {
-		"@types/hapi": "^18.0.3",
+		"@types/hapi__hapi": "^19.0.2",
 		"@types/hapi__joi": "^16.0.12",
 		"@types/jest": "^25.2.1",
 		"@types/tmi.js": "^1.4.0",

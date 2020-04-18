@@ -1,13 +1,9 @@
-const { Server } = require('@hapi/hapi');
-const { routes } = require('./routes/github');
-const laabr = require('laabr');
+import { Server } from '@hapi/hapi';
+import { routes } from './routes/github';
+import laabr from 'laabr';
 
-/**
- *
- * @param config
- * @returns {Promise<Server>}
- */
-const initServer = async (config) => {
+// FIXME: Add config type
+export const initServer = async (config: any) => {
 	const server = new Server({
 		port: config.port,
 	});
@@ -31,8 +27,4 @@ const initServer = async (config) => {
 	server.route(routes(config));
 
 	return server;
-};
-
-module.exports = {
-	initServer,
 };
