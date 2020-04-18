@@ -44,7 +44,7 @@ Everyone is welcome to contribute to this repository. To do so follow these step
 - Open a [pull request](https://github.com/streamdevs/webhook/pulls) and reference your original issue
 - Make sure your PR includes proper tests
 - Be on the lookout for requested changes or clarifications during the Code Review
-- Once your PR is reviewed and merged, we'll add you to [the contributors list](#contributors-) 
+- Once your PR is reviewed and merged, we'll add you to [the contributors list](#contributors-)
 
 ### Deploying to Heroku
 
@@ -63,8 +63,8 @@ You can use the "[deploy to Heroku](#webhook)" button link at the top of this re
 
 Push to the master branch on Heroku with `git push heroku master`
 
-Note that you can deploy a different branch to Heroku, but it will only deploy the remote master branch. To deploy a 
-local branch you can run `git push heroku your-branch-here:master` so that your branch overrides the *master* branch on Heroky. 
+Note that you can deploy a different branch to Heroku, but it will only deploy the remote master branch. To deploy a
+local branch you can run `git push heroku your-branch-here:master` so that your branch overrides the _master_ branch on Heroky.
 
 ## Contributors ✨
 
