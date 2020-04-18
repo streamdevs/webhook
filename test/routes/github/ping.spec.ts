@@ -1,23 +1,24 @@
-const { initServer } = require('../../../src/server');
-const { getConfig } = require('../../../src/config');
-const { StreamLabs } = require('../../../src/services/StreamLabs');
-const { TwitchChat } = require('../../../src/services/TwitchChat');
+import { initServer } from '../../../src/server';
+import { getConfig } from '../../../src/config';
+import { StreamLabs } from '../../../src/services/StreamLabs';
+import { TwitchChat } from '../../../src/services/TwitchChat';
 
 describe('POST /github', () => {
 	describe("GitHub 'ping' event", () => {
-		let spyStreamLabs;
-		let spyTwitchChat;
+		let spyStreamLabs: jest.SpyInstance<Promise<void>>;
+		let spyTwitchChat: jest.SpyInstance<Promise<void>>;
 
 		beforeEach(() => {
 			spyStreamLabs = jest.spyOn(StreamLabs.prototype, 'alert');
-			spyStreamLabs.mockImplementationOnce(() => {});
+			spyStreamLabs.mockImplementationOnce(async () => {});
 
 			spyTwitchChat = jest.spyOn(TwitchChat.prototype, 'send');
-			spyTwitchChat.mockImplementationOnce(() => {});
+			spyTwitchChat.mockImplementationOnce(async () => {});
 		});
 
 		describe("with 'fork' events", () => {
-			let payload;
+			// FIXME: change any
+			let payload: any;
 
 			beforeEach(() => {
 				payload = {
@@ -75,7 +76,8 @@ describe('POST /github', () => {
 		});
 
 		describe("with 'pull_request' events", () => {
-			let payload;
+			// FIXME: change any
+			let payload: any;
 
 			beforeEach(() => {
 				payload = {
@@ -131,7 +133,8 @@ describe('POST /github', () => {
 		});
 
 		describe("with 'star' events", () => {
-			let payload;
+			// FIXME: change any
+			let payload: any;
 
 			beforeEach(() => {
 				payload = {
@@ -187,7 +190,8 @@ describe('POST /github', () => {
 		});
 
 		describe("with 'fork', 'star' and 'pull_request' events", () => {
-			let payload;
+			// FIXME: change any
+			let payload: any;
 
 			beforeEach(() => {
 				payload = {
