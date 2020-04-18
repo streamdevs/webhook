@@ -15,9 +15,9 @@ interface StreamLabsAlert {
 export class StreamLabs {
 	private base: string;
 	private token: string;
-	private logger: StreamLabsLogger;
+	private logger?: StreamLabsLogger;
 
-	constructor({ token }: StreamLabsConfig, logger: StreamLabsLogger) {
+	constructor({ token }: StreamLabsConfig, logger?: StreamLabsLogger) {
 		this.base = 'https://streamlabs.com/api/v1.0';
 		this.token = token;
 		this.logger = logger;
