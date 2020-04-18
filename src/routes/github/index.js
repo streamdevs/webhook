@@ -30,11 +30,9 @@ const routes = (config) => [
 				request,
 			);
 			const twitchChat = new TwitchChat({
-				identity: {
-					username: config.TWITCH_BOT_NAME,
-					password: config.TWITCH_BOT_TOKEN,
-				},
-				channels: [config.TWITCH_BOT_CHANNEL],
+				botName: config.TWITCH_BOT_NAME,
+				botToken: config.TWITCH_BOT_TOKEN,
+				channel: config.TWITCH_BOT_CHANNEL,
 			});
 
 			if (

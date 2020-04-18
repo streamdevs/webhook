@@ -1,16 +1,14 @@
-const tmi = require('tmi.js');
-const { TwitchChat } = require('../../src/services/TwitchChat');
+import tmi from 'tmi.js';
+import { TwitchChat, TwitchChatConfig } from '../../src/services/TwitchChat';
 
 describe('TwitchChat', () => {
-	let config;
+	let config: TwitchChatConfig;
 
 	beforeEach(() => {
 		config = {
-			identity: {
-				username: 'BOT_USERNAME',
-				password: 'OAUTH_TOKEN',
-			},
-			channels: ['CHANNEL_NAME'],
+			botName: 'BOT_USERNAME',
+			botToken: 'OAUTH_TOKEN',
+			channel: 'CHANNEL_NAME',
 		};
 	});
 
@@ -20,20 +18,28 @@ describe('TwitchChat', () => {
 
 			new TwitchChat(config);
 
-			expect(spy).toHaveBeenCalledWith(config);
+			expect(spy).toHaveBeenCalledWith(
+				expect.objectContaining({
+					identity: {
+						username: 'BOT_USERNAME',
+						password: 'OAUTH_TOKEN',
+					},
+					channels: ['#channel_name'],
+				}),
+			);
 		});
 	});
 
 	describe('#send', () => {
-		let fakeClient;
+		let fakeClient: tmi.Client;
 
 		beforeEach(() => {
 			const spy = jest.spyOn(tmi, 'client');
-			fakeClient = {
-				connect: jest.fn(async () => ({})),
-				say: jest.fn(async () => ({})),
-				disconnect: jest.fn(async () => ({})),
-			};
+			fakeClient = ({
+				connect: jest.fn(),
+				say: jest.fn(),
+				disconnect: jest.fn(),
+			} as unknown) as tmi.Client;
 			spy.mockImplementationOnce(() => fakeClient);
 		});
 
@@ -50,7 +56,7 @@ describe('TwitchChat', () => {
 
 			await subject.send('Hola');
 
-			expect(fakeClient.say).toHaveBeenCalledWith(config.channels[0], 'Hola');
+			expect(fakeClient.say).toHaveBeenCalledWith(config.channel, 'Hola');
 		});
 
 		it('calls disconnect after send the message', async () => {
