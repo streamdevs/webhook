@@ -25,6 +25,7 @@ function gitHubWebhookPayload() {
 						.object({
 							login: joi.string().required(),
 						})
+						.required()
 						.unknown(),
 				})
 				.unknown(),
