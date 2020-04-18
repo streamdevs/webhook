@@ -1,15 +1,9 @@
-const { initServer } = require('../../../src/server');
-const { getConfig } = require('../../../src/config');
+import { initServer } from '../../../src/server';
+import { getConfig } from '../../../src/config';
 
 describe('POST /github', () => {
-	let config;
-
-	beforeEach(() => {
-		config = getConfig();
-	});
-
 	it('returns 400 on requests without payload', async () => {
-		const subject = await initServer(config);
+		const subject = await initServer(getConfig());
 
 		const { statusCode } = await subject.inject({
 			method: 'POST',
@@ -23,7 +17,7 @@ describe('POST /github', () => {
 	});
 
 	it("returns 400 on requests without 'X-GitHub-Event' header", async () => {
-		const subject = await initServer(config);
+		const subject = await initServer(getConfig());
 
 		const { statusCode } = await subject.inject({
 			method: 'POST',
@@ -43,7 +37,7 @@ describe('POST /github', () => {
 	});
 
 	it('handles unknown actions gracefully', async () => {
-		const subject = await initServer(config);
+		const subject = await initServer(getConfig());
 
 		const { statusCode, result } = await subject.inject({
 			method: 'POST',
