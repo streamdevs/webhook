@@ -36,6 +36,36 @@ We make use of the following environment variables:
 | TWITCH_BOT_TOKEN   | The token to authenticate your chatbot. Generate this with https://twitchapps.com/tmi/, while logged in to your chatbot account. The token will be an alphanumeric string. | **Yes**   | _empty_ |
 | TWITCH_BOT_CHANNEL | The Twitch channel name where you want to run the bot. Usually this is your main Twitch account.                                                                           | **Yes**   | _empty_ |
 
+## Contributing
+
+Everyone is welcome to contribute to this repository. To do so follow these steps:
+
+- Open an [Issue](https://github.com/streamdevs/webhook/issues) with your idea and label it using the `idea` tag
+- Open a [pull request](https://github.com/streamdevs/webhook/pulls) and reference your original issue
+- Make sure your PR includes proper tests
+- Be on the lookout for requested changes or clarifications during the Code Review
+- Once your PR is reviewed and merged, we'll add you to [the contributors list](#contributors-) 
+
+### Deploying to Heroku
+
+You can use the "[deploy to Heroku](#webhook)" button link at the top of this readme file or use the Heroku CLI
+
+### Configuring your local repo to deploy on Heroku
+
+- Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
+- Log in to Heroku with `heroku login`
+- Open the Heroku dashboard for your app
+- Go to the settings tab
+- Under **App Information**, copy the **Heroku git Url**
+- Add a new git remote with `git remote add heroku your-https-git-repo-goes-here`
+
+### Deploying changes to a Heroku app using the CLI
+
+Push to the master branch on Heroku with `git push heroku master`
+
+Note that you can deploy a different branch to Heroku, but it will only deploy the remote master branch. To deploy a 
+local branch you can run `git push heroku your-branch-here:master` so that your branch overrides the *master* branch on Heroky. 
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
