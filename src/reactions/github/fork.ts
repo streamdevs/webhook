@@ -1,10 +1,15 @@
-class Fork {
-	constructor({ streamlabs, twitchChat }) {
-		this.streamlabs = streamlabs;
-		this.twitchChat = twitchChat;
+import { StreamLabs } from '../../services/StreamLabs';
+import { TwitchChat } from '../../services/TwitchChat';
+import { ForkPayload } from '../../schemas/github/fork-payload';
+
+export class Fork {
+	static canHandle({ event }: { event: string }) {
+		return event === 'fork';
 	}
 
-	async handle({ payload }) {
+	constructor(private streamlabs: StreamLabs, private twitchChat: TwitchChat) {}
+
+	async handle({ payload }: { payload: ForkPayload }) {
 		const {
 			repository: { full_name: repositoryFullName, html_url: repositoryUrl },
 			forkee: {
@@ -34,7 +39,3 @@ class Fork {
 		};
 	}
 }
-
-module.exports = {
-	Fork,
-};
