@@ -1,19 +1,20 @@
-const { initServer } = require('../../../src/server');
-const { getConfig } = require('../../../src/config');
-const { StreamLabs } = require('../../../src/services/StreamLabs');
-const { TwitchChat } = require('../../../src/services/TwitchChat');
+import { initServer } from '../../../src/server';
+import { getConfig } from '../../../src/config';
+import { StreamLabs } from '../../../src/services/StreamLabs';
+import { TwitchChat } from '../../../src/services/TwitchChat';
 
 describe("GitHub 'star' event", () => {
-	let spyTwitchChat;
-	let spyStreamLabs;
-	let payload;
+	let spyTwitchChat: jest.SpyInstance<Promise<void>>;
+	let spyStreamLabs: jest.SpyInstance<Promise<void>>;
+	// FIXME
+	let payload: any;
 
 	beforeEach(() => {
 		spyTwitchChat = jest.spyOn(TwitchChat.prototype, 'send');
-		spyTwitchChat.mockImplementationOnce(async () => ({}));
+		spyTwitchChat.mockImplementationOnce(async () => {});
 
 		spyStreamLabs = jest.spyOn(StreamLabs.prototype, 'alert');
-		spyStreamLabs.mockImplementationOnce(() => {});
+		spyStreamLabs.mockImplementationOnce(async () => {});
 
 		payload = {
 			action: 'created',
