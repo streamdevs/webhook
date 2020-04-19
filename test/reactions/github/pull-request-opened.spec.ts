@@ -79,4 +79,39 @@ describe('PullRequestOpened', () => {
 			});
 		});
 	});
+
+	describe('#canHandle', () => {
+		it('returns true if the pull request is opened', () => {
+			const subject = new PullRequestOpened(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'pull_request',
+				payload: { action: 'opened' },
+			});
+
+			expect(result).toEqual(true);
+		});
+
+		it('returns false if the event is not pull request', () => {
+			const subject = new PullRequestOpened(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'fork',
+				payload: { action: 'opened' },
+			});
+
+			expect(result).toEqual(false);
+		});
+
+		it('returns false if the pull request is closed', () => {
+			const subject = new PullRequestOpened(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'pull_request',
+				payload: { action: 'closed' },
+			});
+
+			expect(result).toEqual(false);
+		});
+	});
 });
