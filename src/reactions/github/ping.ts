@@ -20,24 +20,55 @@ export class Ping {
 		this.twitchChat = twitchChat;
 	}
 
-	public async handle({ payload }: HandleOptions) {
-		const streamlabsMessage = `🎉 Your repo *${payload.repository.full_name}* is configured correctly for *${payload.hook.events}* events 🎉`;
-		await this.streamlabs.alert({
-			message: streamlabsMessage,
-		});
+	private async notifyStreamlabs({ payload }: HandleOptions) {
+		try {
+			const streamlabsMessage = `🎉 Your repo *${payload.repository.full_name}* is configured correctly for *${payload.hook.events}* events 🎉`;
+			await this.streamlabs.alert({
+				message: streamlabsMessage,
+			});
 
-		const twitchMessage = `🎉 Your repo ${payload.repository.full_name} is configured correctly for ${payload.hook.events} events 🎉`;
-		await this.twitchChat.send(twitchMessage);
+			return {
+				notified: true,
+				message: streamlabsMessage,
+			};
+		} catch {
+			// TODO: add logging
+
+			return {
+				notified: false,
+				message: '',
+			};
+		}
+	}
+
+	private async notifyTwitch({ payload }: HandleOptions) {
+		try {
+			const message = `🎉 Your repo *${payload.repository.full_name}* is configured correctly for *${payload.hook.events}* events 🎉`;
+			await this.twitchChat.send(message);
+
+			return {
+				notified: true,
+				message,
+			};
+		} catch {
+			// TODO: add logging
+
+			return {
+				notified: false,
+				message: '',
+			};
+		}
+	}
+
+	public async handle({ payload }: HandleOptions) {
+		const [streamlabs, twitchChat] = await Promise.all([
+			this.notifyStreamlabs({ payload }),
+			this.notifyTwitch({ payload }),
+		]);
 
 		return {
-			twitchChat: {
-				message: twitchMessage,
-				notified: true,
-			},
-			streamlabs: {
-				message: streamlabsMessage,
-				notified: true,
-			},
+			twitchChat,
+			streamlabs,
 		};
 	}
 }
