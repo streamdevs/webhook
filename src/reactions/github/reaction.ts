@@ -6,6 +6,11 @@ export interface ReactionHandleOptions {
 	payload: any;
 }
 
+export interface ReactionCanHandleOptions {
+	payload: any;
+	event: string;
+}
+
 export abstract class Reaction {
 	public constructor(
 		private twitchChat: TwitchChat,
@@ -14,6 +19,7 @@ export abstract class Reaction {
 
 	abstract getStreamLabsMessage({ payload }: ReactionHandleOptions): string;
 	abstract getTwitchChatMessage({ payload }: ReactionHandleOptions): string;
+	abstract canHandle({ payload, event }: ReactionCanHandleOptions): boolean;
 
 	private async notifyStreamlabs({ payload }: ReactionHandleOptions) {
 		try {
