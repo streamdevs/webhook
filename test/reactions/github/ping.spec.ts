@@ -106,4 +106,61 @@ describe('Ping', () => {
 			expect(notified).toEqual(false);
 		});
 	});
+
+	describe('#canHandle', () => {
+		it('returns true if the event is ping and the hook.events array contains star', () => {
+			const subject = new Ping(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'ping',
+				payload: { hook: { events: ['star'] } },
+			});
+
+			expect(result).toEqual(true);
+		});
+
+		it('returns false if the event is not ping', () => {
+			const subject = new Ping(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'fork',
+				payload: { hook: { events: ['star'] } },
+			});
+
+			expect(result).toEqual(false);
+		});
+
+		it('returns false if the hook.events only contains status', () => {
+			const subject = new Ping(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'ping',
+				payload: { hook: { events: ['status'] } },
+			});
+
+			expect(result).toEqual(false);
+		});
+
+		it('returns true if the event is ping and the hook.events array contains fork', () => {
+			const subject = new Ping(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'ping',
+				payload: { hook: { events: ['fork'] } },
+			});
+
+			expect(result).toEqual(true);
+		});
+
+		it('returns true if the event is ping and the hook.events array contains pull_request', () => {
+			const subject = new Ping(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'ping',
+				payload: { hook: { events: ['pull_request'] } },
+			});
+
+			expect(result).toEqual(true);
+		});
+	});
 });
