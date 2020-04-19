@@ -25,7 +25,7 @@ describe('Ping', () => {
 		});
 
 		it('calls StreamLabs with the expected message', async () => {
-			const subject = new Ping({ streamlabs, twitchChat });
+			const subject = new Ping(twitchChat, streamlabs);
 
 			await subject.handle({ payload });
 
@@ -35,7 +35,7 @@ describe('Ping', () => {
 		});
 
 		it('calls TwitchChat with the expected message', async () => {
-			const subject = new Ping({ streamlabs, twitchChat });
+			const subject = new Ping(twitchChat, streamlabs);
 
 			await subject.handle({ payload });
 
@@ -45,7 +45,7 @@ describe('Ping', () => {
 		});
 
 		it('returns the message that was send to Twitch', async () => {
-			const subject = new Ping({ streamlabs, twitchChat });
+			const subject = new Ping(twitchChat, streamlabs);
 
 			const { twitchChat: response } = await subject.handle({
 				payload: {
@@ -63,7 +63,7 @@ describe('Ping', () => {
 		});
 
 		it('returns the message that was send to StreamLabs', async () => {
-			const subject = new Ping({ streamlabs, twitchChat });
+			const subject = new Ping(twitchChat, streamlabs);
 
 			const { streamlabs: response } = await subject.handle({
 				payload: {
@@ -84,7 +84,7 @@ describe('Ping', () => {
 			jest.spyOn(streamlabs, 'alert').mockImplementationOnce(async () => {
 				throw new Error('boom');
 			});
-			const subject = new Ping({ streamlabs, twitchChat });
+			const subject = new Ping(twitchChat, streamlabs);
 
 			const {
 				streamlabs: { notified },
@@ -97,7 +97,7 @@ describe('Ping', () => {
 			jest.spyOn(twitchChat, 'send').mockImplementationOnce(async () => {
 				throw new Error('boom');
 			});
-			const subject = new Ping({ streamlabs, twitchChat });
+			const subject = new Ping(twitchChat, streamlabs);
 
 			const {
 				twitchChat: { notified },
