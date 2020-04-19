@@ -1,63 +1,11 @@
-import { TwitchChat } from '../../services/TwitchChat';
-import { StreamLabs } from '../../services/StreamLabs';
+import { Reaction, ReactionHandleOptions } from './reaction';
 
-interface HandleOptions {
-	payload: any;
-}
-
-export class Star {
-	public constructor(
-		private twitchChat: TwitchChat,
-		private streamlabs: StreamLabs,
-	) {}
-
-	private async notifyTwitch({ payload }: HandleOptions) {
-		try {
-			const message = `*${payload.sender.login}* just starred ${payload.repository.html_url}`;
-			await this.twitchChat.send(message);
-
-			return {
-				notified: true,
-				message,
-			};
-		} catch {
-			// TODO: add logging
-
-			return {
-				notified: false,
-				message: '',
-			};
-		}
+export class Star extends Reaction {
+	getStreamLabsMessage({ payload }: ReactionHandleOptions): string {
+		return `*${payload.sender.login}* just starred *${payload.repository.full_name}*`;
 	}
 
-	private async notifyStreamLabs({ payload }: HandleOptions) {
-		try {
-			const message = `*${payload.sender.login}* just starred *${payload.repository.full_name}*`;
-			await this.streamlabs.alert({ message });
-
-			return {
-				notified: true,
-				message,
-			};
-		} catch {
-			// TODO: add logging
-
-			return {
-				notified: false,
-				message: '',
-			};
-		}
-	}
-
-	public async handle({ payload }: HandleOptions) {
-		const [twitchChat, streamlabs] = await Promise.all([
-			this.notifyTwitch({ payload }),
-			this.notifyStreamLabs({ payload }),
-		]);
-
-		return {
-			twitchChat,
-			streamlabs,
-		};
+	getTwitchChatMessage({ payload }: ReactionHandleOptions): string {
+		return `*${payload.sender.login}* just starred ${payload.repository.html_url}`;
 	}
 }
