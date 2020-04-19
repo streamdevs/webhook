@@ -1,14 +1,16 @@
 import { Ping } from '../../../src/reactions/github/ping';
+import { StreamLabs } from '../../../src/services/StreamLabs';
+import { TwitchChat } from '../../../src/services/TwitchChat';
 
 describe('Ping', () => {
 	describe('#handle', () => {
-		let streamlabs: any;
-		let twitchChat: any;
+		let streamlabs: StreamLabs;
+		let twitchChat: TwitchChat;
 		let payload: any;
 
 		beforeEach(() => {
-			streamlabs = { alert: jest.fn() };
-			twitchChat = { send: jest.fn() };
+			streamlabs = ({ alert: jest.fn() } as unknown) as StreamLabs;
+			twitchChat = ({ send: jest.fn() } as unknown) as TwitchChat;
 			payload = {
 				hook: {
 					events: ['fork'],
@@ -38,7 +40,7 @@ describe('Ping', () => {
 			await subject.handle({ payload });
 
 			expect(twitchChat.send).toHaveBeenCalledWith(
-				`🎉 Your repo ${payload.repository.full_name} is configured correctly for fork events 🎉`,
+				`🎉 Your repo *${payload.repository.full_name}* is configured correctly for *fork* events 🎉`,
 			);
 		});
 
@@ -55,7 +57,7 @@ describe('Ping', () => {
 			});
 
 			expect(response).toEqual({
-				message: `🎉 Your repo ${payload.repository.full_name} is configured correctly for pull_request events 🎉`,
+				message: `🎉 Your repo *${payload.repository.full_name}* is configured correctly for *pull_request* events 🎉`,
 				notified: true,
 			});
 		});
@@ -76,6 +78,32 @@ describe('Ping', () => {
 				message: `🎉 Your repo *${payload.repository.full_name}* is configured correctly for *star* events 🎉`,
 				notified: true,
 			});
+		});
+
+		it("returns 'streamlabs.notified' set to false is something goes wrong with StreamLabs", async () => {
+			jest.spyOn(streamlabs, 'alert').mockImplementationOnce(async () => {
+				throw new Error('boom');
+			});
+			const subject = new Ping({ streamlabs, twitchChat });
+
+			const {
+				streamlabs: { notified },
+			} = await subject.handle({ payload });
+
+			expect(notified).toEqual(false);
+		});
+
+		it("returns 'twitchChat.notified' set to false is something goes wrong with TwitchChat", async () => {
+			jest.spyOn(twitchChat, 'send').mockImplementationOnce(async () => {
+				throw new Error('boom');
+			});
+			const subject = new Ping({ streamlabs, twitchChat });
+
+			const {
+				twitchChat: { notified },
+			} = await subject.handle({ payload });
+
+			expect(notified).toEqual(false);
 		});
 	});
 });
