@@ -1,74 +1,22 @@
-import { StreamLabs } from '../../services/StreamLabs';
-import { TwitchChat } from '../../services/TwitchChat';
+import {
+	Reaction,
+	ReactionCanHandleOptions,
+	ReactionHandleOptions,
+} from './reaction';
 
-interface PingConfig {
-	streamlabs: StreamLabs;
-	twitchChat: TwitchChat;
-}
-
-interface HandleOptions {
-	// FIXME: add Payload type
-	payload: any;
-}
-
-export class Ping {
-	private streamlabs: StreamLabs;
-	private twitchChat: TwitchChat;
-
-	public constructor({ streamlabs, twitchChat }: PingConfig) {
-		this.streamlabs = streamlabs;
-		this.twitchChat = twitchChat;
+export class Ping extends Reaction {
+	canHandle({ payload, event }: ReactionCanHandleOptions): boolean {
+		return (
+			event === 'ping' &&
+			(payload.hook.events.includes('star') ||
+				payload.hook.events.includes('fork') ||
+				payload.hook.events.includes('pull_request'))
+		);
 	}
-
-	private async notifyStreamlabs({ payload }: HandleOptions) {
-		try {
-			const streamlabsMessage = `🎉 Your repo *${payload.repository.full_name}* is configured correctly for *${payload.hook.events}* events 🎉`;
-			await this.streamlabs.alert({
-				message: streamlabsMessage,
-			});
-
-			return {
-				notified: true,
-				message: streamlabsMessage,
-			};
-		} catch {
-			// TODO: add logging
-
-			return {
-				notified: false,
-				message: '',
-			};
-		}
+	getStreamLabsMessage({ payload }: ReactionHandleOptions): string {
+		return `🎉 Your repo *${payload.repository.full_name}* is configured correctly for *${payload.hook.events}* events 🎉`;
 	}
-
-	private async notifyTwitch({ payload }: HandleOptions) {
-		try {
-			const message = `🎉 Your repo *${payload.repository.full_name}* is configured correctly for *${payload.hook.events}* events 🎉`;
-			await this.twitchChat.send(message);
-
-			return {
-				notified: true,
-				message,
-			};
-		} catch {
-			// TODO: add logging
-
-			return {
-				notified: false,
-				message: '',
-			};
-		}
-	}
-
-	public async handle({ payload }: HandleOptions) {
-		const [streamlabs, twitchChat] = await Promise.all([
-			this.notifyStreamlabs({ payload }),
-			this.notifyTwitch({ payload }),
-		]);
-
-		return {
-			twitchChat,
-			streamlabs,
-		};
+	getTwitchChatMessage({ payload }: ReactionHandleOptions): string {
+		return `🎉 Your repo *${payload.repository.full_name}* is configured correctly for *${payload.hook.events}* events 🎉`;
 	}
 }

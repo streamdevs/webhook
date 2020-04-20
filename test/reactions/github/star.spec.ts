@@ -81,4 +81,28 @@ describe('Star', () => {
 			});
 		});
 	});
+
+	describe('#canHandle', () => {
+		it('returns true if the event is star and actions is created', () => {
+			const subject = new Star(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'star',
+				payload: { action: 'created' },
+			});
+
+			expect(result).toEqual(true);
+		});
+
+		it('returns false if the event is star and actions is removed', () => {
+			const subject = new Star(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'star',
+				payload: { action: 'removed' },
+			});
+
+			expect(result).toEqual(false);
+		});
+	});
 });

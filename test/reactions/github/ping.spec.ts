@@ -25,7 +25,7 @@ describe('Ping', () => {
 		});
 
 		it('calls StreamLabs with the expected message', async () => {
-			const subject = new Ping({ streamlabs, twitchChat });
+			const subject = new Ping(twitchChat, streamlabs);
 
 			await subject.handle({ payload });
 
@@ -35,7 +35,7 @@ describe('Ping', () => {
 		});
 
 		it('calls TwitchChat with the expected message', async () => {
-			const subject = new Ping({ streamlabs, twitchChat });
+			const subject = new Ping(twitchChat, streamlabs);
 
 			await subject.handle({ payload });
 
@@ -45,7 +45,7 @@ describe('Ping', () => {
 		});
 
 		it('returns the message that was send to Twitch', async () => {
-			const subject = new Ping({ streamlabs, twitchChat });
+			const subject = new Ping(twitchChat, streamlabs);
 
 			const { twitchChat: response } = await subject.handle({
 				payload: {
@@ -63,7 +63,7 @@ describe('Ping', () => {
 		});
 
 		it('returns the message that was send to StreamLabs', async () => {
-			const subject = new Ping({ streamlabs, twitchChat });
+			const subject = new Ping(twitchChat, streamlabs);
 
 			const { streamlabs: response } = await subject.handle({
 				payload: {
@@ -84,7 +84,7 @@ describe('Ping', () => {
 			jest.spyOn(streamlabs, 'alert').mockImplementationOnce(async () => {
 				throw new Error('boom');
 			});
-			const subject = new Ping({ streamlabs, twitchChat });
+			const subject = new Ping(twitchChat, streamlabs);
 
 			const {
 				streamlabs: { notified },
@@ -97,13 +97,70 @@ describe('Ping', () => {
 			jest.spyOn(twitchChat, 'send').mockImplementationOnce(async () => {
 				throw new Error('boom');
 			});
-			const subject = new Ping({ streamlabs, twitchChat });
+			const subject = new Ping(twitchChat, streamlabs);
 
 			const {
 				twitchChat: { notified },
 			} = await subject.handle({ payload });
 
 			expect(notified).toEqual(false);
+		});
+	});
+
+	describe('#canHandle', () => {
+		it('returns true if the event is ping and the hook.events array contains star', () => {
+			const subject = new Ping(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'ping',
+				payload: { hook: { events: ['star'] } },
+			});
+
+			expect(result).toEqual(true);
+		});
+
+		it('returns false if the event is not ping', () => {
+			const subject = new Ping(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'fork',
+				payload: { hook: { events: ['star'] } },
+			});
+
+			expect(result).toEqual(false);
+		});
+
+		it('returns false if the hook.events only contains status', () => {
+			const subject = new Ping(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'ping',
+				payload: { hook: { events: ['status'] } },
+			});
+
+			expect(result).toEqual(false);
+		});
+
+		it('returns true if the event is ping and the hook.events array contains fork', () => {
+			const subject = new Ping(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'ping',
+				payload: { hook: { events: ['fork'] } },
+			});
+
+			expect(result).toEqual(true);
+		});
+
+		it('returns true if the event is ping and the hook.events array contains pull_request', () => {
+			const subject = new Ping(null as any, null as any);
+
+			const result = subject.canHandle({
+				event: 'ping',
+				payload: { hook: { events: ['pull_request'] } },
+			});
+
+			expect(result).toEqual(true);
 		});
 	});
 });
