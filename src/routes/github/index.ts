@@ -102,10 +102,9 @@ export const routes = (config: Config) => [
 				);
 			}
 
-
 			const forkReaction = new Fork(twitchChat, streamlabs);
 			if (forkReaction.canHandle({ payload, event })) {
-				const status = forkReaction.handle({payload});
+				const status = forkReaction.handle({ payload });
 
 				return h.response({
 					message: `Event ${event} handled correctly`,
