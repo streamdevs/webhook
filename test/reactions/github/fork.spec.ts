@@ -52,12 +52,7 @@ describe('Fork', () => {
 			const subject = new Fork(twitchChat, streamlabs);
 
 			const { streamlabs: response } = await subject.handle({
-				payload: {
-					...payload,
-					hook: {
-						events: ['star'],
-					},
-				},
+				payload,
 			});
 
 			expect(response).toEqual({
@@ -70,12 +65,7 @@ describe('Fork', () => {
 			const subject = new Fork(twitchChat, streamlabs);
 
 			const { twitchChat: response } = await subject.handle({
-				payload: {
-					...payload,
-					hook: {
-						events: ['pull_request'],
-					},
-				},
+				payload,
 			});
 
 			expect(response).toEqual({
