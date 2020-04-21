@@ -27,7 +27,7 @@ describe('PullRequestMerged', () => {
 			} as unknown) as StreamLabs;
 		});
 
-		it("returns 'twitchChat.notified' if something goes wrong with TwitchChat", async () => {
+		it("returns 'twitchChat.notified' === false if something goes wrong with TwitchChat", async () => {
 			const twitchChat = ({
 				send: jest.fn(async () => {
 					throw new Error('boom');
@@ -42,7 +42,7 @@ describe('PullRequestMerged', () => {
 			expect(notified).toEqual(false);
 		});
 
-		it("returns 'streamlabs.notified' if something goes wrong with StreamLabs", async () => {
+		it("returns 'streamlabs.notified' === false if something goes wrong with StreamLabs", async () => {
 			const streamlabs = ({
 				alert: jest.fn(async () => {
 					throw new Error('boom');
