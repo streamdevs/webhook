@@ -1,5 +1,5 @@
-import { object, string } from '@hapi/joi';
+import { object, Schema, string } from '@hapi/joi';
 
-export function gitHubWebhookHeaders() {
+export function gitHubWebhookHeaders(): Schema {
 	return object({ 'x-github-event': string().required() }).unknown();
 }

@@ -3,7 +3,7 @@ import { routes } from './routes/github';
 import laabr from 'laabr';
 
 // FIXME: Add config type
-export const initServer = async (config: any) => {
+export const initServer = async (config: any): Promise<Server> => {
 	const server = new Server({
 		port: config.port,
 	});

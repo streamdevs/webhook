@@ -1,9 +1,7 @@
 module.exports = {
 	root: true,
 	parser: '@typescript-eslint/parser',
-	plugins: [
-		'@typescript-eslint',
-	],
+	plugins: ['@typescript-eslint'],
 	env: {
 		commonjs: true,
 		es6: true,
@@ -13,7 +11,7 @@ module.exports = {
 	extends: [
 		'eslint:recommended',
 		'plugin:@typescript-eslint/eslint-recommended',
-		'plugin:@typescript-eslint/recommended'
+		'plugin:@typescript-eslint/recommended',
 	],
 	globals: {
 		Atomics: 'readonly',
@@ -23,9 +21,12 @@ module.exports = {
 		ecmaVersion: 2018,
 	},
 	rules: {
-		"camelcase": "off",
-		"@typescript-eslint/camelcase": ["error", {
-			"properties": "never",
-		}]
+		'camelcase': 'off',
+		'@typescript-eslint/camelcase': [
+			'error',
+			{
+				properties: 'never',
+			},
+		],
 	},
 };

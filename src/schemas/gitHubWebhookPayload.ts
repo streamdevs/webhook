@@ -1,6 +1,6 @@
-import { object, string, array, boolean } from '@hapi/joi';
+import { object, string, array, boolean, Schema } from '@hapi/joi';
 
-export function gitHubWebhookPayload() {
+export function gitHubWebhookPayload(): Schema {
 	return object({
 		action: string(),
 		hook: object({ events: array().items(string()) }).unknown(),

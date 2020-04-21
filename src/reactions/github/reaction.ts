@@ -11,6 +11,11 @@ export interface ReactionCanHandleOptions {
 	event: string;
 }
 
+export interface ReactionStatus {
+	notified: boolean;
+	message: string;
+}
+
 export abstract class Reaction {
 	public constructor(
 		private twitchChat: TwitchChat,
@@ -21,7 +26,9 @@ export abstract class Reaction {
 	abstract getTwitchChatMessage({ payload }: ReactionHandleOptions): string;
 	abstract canHandle({ payload, event }: ReactionCanHandleOptions): boolean;
 
-	private async notifyStreamlabs({ payload }: ReactionHandleOptions) {
+	private async notifyStreamlabs({
+		payload,
+	}: ReactionHandleOptions): Promise<ReactionStatus> {
 		try {
 			const message = this.getStreamLabsMessage({ payload });
 			await this.streamlabs.alert({
@@ -42,7 +49,9 @@ export abstract class Reaction {
 		}
 	}
 
-	private async notifyTwitch({ payload }: ReactionHandleOptions) {
+	private async notifyTwitch({
+		payload,
+	}: ReactionHandleOptions): Promise<ReactionStatus> {
 		try {
 			const message = this.getTwitchChatMessage({ payload });
 			await this.twitchChat.send(message);
@@ -61,7 +70,12 @@ export abstract class Reaction {
 		}
 	}
 
-	public async handle({ payload }: ReactionHandleOptions) {
+	public async handle({
+		payload,
+	}: ReactionHandleOptions): Promise<{
+		streamlabs: ReactionStatus;
+		twitchChat: ReactionStatus;
+	}> {
 		const [streamlabs, twitchChat] = await Promise.all([
 			this.notifyStreamlabs({ payload }),
 			this.notifyTwitch({ payload }),

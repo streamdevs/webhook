@@ -23,7 +23,7 @@ export class StreamLabs {
 		this.logger = logger;
 	}
 
-	async alert({ message }: StreamLabsAlert) {
+	async alert({ message }: StreamLabsAlert): Promise<void> {
 		try {
 			await axios.post(`${this.base}/alerts`, {
 				access_token: this.token,
