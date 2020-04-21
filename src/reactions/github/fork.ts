@@ -1,41 +1,16 @@
-import { StreamLabs } from '../../services/StreamLabs';
-import { TwitchChat } from '../../services/TwitchChat';
-import { ForkPayload } from '../../schemas/github/fork-payload';
+import {ForkPayload} from '../../schemas/github/fork-payload';
+import {Reaction, ReactionCanHandleOptions} from "./reaction";
 
-export class Fork {
-	static canHandle({ event }: { event: string }) {
+export class Fork extends Reaction {
+	canHandle({payload, event}: ReactionCanHandleOptions): boolean {
 		return event === 'fork';
 	}
 
-	constructor(private streamlabs: StreamLabs, private twitchChat: TwitchChat) {}
+	getStreamLabsMessage({payload}: { payload: ForkPayload }): string {
+		return `*${payload.forkee.owner.login}* just forked 🍴 *${payload.repository.full_name}*`;
+	}
 
-	async handle({ payload }: { payload: ForkPayload }) {
-		const {
-			repository: { full_name: repositoryFullName, html_url: repositoryUrl },
-			forkee: {
-				owner: { login: ownerLogin },
-			},
-		} = payload;
-
-		const streamLabsMessage = `*${ownerLogin}* just forked 🍴 *${repositoryFullName}*`;
-		const twitchChatMessage = `*${ownerLogin}* just forked 🍴 ${repositoryUrl}`;
-
-		await this.streamlabs.alert({
-			message: streamLabsMessage,
-		});
-		await this.twitchChat.send(
-			`*${ownerLogin}* just forked 🍴 ${repositoryUrl}`,
-		);
-
-		return {
-			twitchChat: {
-				message: twitchChatMessage,
-				notified: true,
-			},
-			streamLabs: {
-				message: streamLabsMessage,
-				notified: true,
-			},
-		};
+	getTwitchChatMessage({payload}: { payload: ForkPayload }): string {
+		return `*${payload.forkee.owner.login}* just forked 🍴 ${payload.repository.html_url}`;
 	}
 }
