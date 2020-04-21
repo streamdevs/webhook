@@ -1,7 +1,7 @@
 import { StreamLabs } from '../../../src/services/StreamLabs';
 import { TwitchChat } from '../../../src/services/TwitchChat';
-import {ForkPayload} from "../../../src/schemas/github/fork-payload";
-import {Fork} from "../../../src/reactions/github";
+import { ForkPayload } from '../../../src/schemas/github/fork-payload';
+import { Fork } from '../../../src/reactions/github';
 
 describe('Fork', () => {
 	let payload: ForkPayload;
@@ -14,7 +14,7 @@ describe('Fork', () => {
 		payload = {
 			repository: {
 				full_name: 'streamdevs/webhook',
-				html_url: 'https://github.com/streamdevs/webhook'
+				html_url: 'https://github.com/streamdevs/webhook',
 			},
 			forkee: {
 				owner: {
@@ -28,7 +28,6 @@ describe('Fork', () => {
 	});
 
 	describe('#handle', () => {
-
 		it('calls StreamLabs with the expected message', async () => {
 			const subject = new Fork(twitchChat, streamlabs);
 
@@ -80,7 +79,7 @@ describe('Fork', () => {
 			});
 
 			expect(response).toEqual({
-				message:`*${payload.forkee.owner.login}* just forked 🍴 ${payload.repository.html_url}`,
+				message: `*${payload.forkee.owner.login}* just forked 🍴 ${payload.repository.html_url}`,
 				notified: true,
 			});
 		});
@@ -116,7 +115,7 @@ describe('Fork', () => {
 		it('returns true if the event is fork', () => {
 			const subject = new Fork(null as any, null as any);
 
-			const result = subject.canHandle({payload, event: 'fork'});
+			const result = subject.canHandle({ payload, event: 'fork' });
 
 			expect(result).toEqual(true);
 		});
@@ -124,7 +123,7 @@ describe('Fork', () => {
 		it('returns false if the event is not fork', () => {
 			const subject = new Fork(null as any, null as any);
 
-			const result = subject.canHandle({payload: null, event: 'ping'});
+			const result = subject.canHandle({ payload: null, event: 'ping' });
 
 			expect(result).toEqual(false);
 		});
