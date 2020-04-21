@@ -5,7 +5,7 @@
 		"test": "jest",
 		"test:watch": "jest --watch",
 		"start": "node dist/src/index.js",
-		"ci:lint": "eslint --ext .js --ignore-path .gitignore .",
+		"ci:lint": "eslint --ext .ts --ignore-path .gitignore .",
 		"ci:format": "prettier --ignore-path .gitignore -l .",
 		"lint": "yarn ci:lint --fix",
 		"format": "yarn ci:format --write",
