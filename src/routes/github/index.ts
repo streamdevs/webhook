@@ -1,15 +1,13 @@
-const { gitHubWebhookPayload } = require('../../schemas/gitHubWebhookPayload');
-const { gitHubWebhookHeaders } = require('../../schemas/gitHubWebhookHeaders');
-const { StreamLabs } = require('../../services/StreamLabs');
-const { TwitchChat } = require('../../services/TwitchChat');
+import { gitHubWebhookPayload } from '../../schemas/gitHubWebhookPayload';
+import { gitHubWebhookHeaders } from '../../schemas/gitHubWebhookHeaders';
+import { StreamLabs } from '../../services/StreamLabs';
+import { TwitchChat } from '../../services/TwitchChat';
+import { Config } from '../../config';
 
-const { Fork } = require('../../reactions/github');
+import { Fork } from '../../reactions/github';
+import { Request, ResponseToolkit } from '@hapi/hapi';
 
-/**
- *
- * @param {any} config
- */
-const routes = (config) => [
+export const routes = (config: Config) => [
 	{
 		method: 'POST',
 		path: '/github',
@@ -19,39 +17,40 @@ const routes = (config) => [
 				payload: gitHubWebhookPayload(),
 			},
 		},
-		handler: async (request, h) => {
-			const { payload, headers } = request;
+		handler: async (request: Request, h: ResponseToolkit) => {
+			const { payload, headers } = request as { payload: any; headers: any };
 			const event = headers['x-github-event'];
 			const {
 				repository: { full_name: repositoryFullName },
 			} = payload;
+
 			const streamlabs = new StreamLabs(
-				{ token: config.STREAMLABS_TOKEN },
+				{ token: config.STREAMLABS_TOKEN || '' },
 				request,
 			);
 			const twitchChat = new TwitchChat({
-				botName: config.TWITCH_BOT_NAME,
-				botToken: config.TWITCH_BOT_TOKEN,
-				channel: config.TWITCH_BOT_CHANNEL,
+				botName: config.TWITCH_BOT_NAME || '',
+				botToken: config.TWITCH_BOT_TOKEN || '',
+				channel: config.TWITCH_BOT_CHANNEL || '',
 			});
 
 			if (
 				event === 'ping' &&
-				(request.payload.hook.events.includes('star') ||
-					request.payload.hook.events.includes('pull_request') ||
-					request.payload.hook.events.includes('fork'))
+				(payload.hook.events.includes('star') ||
+					payload.hook.events.includes('pull_request') ||
+					payload.hook.events.includes('fork'))
 			) {
 				await streamlabs.alert({
-					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *${request.payload.hook.events}* events 🎉`,
+					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *${payload.hook.events}* events 🎉`,
 				});
 				await twitchChat.send(
-					`🎉 Your repo ${repositoryFullName} is configured correctly for ${request.payload.hook.events} events 🎉`,
+					`🎉 Your repo ${repositoryFullName} is configured correctly for ${payload.hook.events} events 🎉`,
 				);
 
 				return h.response().code(200);
 			}
 
-			if (event === 'star' && request.payload.action === 'created') {
+			if (event === 'star' && payload.action === 'created') {
 				const {
 					sender: { login: senderLogin },
 					repository: { html_url },
@@ -65,7 +64,7 @@ const routes = (config) => [
 				return h.response().code(200);
 			}
 
-			if (event === 'pull_request' && request.payload.action === 'opened') {
+			if (event === 'pull_request' && payload.action === 'opened') {
 				const {
 					repository: { html_url },
 					pull_request: {
@@ -119,7 +118,3 @@ const routes = (config) => [
 		},
 	},
 ];
-
-module.exports = {
-	routes,
-};
