@@ -22,5 +22,10 @@ module.exports = {
 	parserOptions: {
 		ecmaVersion: 2018,
 	},
-	rules: {},
+	rules: {
+		"camelcase": "off",
+		"@typescript-eslint/camelcase": ["error", {
+			"properties": "never"
+		}]
+	},
 };
