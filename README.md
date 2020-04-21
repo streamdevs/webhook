@@ -9,7 +9,9 @@
 ![license](https://img.shields.io/github/license/streamdevs/webhook.svg)
 ![Node.js CI](https://github.com/streamdevs/webhook/workflows/Node.js%20CI/badge.svg)
 
-A webhook to forward GitHub events to StreamLabs custom messages
+A webhook to forward GitHub events to StreamLabs Alerts and Twitch Chat.
+
+![Apr-21-2020 9-18-24 PM](https://user-images.githubusercontent.com/7255298/79904917-bc816e00-8415-11ea-98ca-7525b169ef49.gif)
 
 ## Deploy to Heroku
 
