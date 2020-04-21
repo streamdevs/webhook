@@ -84,7 +84,7 @@ describe("GitHub 'star' event", () => {
 			});
 
 			expect(spyTwitchChat).toHaveBeenCalledWith(
-				`${payload.sender.login} just starred ${payload.repository.html_url}`,
+				`*${payload.sender.login}* just starred ${payload.repository.html_url}`,
 			);
 		});
 
