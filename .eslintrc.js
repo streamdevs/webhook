@@ -25,7 +25,8 @@ module.exports = {
 	rules: {
 		"camelcase": "off",
 		"@typescript-eslint/camelcase": ["error", {
-			"properties": "never"
+			"properties": "never",
+			"ignoreDestructuring": true
 		}]
 	},
 };
