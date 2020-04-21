@@ -10,10 +10,10 @@ describe('POST /github', () => {
 
 		beforeEach(() => {
 			spyStreamLabs = jest.spyOn(StreamLabs.prototype, 'alert');
-			spyStreamLabs.mockImplementationOnce(async () => {});
+			spyStreamLabs.mockImplementationOnce(jest.fn());
 
 			spyTwitchChat = jest.spyOn(TwitchChat.prototype, 'send');
-			spyTwitchChat.mockImplementationOnce(async () => {});
+			spyTwitchChat.mockImplementationOnce(jest.fn());
 		});
 
 		describe('StreamLabs alerts', () => {
