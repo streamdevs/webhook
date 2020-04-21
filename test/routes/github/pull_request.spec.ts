@@ -129,7 +129,7 @@ describe('POST /github', () => {
 				});
 
 				expect(spyTwitchChat).toHaveBeenCalledWith(
-					`${pullRequestLogin} just opened a pull request in ${repositoryUrl}`,
+					`*${pullRequestLogin}* just opened a pull request in ${repositoryUrl}`,
 				);
 			});
 
@@ -154,7 +154,7 @@ describe('POST /github', () => {
 				});
 
 				expect(spyTwitchChat).toHaveBeenCalledWith(
-					`The pull request from ${pullRequestLogin} has been merged into ${repositoryUrl}`,
+					`The pull request from *${pullRequestLogin}* has been merged into ${repositoryUrl}`,
 				);
 			});
 

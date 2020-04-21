@@ -4,7 +4,7 @@ import { StreamLabs } from '../../services/StreamLabs';
 import { TwitchChat } from '../../services/TwitchChat';
 import { Config } from '../../config';
 
-import { Fork } from '../../reactions/github';
+import { reactionBuild } from '../../reactions/github';
 import { Request, ResponseToolkit } from '@hapi/hapi';
 
 export const routes = (config: Config) => [
@@ -20,9 +20,6 @@ export const routes = (config: Config) => [
 		handler: async (request: Request, h: ResponseToolkit) => {
 			const { payload, headers } = request as { payload: any; headers: any };
 			const event = headers['x-github-event'];
-			const {
-				repository: { full_name: repositoryFullName },
-			} = payload;
 
 			const streamlabs = new StreamLabs(
 				{ token: config.STREAMLABS_TOKEN || '' },
@@ -34,86 +31,21 @@ export const routes = (config: Config) => [
 				channel: config.TWITCH_BOT_CHANNEL || '',
 			});
 
-			if (
-				event === 'ping' &&
-				(payload.hook.events.includes('star') ||
-					payload.hook.events.includes('pull_request') ||
-					payload.hook.events.includes('fork'))
-			) {
-				await streamlabs.alert({
-					message: `🎉 Your repo *${repositoryFullName}* is configured correctly for *${payload.hook.events}* events 🎉`,
-				});
-				await twitchChat.send(
-					`🎉 Your repo ${repositoryFullName} is configured correctly for ${payload.hook.events} events 🎉`,
-				);
+			const reactions = reactionBuild({
+				twitchChat,
+				streamlabs,
+			}).filter((reaction) => reaction.canHandle({ event, payload }));
 
-				return h.response().code(200);
-			}
-
-			if (event === 'star' && payload.action === 'created') {
-				const {
-					sender: { login: senderLogin },
-					repository: { html_url },
-				} = payload;
-
-				await streamlabs.alert({
-					message: `*${senderLogin}* just starred *${repositoryFullName}*`,
-				});
-				await twitchChat.send(`${senderLogin} just starred ${html_url}`);
-
-				return h.response().code(200);
-			}
-
-			if (event === 'pull_request' && payload.action === 'opened') {
-				const {
-					repository: { html_url },
-					pull_request: {
-						user: { login },
-					},
-				} = payload;
-
-				await streamlabs.alert({
-					message: `*${login}* just opened a pull request in *${repositoryFullName}*`,
-				});
-				await twitchChat.send(
-					`${login} just opened a pull request in ${html_url}`,
-				);
-
-				return h.response().code(200);
-			}
-
-			if (
-				event === 'pull_request' &&
-				payload.action === 'closed' &&
-				payload.pull_request.merged
-			) {
-				const {
-					repository: { html_url },
-					pull_request: {
-						user: { login },
-					},
-				} = payload;
-
-				await streamlabs.alert({
-					message: `The pull request from *${login}* has been merged into *${repositoryFullName}*`,
-				});
-				await twitchChat.send(
-					`The pull request from ${login} has been merged into ${html_url}`,
-				);
-			}
-
-			const forkReaction = new Fork(twitchChat, streamlabs);
-			if (forkReaction.canHandle({ payload, event })) {
-				const status = forkReaction.handle({ payload });
-
+			if (reactions.length === 0) {
 				return h.response({
-					message: `Event ${event} handled correctly`,
-					status,
+					message: `Ignoring event: '${event}'`,
 				});
 			}
 
 			return h.response({
-				message: `Ignoring event: '${event}'`,
+				messages: await Promise.all(
+					reactions.map((reaction) => reaction.handle({ payload })),
+				),
 			});
 		},
 	},

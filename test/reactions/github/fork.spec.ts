@@ -1,7 +1,7 @@
 import { StreamLabs } from '../../../src/services/StreamLabs';
 import { TwitchChat } from '../../../src/services/TwitchChat';
 import { ForkPayload } from '../../../src/schemas/github/fork-payload';
-import { Fork } from '../../../src/reactions/github';
+import { Fork } from '../../../src/reactions/github/fork';
 
 describe('Fork', () => {
 	let payload: ForkPayload;
