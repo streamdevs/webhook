@@ -7,7 +7,7 @@ import { Config } from '../../config';
 import { Fork } from '../../reactions/github';
 import { Request, ResponseToolkit } from '@hapi/hapi';
 
-const routes = (config: Config) => [
+export const routes = (config: Config) => [
 	{
 		method: 'POST',
 		path: '/github',
@@ -118,7 +118,3 @@ const routes = (config: Config) => [
 		},
 	},
 ];
-
-module.exports = {
-	routes,
-};
