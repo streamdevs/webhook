@@ -21,7 +21,7 @@ export class TwitchChat {
 		});
 	}
 
-	async send(text: string) {
+	async send(text: string): Promise<void> {
 		await this.client.connect();
 		await this.client.say(this.config.channel, text);
 		await this.client.disconnect();

@@ -14,7 +14,7 @@ describe('StreamLabs', () => {
 	describe('#alert', () => {
 		let axiosSpy: jest.SpyInstance<Promise<unknown>>;
 
-		const setupDefaultAxiosSpy = () => {
+		const setupDefaultAxiosSpy = (): void => {
 			axiosSpy = jest.spyOn(axios, 'post');
 			nock('https://streamlabs.com').post('/api/v1.0/alerts').reply(200);
 		};

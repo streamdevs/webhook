@@ -5,9 +5,14 @@ import { TwitchChat } from '../../services/TwitchChat';
 import { Config } from '../../config';
 
 import { reactionBuild } from '../../reactions/github';
-import { Request, ResponseToolkit } from '@hapi/hapi';
+import {
+	Request,
+	ResponseObject,
+	ResponseToolkit,
+	ServerRoute,
+} from '@hapi/hapi';
 
-export const routes = (config: Config) => [
+export const routes = (config: Config): ServerRoute[] => [
 	{
 		method: 'POST',
 		path: '/github',
@@ -17,7 +22,10 @@ export const routes = (config: Config) => [
 				payload: gitHubWebhookPayload(),
 			},
 		},
-		handler: async (request: Request, h: ResponseToolkit) => {
+		handler: async (
+			request: Request,
+			h: ResponseToolkit,
+		): Promise<ResponseObject> => {
 			const { payload, headers } = request as { payload: any; headers: any };
 			const event = headers['x-github-event'];
 

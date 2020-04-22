@@ -2,7 +2,7 @@ import { ForkPayload } from '../../schemas/github/fork-payload';
 import { Reaction, ReactionCanHandleOptions } from './reaction';
 
 export class Fork extends Reaction {
-	canHandle({ payload, event }: ReactionCanHandleOptions): boolean {
+	canHandle({ event }: ReactionCanHandleOptions): boolean {
 		return event === 'fork';
 	}
 

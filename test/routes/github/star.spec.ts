@@ -11,10 +11,10 @@ describe("GitHub 'star' event", () => {
 
 	beforeEach(() => {
 		spyTwitchChat = jest.spyOn(TwitchChat.prototype, 'send');
-		spyTwitchChat.mockImplementationOnce(async () => {});
+		spyTwitchChat.mockImplementationOnce(jest.fn());
 
 		spyStreamLabs = jest.spyOn(StreamLabs.prototype, 'alert');
-		spyStreamLabs.mockImplementationOnce(async () => {});
+		spyStreamLabs.mockImplementationOnce(jest.fn());
 
 		payload = {
 			action: 'created',

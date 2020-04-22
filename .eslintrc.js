@@ -1,11 +1,18 @@
 module.exports = {
+	root: true,
+	parser: '@typescript-eslint/parser',
+	plugins: ['@typescript-eslint'],
 	env: {
 		commonjs: true,
 		es6: true,
 		node: true,
 		jest: true,
 	},
-	extends: 'eslint:recommended',
+	extends: [
+		'eslint:recommended',
+		'plugin:@typescript-eslint/eslint-recommended',
+		'plugin:@typescript-eslint/recommended',
+	],
 	globals: {
 		Atomics: 'readonly',
 		SharedArrayBuffer: 'readonly',
@@ -13,5 +20,13 @@ module.exports = {
 	parserOptions: {
 		ecmaVersion: 2018,
 	},
-	rules: {},
+	rules: {
+		'camelcase': 'off',
+		'@typescript-eslint/camelcase': [
+			'error',
+			{
+				properties: 'never',
+			},
+		],
+	},
 };
