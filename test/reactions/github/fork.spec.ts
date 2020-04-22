@@ -103,7 +103,7 @@ describe('Fork', () => {
 
 	describe('#canHandle', () => {
 		it('returns true if the event is fork', () => {
-			const subject = new Fork(null as any, null as any);
+			const subject = new Fork(twitchChat, streamlabs);
 
 			const result = subject.canHandle({ payload, event: 'fork' });
 
@@ -111,9 +111,9 @@ describe('Fork', () => {
 		});
 
 		it('returns false if the event is not fork', () => {
-			const subject = new Fork(null as any, null as any);
+			const subject = new Fork(twitchChat, streamlabs);
 
-			const result = subject.canHandle({ payload: null, event: 'ping' });
+			const result = subject.canHandle({ payload, event: 'ping' });
 
 			expect(result).toEqual(false);
 		});
