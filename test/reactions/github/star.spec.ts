@@ -1,12 +1,24 @@
 import { Star } from '../../../src/reactions/github/star';
 import { TwitchChat } from '../../../src/services/TwitchChat';
 import { StreamLabs } from '../../../src/services/StreamLabs';
+import { StarPayload } from '../../../src/schemas/github/star-payload';
 
 describe('Star', () => {
+	let twitchChat: TwitchChat;
+	let streamlabs: StreamLabs;
+
+	beforeEach(() => {
+		twitchChat = ({
+			send: jest.fn(),
+		} as unknown) as TwitchChat;
+
+		streamlabs = ({
+			alert: jest.fn(),
+		} as unknown) as StreamLabs;
+	});
+
 	describe('#handle', () => {
-		let payload: any;
-		let twitchChat: TwitchChat;
-		let streamlabs: StreamLabs;
+		let payload: StarPayload;
 
 		beforeEach(() => {
 			payload = {
@@ -84,7 +96,7 @@ describe('Star', () => {
 
 	describe('#canHandle', () => {
 		it('returns true if the event is star and actions is created', () => {
-			const subject = new Star(null as any, null as any);
+			const subject = new Star(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
 				event: 'star',
@@ -95,7 +107,7 @@ describe('Star', () => {
 		});
 
 		it('returns false if the event is star and actions is removed', () => {
-			const subject = new Star(null as any, null as any);
+			const subject = new Star(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
 				event: 'star',
