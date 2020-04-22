@@ -5,7 +5,7 @@ interface StreamLabsConfig {
 }
 
 interface StreamLabsLogger {
-	log: (levels: string[], log: any) => void;
+	log: (levels: string[], log: string | object) => void;
 }
 
 interface StreamLabsAlert {

@@ -1,12 +1,23 @@
 import { PullRequestMerged } from '../../../src/reactions/github/pull-request-merged';
 import { TwitchChat } from '../../../src/services/TwitchChat';
 import { StreamLabs } from '../../../src/services/StreamLabs';
+import { PullRequestPayload } from '../../../src/schemas/github/pull-request-payload';
 
 describe('PullRequestMerged', () => {
+	let streamlabs: StreamLabs;
+	let twitchChat: TwitchChat;
+
+	beforeEach(() => {
+		twitchChat = ({
+			send: jest.fn(),
+		} as unknown) as TwitchChat;
+		streamlabs = ({
+			alert: jest.fn(),
+		} as unknown) as StreamLabs;
+	});
+
 	describe('#handle', () => {
-		let payload: any;
-		let streamlabs: StreamLabs;
-		let twitchChat: TwitchChat;
+		let payload: PullRequestPayload;
 
 		beforeEach(() => {
 			payload = {
@@ -18,13 +29,6 @@ describe('PullRequestMerged', () => {
 				pull_request: { user: { login: 'SantiMA10' }, merged: true },
 				sender: { login: 'pepe' },
 			};
-
-			twitchChat = ({
-				send: jest.fn(),
-			} as unknown) as TwitchChat;
-			streamlabs = ({
-				alert: jest.fn(),
-			} as unknown) as StreamLabs;
 		});
 
 		it("returns 'twitchChat.notified' === false if something goes wrong with TwitchChat", async () => {
@@ -82,44 +86,56 @@ describe('PullRequestMerged', () => {
 
 	describe('#canHandle', () => {
 		it("returns true when the event is 'pull_request' and the payload contains action 'closed' and 'merged' set to 'true'", () => {
-			const subject = new PullRequestMerged(null as any, null as any);
+			const subject = new PullRequestMerged(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
 				event: 'pull_request',
-				payload: { action: 'closed', pull_request: { merged: true } },
+				payload: {
+					action: 'closed',
+					pull_request: { merged: true },
+				} as PullRequestPayload,
 			});
 
 			expect(result).toEqual(true);
 		});
 
 		it("returns false when the event is not 'pull_request'", () => {
-			const subject = new PullRequestMerged(null as any, null as any);
+			const subject = new PullRequestMerged(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
 				event: 'fork',
-				payload: { action: 'closed', pull_request: { merged: true } },
+				payload: {
+					action: 'closed',
+					pull_request: { merged: true },
+				} as PullRequestPayload,
 			});
 
 			expect(result).toEqual(false);
 		});
 
 		it("returns false when the event is 'pull_request' but is not merged", () => {
-			const subject = new PullRequestMerged(null as any, null as any);
+			const subject = new PullRequestMerged(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
 				event: 'pull_request',
-				payload: { action: 'closed', pull_request: { merged: false } },
+				payload: {
+					action: 'closed',
+					pull_request: { merged: false },
+				} as PullRequestPayload,
 			});
 
 			expect(result).toEqual(false);
 		});
 
 		it("returns false when the event is 'pull_request' but the action is not closed", () => {
-			const subject = new PullRequestMerged(null as any, null as any);
+			const subject = new PullRequestMerged(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
 				event: 'pull_request',
-				payload: { action: 'opened', pull_request: { merged: true } },
+				payload: {
+					action: 'opened',
+					pull_request: { merged: true },
+				} as PullRequestPayload,
 			});
 
 			expect(result).toEqual(false);

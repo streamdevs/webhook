@@ -2,6 +2,7 @@ import { initServer } from '../../../src/server';
 import { getConfig } from '../../../src/config';
 import { StreamLabs } from '../../../src/services/StreamLabs';
 import { TwitchChat } from '../../../src/services/TwitchChat';
+import { PingPayload } from '../../../src/schemas/github/ping-payload';
 
 describe('POST /github', () => {
 	describe("GitHub 'ping' event", () => {
@@ -17,8 +18,7 @@ describe('POST /github', () => {
 		});
 
 		describe("with 'fork' events", () => {
-			// FIXME: change any
-			let payload: any;
+			let payload: PingPayload;
 
 			beforeEach(() => {
 				payload = {
@@ -27,6 +27,7 @@ describe('POST /github', () => {
 					},
 					repository: {
 						full_name: 'streamdevs/webhook',
+						html_url: 'https://github.com/streamdevs/webhook',
 					},
 					sender: {
 						login: 'orestes',
@@ -76,8 +77,7 @@ describe('POST /github', () => {
 		});
 
 		describe("with 'pull_request' events", () => {
-			// FIXME: change any
-			let payload: any;
+			let payload: PingPayload;
 
 			beforeEach(() => {
 				payload = {
@@ -86,6 +86,7 @@ describe('POST /github', () => {
 					},
 					repository: {
 						full_name: 'streamdevs/webhook',
+						html_url: 'https://github.com/streamdevs/webhook',
 					},
 					sender: {
 						login: 'orestes',
@@ -133,8 +134,7 @@ describe('POST /github', () => {
 		});
 
 		describe("with 'star' events", () => {
-			// FIXME: change any
-			let payload: any;
+			let payload: PingPayload;
 
 			beforeEach(() => {
 				payload = {
@@ -143,6 +143,7 @@ describe('POST /github', () => {
 					},
 					repository: {
 						full_name: 'streamdevs/webhook',
+						html_url: 'https://github.com/streamdevs/webhook',
 					},
 					sender: {
 						login: 'orestes',
@@ -190,8 +191,7 @@ describe('POST /github', () => {
 		});
 
 		describe("with 'fork', 'star' and 'pull_request' events", () => {
-			// FIXME: change any
-			let payload: any;
+			let payload: PingPayload;
 
 			beforeEach(() => {
 				payload = {
@@ -200,6 +200,7 @@ describe('POST /github', () => {
 					},
 					repository: {
 						full_name: 'streamdevs/webhook',
+						html_url: 'https://github.com/streamdevs/webhook',
 					},
 					sender: {
 						login: 'orestes',

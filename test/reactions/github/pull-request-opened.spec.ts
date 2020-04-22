@@ -1,12 +1,23 @@
 import { PullRequestOpened } from '../../../src/reactions/github/pull-request-opened';
 import { TwitchChat } from '../../../src/services/TwitchChat';
 import { StreamLabs } from '../../../src/services/StreamLabs';
+import { PullRequestPayload } from '../../../src/schemas/github/pull-request-payload';
 
 describe('PullRequestOpened', () => {
+	let streamlabs: StreamLabs;
+	let twitchChat: TwitchChat;
+
+	beforeEach(() => {
+		twitchChat = ({
+			send: jest.fn(),
+		} as unknown) as TwitchChat;
+		streamlabs = ({
+			alert: jest.fn(),
+		} as unknown) as StreamLabs;
+	});
+
 	describe('#handle', () => {
-		let payload: any;
-		let streamlabs: StreamLabs;
-		let twitchChat: TwitchChat;
+		let payload: PullRequestPayload;
 
 		beforeEach(() => {
 			payload = {
@@ -18,13 +29,6 @@ describe('PullRequestOpened', () => {
 				pull_request: { user: { login: 'SantiMA10' } },
 				sender: { login: 'pepe' },
 			};
-
-			twitchChat = ({
-				send: jest.fn(),
-			} as unknown) as TwitchChat;
-			streamlabs = ({
-				alert: jest.fn(),
-			} as unknown) as StreamLabs;
 		});
 
 		it("returns 'twitchChat.notified' === false if something goes wrong with TwitchChat", async () => {
@@ -82,33 +86,33 @@ describe('PullRequestOpened', () => {
 
 	describe('#canHandle', () => {
 		it('returns true if the pull request is opened', () => {
-			const subject = new PullRequestOpened(null as any, null as any);
+			const subject = new PullRequestOpened(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
 				event: 'pull_request',
-				payload: { action: 'opened' },
+				payload: { action: 'opened' } as PullRequestPayload,
 			});
 
 			expect(result).toEqual(true);
 		});
 
 		it('returns false if the event is not pull request', () => {
-			const subject = new PullRequestOpened(null as any, null as any);
+			const subject = new PullRequestOpened(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
 				event: 'fork',
-				payload: { action: 'opened' },
+				payload: { action: 'opened' } as PullRequestPayload,
 			});
 
 			expect(result).toEqual(false);
 		});
 
 		it('returns false if the pull request is closed', () => {
-			const subject = new PullRequestOpened(null as any, null as any);
+			const subject = new PullRequestOpened(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
 				event: 'pull_request',
-				payload: { action: 'closed' },
+				payload: { action: 'closed' } as PullRequestPayload,
 			});
 
 			expect(result).toEqual(false);

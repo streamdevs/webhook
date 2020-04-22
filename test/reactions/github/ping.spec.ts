@@ -1,21 +1,27 @@
 import { Ping } from '../../../src/reactions/github/ping';
 import { StreamLabs } from '../../../src/services/StreamLabs';
 import { TwitchChat } from '../../../src/services/TwitchChat';
+import { PingPayload } from '../../../src/schemas/github/ping-payload';
 
 describe('Ping', () => {
+	let streamlabs: StreamLabs;
+	let twitchChat: TwitchChat;
+
+	beforeEach(() => {
+		streamlabs = ({ alert: jest.fn() } as unknown) as StreamLabs;
+		twitchChat = ({ send: jest.fn() } as unknown) as TwitchChat;
+	});
+
 	describe('#handle', () => {
-		let streamlabs: StreamLabs;
-		let twitchChat: TwitchChat;
-		let payload: any;
+		let payload: PingPayload;
 
 		beforeEach(() => {
-			streamlabs = ({ alert: jest.fn() } as unknown) as StreamLabs;
-			twitchChat = ({ send: jest.fn() } as unknown) as TwitchChat;
 			payload = {
 				hook: {
 					events: ['fork'],
 				},
 				repository: {
+					html_url: 'https://github.com/streamdevs/webhook',
 					full_name: 'streamdevs/webhook',
 				},
 				sender: {
@@ -109,55 +115,55 @@ describe('Ping', () => {
 
 	describe('#canHandle', () => {
 		it('returns true if the event is ping and the hook.events array contains star', () => {
-			const subject = new Ping(null as any, null as any);
+			const subject = new Ping(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
 				event: 'ping',
-				payload: { hook: { events: ['star'] } },
+				payload: { hook: { events: ['star'] } } as PingPayload,
 			});
 
 			expect(result).toEqual(true);
 		});
 
 		it('returns false if the event is not ping', () => {
-			const subject = new Ping(null as any, null as any);
+			const subject = new Ping(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
 				event: 'fork',
-				payload: { hook: { events: ['star'] } },
+				payload: { hook: { events: ['star'] } } as PingPayload,
 			});
 
 			expect(result).toEqual(false);
 		});
 
 		it('returns false if the hook.events only contains status', () => {
-			const subject = new Ping(null as any, null as any);
+			const subject = new Ping(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
 				event: 'ping',
-				payload: { hook: { events: ['status'] } },
+				payload: { hook: { events: ['status'] } } as PingPayload,
 			});
 
 			expect(result).toEqual(false);
 		});
 
 		it('returns true if the event is ping and the hook.events array contains fork', () => {
-			const subject = new Ping(null as any, null as any);
+			const subject = new Ping(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
 				event: 'ping',
-				payload: { hook: { events: ['fork'] } },
+				payload: { hook: { events: ['fork'] } } as PingPayload,
 			});
 
 			expect(result).toEqual(true);
 		});
 
 		it('returns true if the event is ping and the hook.events array contains pull_request', () => {
-			const subject = new Ping(null as any, null as any);
+			const subject = new Ping(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
 				event: 'ping',
-				payload: { hook: { events: ['pull_request'] } },
+				payload: { hook: { events: ['pull_request'] } } as PingPayload,
 			});
 
 			expect(result).toEqual(true);

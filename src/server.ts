@@ -1,9 +1,9 @@
 import { Server } from '@hapi/hapi';
 import { routes } from './routes/github';
 import laabr from 'laabr';
+import { Config } from './config';
 
-// FIXME: Add config type
-export const initServer = async (config: any): Promise<Server> => {
+export const initServer = async (config: Config): Promise<Server> => {
 	const server = new Server({
 		port: config.port,
 	});

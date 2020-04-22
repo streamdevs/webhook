@@ -1,13 +1,13 @@
 import { StreamLabs } from '../../services/StreamLabs';
 import { TwitchChat } from '../../services/TwitchChat';
+import { WebhookPayload } from '../../schemas/github/webhook-payload';
 
-export interface ReactionHandleOptions {
-	// FIXME: add Payload type
-	payload: any;
+export interface ReactionHandleOptions<P = WebhookPayload> {
+	payload: P;
 }
 
-export interface ReactionCanHandleOptions {
-	payload: any;
+export interface ReactionCanHandleOptions<P = WebhookPayload> {
+	payload: P;
 	event: string;
 }
 
@@ -16,19 +16,19 @@ export interface ReactionStatus {
 	message: string;
 }
 
-export abstract class Reaction {
+export abstract class Reaction<P = WebhookPayload> {
 	public constructor(
 		private twitchChat: TwitchChat,
 		private streamlabs: StreamLabs,
 	) {}
 
-	abstract getStreamLabsMessage({ payload }: ReactionHandleOptions): string;
-	abstract getTwitchChatMessage({ payload }: ReactionHandleOptions): string;
-	abstract canHandle({ payload, event }: ReactionCanHandleOptions): boolean;
+	abstract getStreamLabsMessage({ payload }: ReactionHandleOptions<P>): string;
+	abstract getTwitchChatMessage({ payload }: ReactionHandleOptions<P>): string;
+	abstract canHandle({ payload, event }: ReactionCanHandleOptions<P>): boolean;
 
 	private async notifyStreamlabs({
 		payload,
-	}: ReactionHandleOptions): Promise<ReactionStatus> {
+	}: ReactionHandleOptions<P>): Promise<ReactionStatus> {
 		try {
 			const message = this.getStreamLabsMessage({ payload });
 			await this.streamlabs.alert({
@@ -51,7 +51,7 @@ export abstract class Reaction {
 
 	private async notifyTwitch({
 		payload,
-	}: ReactionHandleOptions): Promise<ReactionStatus> {
+	}: ReactionHandleOptions<P>): Promise<ReactionStatus> {
 		try {
 			const message = this.getTwitchChatMessage({ payload });
 			await this.twitchChat.send(message);
@@ -72,7 +72,7 @@ export abstract class Reaction {
 
 	public async handle({
 		payload,
-	}: ReactionHandleOptions): Promise<{
+	}: ReactionHandleOptions<P>): Promise<{
 		streamlabs: ReactionStatus;
 		twitchChat: ReactionStatus;
 	}> {

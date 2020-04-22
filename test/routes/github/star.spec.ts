@@ -2,12 +2,12 @@ import { initServer } from '../../../src/server';
 import { getConfig } from '../../../src/config';
 import { StreamLabs } from '../../../src/services/StreamLabs';
 import { TwitchChat } from '../../../src/services/TwitchChat';
+import { StarPayload } from '../../../src/schemas/github/star-payload';
 
 describe("GitHub 'star' event", () => {
 	let spyTwitchChat: jest.SpyInstance<Promise<void>>;
 	let spyStreamLabs: jest.SpyInstance<Promise<void>>;
-	// FIXME
-	let payload: any;
+	let payload: StarPayload;
 
 	beforeEach(() => {
 		spyTwitchChat = jest.spyOn(TwitchChat.prototype, 'send');

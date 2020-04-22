@@ -1,10 +1,11 @@
+import { StreamLabs } from '../../services/StreamLabs';
+import { TwitchChat } from '../../services/TwitchChat';
 import { Fork } from './fork';
 import { Ping } from './ping';
 import { PullRequestMerged } from './pull-request-merged';
 import { PullRequestOpened } from './pull-request-opened';
+import { Reaction } from './reaction';
 import { Star } from './star';
-import { TwitchChat } from '../../services/TwitchChat';
-import { StreamLabs } from '../../services/StreamLabs';
 
 export default {
 	Fork,
@@ -20,7 +21,7 @@ export const reactionBuild = ({
 }: {
 	twitchChat: TwitchChat;
 	streamlabs: StreamLabs;
-}) => {
+}): Reaction[] => {
 	return [
 		new Fork(twitchChat, streamlabs),
 		new Ping(twitchChat, streamlabs),

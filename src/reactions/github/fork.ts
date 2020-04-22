@@ -1,16 +1,24 @@
 import { ForkPayload } from '../../schemas/github/fork-payload';
-import { Reaction, ReactionCanHandleOptions } from './reaction';
+import {
+	Reaction,
+	ReactionCanHandleOptions,
+	ReactionHandleOptions,
+} from './reaction';
 
-export class Fork extends Reaction {
-	canHandle({ event }: ReactionCanHandleOptions): boolean {
+export class Fork extends Reaction<ForkPayload> {
+	canHandle({ event }: ReactionCanHandleOptions<ForkPayload>): boolean {
 		return event === 'fork';
 	}
 
-	getStreamLabsMessage({ payload }: { payload: ForkPayload }): string {
+	getStreamLabsMessage({
+		payload,
+	}: ReactionHandleOptions<ForkPayload>): string {
 		return `*${payload.forkee.owner.login}* just forked 🍴 *${payload.repository.full_name}*`;
 	}
 
-	getTwitchChatMessage({ payload }: { payload: ForkPayload }): string {
+	getTwitchChatMessage({
+		payload,
+	}: ReactionHandleOptions<ForkPayload>): string {
 		return `*${payload.forkee.owner.login}* just forked 🍴 ${payload.repository.html_url}`;
 	}
 }
