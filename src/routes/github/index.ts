@@ -11,6 +11,7 @@ import {
 	ResponseToolkit,
 	ServerRoute,
 } from '@hapi/hapi';
+import { WebhookPayload } from '../../schemas/github/webhook-payload';
 
 export const routes = (config: Config): ServerRoute[] => [
 	{
@@ -26,7 +27,10 @@ export const routes = (config: Config): ServerRoute[] => [
 			request: Request,
 			h: ResponseToolkit,
 		): Promise<ResponseObject> => {
-			const { payload, headers } = request as { payload: any; headers: any };
+			const { payload, headers } = (request as unknown) as {
+				payload: WebhookPayload;
+				headers: { 'x-github-event': string };
+			};
 			const event = headers['x-github-event'];
 
 			const streamlabs = new StreamLabs(
