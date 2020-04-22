@@ -1,5 +1,6 @@
 module.exports = {
 	hooks: {
-		'pre-commit': 'yarn format; yarn lint-staged',
+		'pre-commit': 'yarn lint-staged',
+		'post-commit': 'git update-index --again'
 	},
 };
