@@ -90,7 +90,10 @@ describe('PullRequestMerged', () => {
 
 			const result = subject.canHandle({
 				event: 'pull_request',
-				payload: { action: 'closed', pull_request: { merged: true } },
+				payload: {
+					action: 'closed',
+					pull_request: { merged: true },
+				} as PullRequestPayload,
 			});
 
 			expect(result).toEqual(true);
@@ -101,7 +104,10 @@ describe('PullRequestMerged', () => {
 
 			const result = subject.canHandle({
 				event: 'fork',
-				payload: { action: 'closed', pull_request: { merged: true } },
+				payload: {
+					action: 'closed',
+					pull_request: { merged: true },
+				} as PullRequestPayload,
 			});
 
 			expect(result).toEqual(false);
@@ -112,7 +118,10 @@ describe('PullRequestMerged', () => {
 
 			const result = subject.canHandle({
 				event: 'pull_request',
-				payload: { action: 'closed', pull_request: { merged: false } },
+				payload: {
+					action: 'closed',
+					pull_request: { merged: false },
+				} as PullRequestPayload,
 			});
 
 			expect(result).toEqual(false);
@@ -123,7 +132,10 @@ describe('PullRequestMerged', () => {
 
 			const result = subject.canHandle({
 				event: 'pull_request',
-				payload: { action: 'opened', pull_request: { merged: true } },
+				payload: {
+					action: 'opened',
+					pull_request: { merged: true },
+				} as PullRequestPayload,
 			});
 
 			expect(result).toEqual(false);

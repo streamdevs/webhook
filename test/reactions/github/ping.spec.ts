@@ -119,7 +119,7 @@ describe('Ping', () => {
 
 			const result = subject.canHandle({
 				event: 'ping',
-				payload: { hook: { events: ['star'] } },
+				payload: { hook: { events: ['star'] } } as PingPayload,
 			});
 
 			expect(result).toEqual(true);
@@ -130,7 +130,7 @@ describe('Ping', () => {
 
 			const result = subject.canHandle({
 				event: 'fork',
-				payload: { hook: { events: ['star'] } },
+				payload: { hook: { events: ['star'] } } as PingPayload,
 			});
 
 			expect(result).toEqual(false);
@@ -141,7 +141,7 @@ describe('Ping', () => {
 
 			const result = subject.canHandle({
 				event: 'ping',
-				payload: { hook: { events: ['status'] } },
+				payload: { hook: { events: ['status'] } } as PingPayload,
 			});
 
 			expect(result).toEqual(false);
@@ -152,7 +152,7 @@ describe('Ping', () => {
 
 			const result = subject.canHandle({
 				event: 'ping',
-				payload: { hook: { events: ['fork'] } },
+				payload: { hook: { events: ['fork'] } } as PingPayload,
 			});
 
 			expect(result).toEqual(true);
@@ -163,7 +163,7 @@ describe('Ping', () => {
 
 			const result = subject.canHandle({
 				event: 'ping',
-				payload: { hook: { events: ['pull_request'] } },
+				payload: { hook: { events: ['pull_request'] } } as PingPayload,
 			});
 
 			expect(result).toEqual(true);

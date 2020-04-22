@@ -90,7 +90,7 @@ describe('PullRequestOpened', () => {
 
 			const result = subject.canHandle({
 				event: 'pull_request',
-				payload: { action: 'opened' },
+				payload: { action: 'opened' } as PullRequestPayload,
 			});
 
 			expect(result).toEqual(true);
@@ -101,7 +101,7 @@ describe('PullRequestOpened', () => {
 
 			const result = subject.canHandle({
 				event: 'fork',
-				payload: { action: 'opened' },
+				payload: { action: 'opened' } as PullRequestPayload,
 			});
 
 			expect(result).toEqual(false);
@@ -112,7 +112,7 @@ describe('PullRequestOpened', () => {
 
 			const result = subject.canHandle({
 				event: 'pull_request',
-				payload: { action: 'closed' },
+				payload: { action: 'closed' } as PullRequestPayload,
 			});
 
 			expect(result).toEqual(false);

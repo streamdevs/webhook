@@ -100,7 +100,7 @@ describe('Star', () => {
 
 			const result = subject.canHandle({
 				event: 'star',
-				payload: { action: 'created' },
+				payload: { action: 'created' } as StarPayload,
 			});
 
 			expect(result).toEqual(true);
@@ -111,7 +111,7 @@ describe('Star', () => {
 
 			const result = subject.canHandle({
 				event: 'star',
-				payload: { action: 'removed' },
+				payload: { action: 'removed' } as StarPayload,
 			});
 
 			expect(result).toEqual(false);
