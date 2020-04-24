@@ -1,16 +1,16 @@
-import { StreamLabs } from '../../../src/services/StreamLabs';
-import { TwitchChat } from '../../../src/services/TwitchChat';
-import { ForkPayload } from '../../../src/schemas/github/fork-payload';
 import { Fork } from '../../../src/reactions/github/fork';
+import { ForkPayload } from '../../../src/schemas/github/fork-payload';
+import { StreamLabsMock } from '../../__mocks__/StreamLabs';
+import { TwitchChatMock } from '../../__mocks__/TwitchChat';
 
 describe('Fork', () => {
 	let payload: ForkPayload;
-	let streamlabs: StreamLabs;
-	let twitchChat: TwitchChat;
+	let streamlabs: StreamLabsMock;
+	let twitchChat: TwitchChatMock;
 
 	beforeEach(() => {
-		streamlabs = ({ alert: jest.fn() } as unknown) as StreamLabs;
-		twitchChat = ({ send: jest.fn() } as unknown) as TwitchChat;
+		streamlabs = new StreamLabsMock();
+		twitchChat = new TwitchChatMock();
 		payload = {
 			repository: {
 				full_name: 'streamdevs/webhook',
@@ -75,7 +75,7 @@ describe('Fork', () => {
 		});
 
 		it("returns 'streamlabs.notified' set to false is something goes wrong with StreamLabs", async () => {
-			jest.spyOn(streamlabs, 'alert').mockImplementationOnce(async () => {
+			streamlabs.alert.mockImplementationOnce(async () => {
 				throw new Error('boom');
 			});
 			const subject = new Fork(twitchChat, streamlabs);
@@ -88,7 +88,7 @@ describe('Fork', () => {
 		});
 
 		it("returns 'twitchChat.notified' set to false is something goes wrong with TwitchChat", async () => {
-			jest.spyOn(twitchChat, 'send').mockImplementationOnce(async () => {
+			twitchChat.send.mockImplementationOnce(async () => {
 				throw new Error('boom');
 			});
 			const subject = new Fork(twitchChat, streamlabs);

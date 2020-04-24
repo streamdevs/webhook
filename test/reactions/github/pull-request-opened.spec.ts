@@ -1,19 +1,15 @@
 import { PullRequestOpened } from '../../../src/reactions/github/pull-request-opened';
-import { TwitchChat } from '../../../src/services/TwitchChat';
-import { StreamLabs } from '../../../src/services/StreamLabs';
 import { PullRequestPayload } from '../../../src/schemas/github/pull-request-payload';
+import { StreamLabsMock } from '../../__mocks__/StreamLabs';
+import { TwitchChatMock } from '../../__mocks__/TwitchChat';
 
 describe('PullRequestOpened', () => {
-	let streamlabs: StreamLabs;
-	let twitchChat: TwitchChat;
+	let streamlabs: StreamLabsMock;
+	let twitchChat: TwitchChatMock;
 
 	beforeEach(() => {
-		twitchChat = ({
-			send: jest.fn(),
-		} as unknown) as TwitchChat;
-		streamlabs = ({
-			alert: jest.fn(),
-		} as unknown) as StreamLabs;
+		twitchChat = new TwitchChatMock();
+		streamlabs = new StreamLabsMock();
 	});
 
 	describe('#handle', () => {
@@ -32,11 +28,9 @@ describe('PullRequestOpened', () => {
 		});
 
 		it("returns 'twitchChat.notified' === false if something goes wrong with TwitchChat", async () => {
-			const twitchChat = ({
-				send: jest.fn(async () => {
-					throw new Error('boom');
-				}),
-			} as unknown) as TwitchChat;
+			twitchChat.send.mockImplementationOnce(async () => {
+				throw new Error('boom');
+			});
 			const subject = new PullRequestOpened(twitchChat, streamlabs);
 
 			const {
@@ -47,11 +41,9 @@ describe('PullRequestOpened', () => {
 		});
 
 		it("returns 'streamlabs.notified' === false if something goes wrong with StreamLabs", async () => {
-			const streamlabs = ({
-				alert: jest.fn(async () => {
-					throw new Error('boom');
-				}),
-			} as unknown) as StreamLabs;
+			streamlabs.alert.mockImplementationOnce(async () => {
+				throw new Error('boom');
+			});
 			const subject = new PullRequestOpened(twitchChat, streamlabs);
 
 			const {
