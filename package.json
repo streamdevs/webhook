@@ -8,9 +8,8 @@
 		"ci:lint": "eslint --ext .ts --ignore-path .gitignore .",
 		"ci:format": "prettier --ignore-path .gitignore -l .",
 		"lint": "yarn run ci:lint --fix",
-		"lint:staged": "lint-staged",
+		"lint-format-staged": "lint-staged",
 		"format": "yarn run ci:format --write",
-		"format:staged": "pretty-quick --staged",
 		"build": "yarn compile",
 		"dev": "nodemon src/index.js"
 	},
