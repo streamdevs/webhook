@@ -29,6 +29,11 @@
 			"description": "The Twitch channel name where you want to run the bot.",
 			"value": "",
 			"required": true
+		},
+		"NOTIFY_ASSIGNED_ISSUES_TO": {
+			"description": "A comma-separated list of GitHub user names. Only issues assigned to these users will be notified or leave it empty to receive all notifications.",
+			"value": "",
+			"required": false
 		}
 	}
 }
