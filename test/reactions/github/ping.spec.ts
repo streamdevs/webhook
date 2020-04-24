@@ -1,15 +1,15 @@
 import { Ping } from '../../../src/reactions/github/ping';
-import { StreamLabs } from '../../../src/services/StreamLabs';
-import { TwitchChat } from '../../../src/services/TwitchChat';
 import { PingPayload } from '../../../src/schemas/github/ping-payload';
+import { StreamLabsMock } from '../../__mocks__/StreamLabs';
+import { TwitchChatMock } from '../../__mocks__/TwitchChat';
 
 describe('Ping', () => {
-	let streamlabs: StreamLabs;
-	let twitchChat: TwitchChat;
+	let streamlabs: StreamLabsMock;
+	let twitchChat: TwitchChatMock;
 
 	beforeEach(() => {
-		streamlabs = ({ alert: jest.fn() } as unknown) as StreamLabs;
-		twitchChat = ({ send: jest.fn() } as unknown) as TwitchChat;
+		streamlabs = new StreamLabsMock();
+		twitchChat = new TwitchChatMock();
 	});
 
 	describe('#handle', () => {
@@ -87,7 +87,7 @@ describe('Ping', () => {
 		});
 
 		it("returns 'streamlabs.notified' set to false is something goes wrong with StreamLabs", async () => {
-			jest.spyOn(streamlabs, 'alert').mockImplementationOnce(async () => {
+			streamlabs.alert.mockImplementationOnce(async () => {
 				throw new Error('boom');
 			});
 			const subject = new Ping(twitchChat, streamlabs);
@@ -100,7 +100,7 @@ describe('Ping', () => {
 		});
 
 		it("returns 'twitchChat.notified' set to false is something goes wrong with TwitchChat", async () => {
-			jest.spyOn(twitchChat, 'send').mockImplementationOnce(async () => {
+			twitchChat.send.mockImplementationOnce(async () => {
 				throw new Error('boom');
 			});
 			const subject = new Ping(twitchChat, streamlabs);

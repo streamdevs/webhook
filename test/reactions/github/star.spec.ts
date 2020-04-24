@@ -1,20 +1,15 @@
 import { Star } from '../../../src/reactions/github/star';
-import { TwitchChat } from '../../../src/services/TwitchChat';
-import { StreamLabs } from '../../../src/services/StreamLabs';
 import { StarPayload } from '../../../src/schemas/github/star-payload';
+import { StreamLabsMock } from '../../__mocks__/StreamLabs';
+import { TwitchChatMock } from '../../__mocks__/TwitchChat';
 
 describe('Star', () => {
-	let twitchChat: TwitchChat;
-	let streamlabs: StreamLabs;
+	let twitchChat: TwitchChatMock;
+	let streamlabs: StreamLabsMock;
 
 	beforeEach(() => {
-		twitchChat = ({
-			send: jest.fn(),
-		} as unknown) as TwitchChat;
-
-		streamlabs = ({
-			alert: jest.fn(),
-		} as unknown) as StreamLabs;
+		twitchChat = new TwitchChatMock();
+		streamlabs = new StreamLabsMock();
 	});
 
 	describe('#handle', () => {
@@ -31,22 +26,12 @@ describe('Star', () => {
 					login: 'orestes',
 				},
 			};
-
-			twitchChat = ({
-				send: jest.fn(),
-			} as unknown) as TwitchChat;
-
-			streamlabs = ({
-				alert: jest.fn(),
-			} as unknown) as StreamLabs;
 		});
 
 		it("returns 'twitchChat.notified' set to false if something goes wrong in TwitchChat ", async () => {
-			twitchChat = ({
-				send: jest.fn(async () => {
-					throw new Error('boom');
-				}),
-			} as unknown) as TwitchChat;
+			twitchChat.send.mockImplementationOnce(async () => {
+				throw new Error('boom');
+			});
 			const subject = new Star(twitchChat, streamlabs);
 
 			const {
@@ -68,11 +53,9 @@ describe('Star', () => {
 		});
 
 		it("returns 'streamlabs.notified' set to false if something goes wrong with StreamLabs", async () => {
-			streamlabs = ({
-				alert: jest.fn(async () => {
-					throw new Error('boooom');
-				}),
-			} as unknown) as StreamLabs;
+			streamlabs.alert.mockImplementationOnce(async () => {
+				throw new Error('boooom');
+			});
 			const subject = new Star(twitchChat, streamlabs);
 
 			const {
