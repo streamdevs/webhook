@@ -59,7 +59,10 @@ describe('IssueAssigned', () => {
 
 			const result = subject.canHandle({
 				event: 'issues',
-				payload: { action: 'assigned' } as IssuePayload,
+				payload: {
+					action: 'assigned',
+					assignee: { login: 'SantiMA10' },
+				} as IssuePayload,
 			});
 
 			expect(result).toEqual(true);
@@ -70,7 +73,10 @@ describe('IssueAssigned', () => {
 
 			const result = subject.canHandle({
 				event: 'fork',
-				payload: { action: 'assigned' } as IssuePayload,
+				payload: {
+					action: 'assigned',
+					assignee: { login: 'SantiMA10' },
+				} as IssuePayload,
 			});
 
 			expect(result).toEqual(false);
@@ -81,7 +87,10 @@ describe('IssueAssigned', () => {
 
 			const result = subject.canHandle({
 				event: 'issues',
-				payload: { action: 'opened' } as IssuePayload,
+				payload: {
+					action: 'opened',
+					assignee: { login: 'SantiMA10' },
+				} as IssuePayload,
 			});
 
 			expect(result).toEqual(false);
