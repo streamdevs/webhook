@@ -26,6 +26,9 @@ describe('IssueAssigned', () => {
 				sender: {
 					login: 'orestes',
 				},
+				assignee: {
+					login: 'SantiMA10',
+				},
 			};
 		});
 
@@ -91,7 +94,8 @@ describe('IssueAssigned', () => {
 				event: 'issues',
 				payload: {
 					action: 'assigned',
-					sender: { login: 'pepe' },
+					sender: { login: 'SantiMA10' },
+					assignee: { login: 'pepe' },
 				} as IssuePayload,
 				config: { NOTIFY_ASSIGNED_ISSUES_TO: ['SantiMA10'] } as Config,
 			});
@@ -106,7 +110,8 @@ describe('IssueAssigned', () => {
 				event: 'issues',
 				payload: {
 					action: 'assigned',
-					sender: { login: 'pepe' },
+					sender: { login: 'SantiMA10' },
+					assignee: { login: 'pepe' },
 				} as IssuePayload,
 				config: { NOTIFY_ASSIGNED_ISSUES_TO: [] as string[] } as Config,
 			});

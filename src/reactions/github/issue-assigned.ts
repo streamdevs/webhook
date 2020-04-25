@@ -26,7 +26,7 @@ export class IssueAssigned extends Reaction {
 			payload.action === 'assigned' &&
 			(!config ||
 				config.NOTIFY_ASSIGNED_ISSUES_TO.length === 0 ||
-				config.NOTIFY_ASSIGNED_ISSUES_TO.includes(payload.sender.login))
+				config.NOTIFY_ASSIGNED_ISSUES_TO.includes(payload.assignee.login))
 		);
 	}
 }
