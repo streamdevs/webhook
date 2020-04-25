@@ -3,12 +3,11 @@ import { PingPayload } from '../../schemas/github/ping-payload';
 
 export class Ping extends Reaction<PingPayload> {
 	canHandle({ payload, event }: ReactionCanHandleOptions<PingPayload>): boolean {
+		const compatibleEvents = ['star', 'fork', 'pull_request', 'issues'];
+
 		return (
 			event === 'ping' &&
-			(payload.hook.events.includes('star') ||
-				payload.hook.events.includes('fork') ||
-				payload.hook.events.includes('pull_request') ||
-				payload.hook.events.includes('issues'))
+			payload.hook.events.some((hookEvent) => compatibleEvents.includes(hookEvent))
 		);
 	}
 	getStreamLabsMessage({ payload }: ReactionHandleOptions<PingPayload>): string {
