@@ -38,13 +38,13 @@ export class CheckRun extends Reaction<CheckRunPayload> {
 		const resultUrl = payload.check_run.html_url;
 
 		if (conclusion === 'failure') {
-			return `The build for ${repositoryFullName} just failed 🙃. See ${resultUrl} for details.`;
+			return `/me The build for ${repositoryFullName} just failed 🙃. See ${resultUrl} for details.`;
 		}
 
 		if (conclusion === 'success') {
-			return `${repositoryFullName} built successfully ✨!`;
+			return `/me ${repositoryFullName} built successfully ✨!`;
 		}
 
-		return `The build for ${repositoryFullName} finished with state: 🌰 ${conclusion}. See ${resultUrl} for details.`;
+		return `/me The build for ${repositoryFullName} finished with state: 🌰 ${conclusion}. See ${resultUrl} for details.`;
 	}
 }
