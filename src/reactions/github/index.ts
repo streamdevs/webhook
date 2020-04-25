@@ -8,13 +8,7 @@ import { Reaction } from './reaction';
 import { Star } from './star';
 import { CheckRun } from './check-run';
 
-export default {
-	Fork,
-	Ping,
-	PullRequestMerged,
-	PullRequestOpened,
-	Star,
-};
+export { Fork, Ping, PullRequestMerged, PullRequestOpened, Star, CheckRun };
 
 export const reactionBuild = ({
 	twitchChat,

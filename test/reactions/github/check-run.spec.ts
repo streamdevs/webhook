@@ -3,7 +3,7 @@ import { StreamLabsMock } from '../../__mocks__/StreamLabs';
 import { TwitchChat } from '../../../src/services/TwitchChat';
 import { StreamLabs } from '../../../src/services/StreamLabs';
 
-import { CheckRun } from '../../../src/reactions/github/check-run';
+import { CheckRun } from '../../../src/reactions/github';
 
 import { CheckRunPayload } from '../../../src/schemas/github/check-run-payload';
 
