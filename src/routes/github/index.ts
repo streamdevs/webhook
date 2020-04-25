@@ -5,12 +5,7 @@ import { TwitchChat } from '../../services/TwitchChat';
 import { Config } from '../../config';
 
 import { reactionBuild } from '../../reactions/github';
-import {
-	Request,
-	ResponseObject,
-	ResponseToolkit,
-	ServerRoute,
-} from '@hapi/hapi';
+import { Request, ResponseObject, ResponseToolkit, ServerRoute } from '@hapi/hapi';
 import { WebhookPayload } from '../../schemas/github/webhook-payload';
 
 export const routes = (config: Config): ServerRoute[] => [
@@ -23,20 +18,14 @@ export const routes = (config: Config): ServerRoute[] => [
 				payload: gitHubWebhookPayload(),
 			},
 		},
-		handler: async (
-			request: Request,
-			h: ResponseToolkit,
-		): Promise<ResponseObject> => {
+		handler: async (request: Request, h: ResponseToolkit): Promise<ResponseObject> => {
 			const { payload, headers } = (request as unknown) as {
 				payload: WebhookPayload;
 				headers: { 'x-github-event': string };
 			};
 			const event = headers['x-github-event'];
 
-			const streamlabs = new StreamLabs(
-				{ token: config.STREAMLABS_TOKEN || '' },
-				request,
-			);
+			const streamlabs = new StreamLabs({ token: config.STREAMLABS_TOKEN || '' }, request);
 			const twitchChat = new TwitchChat({
 				botName: config.TWITCH_BOT_NAME || '',
 				botToken: config.TWITCH_BOT_TOKEN || '',
@@ -55,9 +44,7 @@ export const routes = (config: Config): ServerRoute[] => [
 			}
 
 			return h.response({
-				messages: await Promise.all(
-					reactions.map((reaction) => reaction.handle({ payload })),
-				),
+				messages: await Promise.all(reactions.map((reaction) => reaction.handle({ payload }))),
 			});
 		},
 	},
