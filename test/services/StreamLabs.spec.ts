@@ -56,9 +56,7 @@ describe('StreamLabs', () => {
 		});
 
 		it('logs the response body for failed HTTP 401 requests', async () => {
-			nock('https://streamlabs.com')
-				.post('/api/v1.0/alerts')
-				.reply(401, { error: 'boom' });
+			nock('https://streamlabs.com').post('/api/v1.0/alerts').reply(401, { error: 'boom' });
 
 			const spyLogger = { log: jest.fn() };
 			const config = {
@@ -67,9 +65,7 @@ describe('StreamLabs', () => {
 
 			const subject = new StreamLabs(config, spyLogger);
 
-			await expect(subject.alert({ message: 'hello' })).rejects.toEqual(
-				expect.any(Object),
-			);
+			await expect(subject.alert({ message: 'hello' })).rejects.toEqual(expect.any(Object));
 			expect(spyLogger.log).toHaveBeenLastCalledWith(
 				['error', 'streamlabs'],
 				expect.objectContaining({ data: { error: 'boom' } }),
