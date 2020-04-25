@@ -14,5 +14,8 @@ export interface CheckRunPayload extends WebhookPayload {
 			| 'stale'
 			| null;
 		status: 'queued' | 'in_progress' | 'completed';
+		check_suite: {
+			head_branch: string;
+		};
 	};
 }
