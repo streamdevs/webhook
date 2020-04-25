@@ -127,6 +127,29 @@ describe('CheckRun', async () => {
 				`The build for ${repositoryFullName} just failed 🙃`,
 			);
 		});
+		it('generates the appropriate message when the build times out', () => {
+			const subject = new CheckRun(twitchChat, streamLabs);
+			const repositoryFullName = 'streamdevs/webhook';
+			const payload: CheckRunPayload = {
+				action: 'completed',
+				check_run: {
+					html_url: 'https://github.com/Codertocat/Hello-World/runs/128620228',
+					conclusion: 'timed_out',
+					status: 'completed',
+				},
+				repository: {
+					full_name: repositoryFullName,
+					html_url: 'https://github.com/streamdevs/webhook',
+				},
+				sender: {
+					login: 'orestes',
+				},
+			};
+
+			expect(subject.getStreamLabsMessage({ payload })).toEqual(
+				`The build for ${repositoryFullName} finished with state: 🌰 timed_out`,
+			);
+		});
 	});
 	describe('#getTwitchChatMessage', async () => {
 		it('generates the appropriate message when the build is successful', () => {
@@ -173,6 +196,32 @@ describe('CheckRun', async () => {
 
 			expect(subject.getTwitchChatMessage({ payload })).toEqual(
 				`The build for ${repositoryFullName} just failed 🙃. See ${payload.check_run.html_url} for details.`,
+			);
+		});
+		it('generates the appropriate message when the build times out', () => {
+			const subject = new CheckRun(twitchChat, streamLabs);
+			const repositoryFullName = 'streamdevs/webhook';
+			const buildUrl =
+				'https://github.com/Codertocat/Hello-World/runs/128620228';
+
+			const payload: CheckRunPayload = {
+				action: 'completed',
+				check_run: {
+					html_url: buildUrl,
+					conclusion: 'timed_out',
+					status: 'completed',
+				},
+				repository: {
+					full_name: repositoryFullName,
+					html_url: 'https://github.com/streamdevs/webhook',
+				},
+				sender: {
+					login: 'orestes',
+				},
+			};
+
+			expect(subject.getTwitchChatMessage({ payload })).toEqual(
+				`The build for ${repositoryFullName} finished with state: 🌰 timed_out. See ${buildUrl} for details.`,
 			);
 		});
 	});

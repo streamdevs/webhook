@@ -27,7 +27,7 @@ export class CheckRun extends Reaction<CheckRunPayload> {
 			return `${repositoryFullName} built successfully ✨!`;
 		}
 
-		throw new Error(`Unhandled check_run conclusion: ${conclusion}`);
+		return `The build for ${repositoryFullName} finished with state: 🌰 ${conclusion}`;
 	}
 
 	getTwitchChatMessage({
@@ -45,6 +45,6 @@ export class CheckRun extends Reaction<CheckRunPayload> {
 			return `${repositoryFullName} built successfully ✨!`;
 		}
 
-		throw new Error(`Unhandled check_run conclusion: ${conclusion}`);
+		return `The build for ${repositoryFullName} finished with state: 🌰 ${conclusion}. See ${resultUrl} for details.`;
 	}
 }
