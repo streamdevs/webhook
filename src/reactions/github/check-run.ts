@@ -20,14 +20,14 @@ export class CheckRun extends Reaction<CheckRunPayload> {
 		const repositoryFullName = payload.repository.full_name;
 
 		if (conclusion === 'failure') {
-			return `The build for ${repositoryFullName} just failed 🙃`;
+			return `The build for *${repositoryFullName}* just failed 🙃`;
 		}
 
 		if (conclusion === 'success') {
-			return `${repositoryFullName} built successfully ✨!`;
+			return `*${repositoryFullName}* built successfully ✨!`;
 		}
 
-		return `The build for ${repositoryFullName} finished with state: 🌰 ${conclusion}`;
+		return `The build for *${repositoryFullName}* finished with state: 🌰 *${conclusion}*`;
 	}
 
 	getTwitchChatMessage({

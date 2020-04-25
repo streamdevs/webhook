@@ -101,7 +101,7 @@ describe('CheckRun', async () => {
 			};
 
 			expect(subject.getStreamLabsMessage({ payload })).toEqual(
-				`${repositoryFullName} built successfully ✨!`,
+				`*${repositoryFullName}* built successfully ✨!`,
 			);
 		});
 		it('generates the appropriate message when the build fails', () => {
@@ -124,7 +124,7 @@ describe('CheckRun', async () => {
 			};
 
 			expect(subject.getStreamLabsMessage({ payload })).toEqual(
-				`The build for ${repositoryFullName} just failed 🙃`,
+				`The build for *${repositoryFullName}* just failed 🙃`,
 			);
 		});
 		it('generates the appropriate message when the build times out', () => {
@@ -147,7 +147,7 @@ describe('CheckRun', async () => {
 			};
 
 			expect(subject.getStreamLabsMessage({ payload })).toEqual(
-				`The build for ${repositoryFullName} finished with state: 🌰 timed_out`,
+				`The build for *${repositoryFullName}* finished with state: 🌰 *timed_out*`,
 			);
 		});
 	});
