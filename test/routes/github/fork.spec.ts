@@ -61,9 +61,7 @@ describe('POST /github', () => {
 			});
 
 			expect(response.statusCode).toEqual(200);
-			expect(twitchChatSpy).toHaveBeenCalledWith(
-				`*${forkOwner}* just forked 🍴 ${repositoryUrl}`,
-			);
+			expect(twitchChatSpy).toHaveBeenCalledWith(`*${forkOwner}* just forked 🍴 ${repositoryUrl}`);
 		});
 	});
 });

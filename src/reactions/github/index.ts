@@ -1,6 +1,7 @@
 import { StreamLabs } from '../../services/StreamLabs';
 import { TwitchChat } from '../../services/TwitchChat';
 import { Fork } from './fork';
+import { IssueOpened } from './issue-opened';
 import { Ping } from './ping';
 import { PullRequestMerged } from './pull-request-merged';
 import { PullRequestOpened } from './pull-request-opened';
@@ -24,5 +25,6 @@ export const reactionBuild = ({
 		new PullRequestOpened(twitchChat, streamlabs),
 		new Star(twitchChat, streamlabs),
 		new CheckRun(twitchChat, streamlabs),
+		new IssueOpened(twitchChat, streamlabs),
 	];
 };

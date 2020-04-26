@@ -17,18 +17,13 @@ export interface ReactionStatus {
 }
 
 export abstract class Reaction<P = WebhookPayload> {
-	public constructor(
-		private twitchChat: TwitchChat,
-		private streamlabs: StreamLabs,
-	) {}
+	public constructor(private twitchChat: TwitchChat, private streamlabs: StreamLabs) {}
 
 	abstract getStreamLabsMessage({ payload }: ReactionHandleOptions<P>): string;
 	abstract getTwitchChatMessage({ payload }: ReactionHandleOptions<P>): string;
 	abstract canHandle({ payload, event }: ReactionCanHandleOptions<P>): boolean;
 
-	private async notifyStreamlabs({
-		payload,
-	}: ReactionHandleOptions<P>): Promise<ReactionStatus> {
+	private async notifyStreamlabs({ payload }: ReactionHandleOptions<P>): Promise<ReactionStatus> {
 		try {
 			const message = this.getStreamLabsMessage({ payload });
 			await this.streamlabs.alert({
@@ -49,9 +44,7 @@ export abstract class Reaction<P = WebhookPayload> {
 		}
 	}
 
-	private async notifyTwitch({
-		payload,
-	}: ReactionHandleOptions<P>): Promise<ReactionStatus> {
+	private async notifyTwitch({ payload }: ReactionHandleOptions<P>): Promise<ReactionStatus> {
 		try {
 			const message = this.getTwitchChatMessage({ payload });
 			await this.twitchChat.send(message);
