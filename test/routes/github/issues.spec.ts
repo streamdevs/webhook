@@ -1,11 +1,22 @@
-import { initServer } from '../../../src/server';
 import { getConfig } from '../../../src/config';
 import { IssuePayload } from '../../../src/schemas/github/issue-payload';
+import { initServer } from '../../../src/server';
+import { StreamLabs } from '../../../src/services/StreamLabs';
+import { TwitchChat } from '../../../src/services/TwitchChat';
 
 describe('POST /github', () => {
 	let payload: IssuePayload;
 
+	let streamLabsSpy: jest.SpyInstance<Promise<void>>;
+	let twitchChatSpy: jest.SpyInstance<Promise<void>>;
+
 	beforeEach(() => {
+		streamLabsSpy = jest.spyOn(StreamLabs.prototype, 'alert');
+		streamLabsSpy.mockImplementationOnce(jest.fn());
+
+		twitchChatSpy = jest.spyOn(TwitchChat.prototype, 'send');
+		twitchChatSpy.mockImplementationOnce(jest.fn());
+
 		payload = {
 			action: 'assigned',
 			assignee: { login: 'SantiMA10' },
@@ -43,8 +54,8 @@ describe('POST /github', () => {
 		expect(result).toEqual({
 			messages: expect.arrayContaining([
 				{
-					streamlabs: { notified: false, message: '' },
-					twitchChat: { notified: false, message: '' },
+					streamlabs: expect.objectContaining({ notified: true }),
+					twitchChat: expect.objectContaining({ notified: true }),
 				},
 			]),
 		});
