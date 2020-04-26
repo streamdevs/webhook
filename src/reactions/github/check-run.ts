@@ -1,21 +1,12 @@
-import {
-	Reaction,
-	ReactionCanHandleOptions,
-	ReactionHandleOptions,
-} from './reaction';
+import { Reaction, ReactionCanHandleOptions, ReactionHandleOptions } from './reaction';
 import { CheckRunPayload } from '../../schemas/github/check-run-payload';
 
 export class CheckRun extends Reaction<CheckRunPayload> {
-	canHandle({
-		event,
-		payload,
-	}: ReactionCanHandleOptions<CheckRunPayload>): boolean {
+	canHandle({ event, payload }: ReactionCanHandleOptions<CheckRunPayload>): boolean {
 		return event === 'check_run' && payload.check_run.status === 'completed';
 	}
 
-	getStreamLabsMessage({
-		payload,
-	}: ReactionHandleOptions<CheckRunPayload>): string {
+	getStreamLabsMessage({ payload }: ReactionHandleOptions<CheckRunPayload>): string {
 		const conclusion = payload.check_run.conclusion;
 		const repositoryFullName = payload.repository.full_name;
 
@@ -30,9 +21,7 @@ export class CheckRun extends Reaction<CheckRunPayload> {
 		return `The build for *${repositoryFullName}* finished with state: 🌰 *${conclusion}*`;
 	}
 
-	getTwitchChatMessage({
-		payload,
-	}: ReactionHandleOptions<CheckRunPayload>): string {
+	getTwitchChatMessage({ payload }: ReactionHandleOptions<CheckRunPayload>): string {
 		const conclusion = payload.check_run.conclusion;
 		const repositoryFullName = payload.repository.full_name;
 		const resultUrl = payload.check_run.html_url;
