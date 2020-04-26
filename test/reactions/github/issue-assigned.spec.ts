@@ -96,7 +96,7 @@ describe('IssueAssigned', () => {
 			expect(result).toEqual(false);
 		});
 
-		it("returns false if the event is 'issues', the action is 'assigned' but the sender doesn't match with the notification list", () => {
+		it("returns false if the event is 'issues', the action is 'assigned' but the assignee doesn't match with the notification list", () => {
 			const subject = new IssueAssigned(twitchChat, streamlabs);
 
 			const result = subject.canHandle({
