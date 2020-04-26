@@ -5,6 +5,7 @@ export interface Config {
 	TWITCH_BOT_TOKEN?: string;
 	TWITCH_BOT_CHANNEL?: string;
 	port: number | string;
+	NOTIFY_ISSUES_ASSIGNED_TO: string[];
 }
 
 export const getConfig = (): Config => {
@@ -16,6 +17,7 @@ export const getConfig = (): Config => {
 			TWITCH_BOT_TOKEN: '',
 			TWITCH_BOT_CHANNEL: '',
 			port: 8080,
+			NOTIFY_ISSUES_ASSIGNED_TO: [],
 		};
 	}
 
@@ -26,5 +28,6 @@ export const getConfig = (): Config => {
 		TWITCH_BOT_TOKEN: process.env['TWITCH_BOT_TOKEN'],
 		TWITCH_BOT_CHANNEL: process.env['TWITCH_BOT_CHANNEL'],
 		port: process.env['PORT'] || process.env['HTTP_PORT'] || 8080,
+		NOTIFY_ISSUES_ASSIGNED_TO: process.env['NOTIFY_ISSUES_ASSIGNED_TO']?.split(',') || [],
 	};
 };

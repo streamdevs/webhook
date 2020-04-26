@@ -1,6 +1,7 @@
 import { StreamLabs } from '../../services/StreamLabs';
 import { TwitchChat } from '../../services/TwitchChat';
 import { WebhookPayload } from '../../schemas/github/webhook-payload';
+import { Config } from '../../config';
 
 export interface ReactionHandleOptions<P = WebhookPayload> {
 	payload: P;
@@ -9,6 +10,7 @@ export interface ReactionHandleOptions<P = WebhookPayload> {
 export interface ReactionCanHandleOptions<P = WebhookPayload> {
 	payload: P;
 	event: string;
+	config?: Config;
 }
 
 export interface ReactionStatus {
