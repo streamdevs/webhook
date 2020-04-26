@@ -38,7 +38,7 @@ describe('IssueAssigned', () => {
 			await subject.handle({ payload });
 
 			expect(streamlabs.alert).toHaveBeenCalledWith({
-				message: `*${payload.sender.login}* has a new assigned issue in *${payload.repository.full_name}*`,
+				message: `*${payload.assignee?.login}* has a new assigned issue in *${payload.repository.full_name}*`,
 			});
 		});
 
@@ -48,7 +48,7 @@ describe('IssueAssigned', () => {
 			await subject.handle({ payload });
 
 			expect(twitchChat.send).toHaveBeenCalledWith(
-				`*${payload.sender.login}*  has a new assigned issue in ${payload.repository.html_url}`,
+				`/me ${payload.assignee?.login} has a new assigned issue in ${payload.repository.html_url}`,
 			);
 		});
 	});

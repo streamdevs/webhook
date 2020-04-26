@@ -9,13 +9,15 @@ export class IssueAssigned extends Reaction {
 	getStreamLabsMessage({
 		payload,
 	}: ReactionHandleOptions<IssuePayload>): string {
-		return `*${payload.sender.login}* has a new assigned issue in *${payload.repository.full_name}*`;
+		return `*${payload.assignee?.login}* has a new assigned issue in *${payload.repository.full_name}*`;
 	}
+
 	getTwitchChatMessage({
 		payload,
 	}: ReactionHandleOptions<IssuePayload>): string {
-		return `*${payload.sender.login}*  has a new assigned issue in ${payload.repository.html_url}`;
+		return `/me ${payload.assignee?.login} has a new assigned issue in ${payload.repository.html_url}`;
 	}
+
 	canHandle({
 		payload,
 		event,
