@@ -7,7 +7,7 @@ import { CheckRun } from '../../../src/reactions/github';
 
 import { CheckRunPayload } from '../../../src/schemas/github/check-run-payload';
 
-describe('CheckRun', async () => {
+describe('CheckRun', () => {
 	let twitchChat: TwitchChat;
 	let streamLabs: StreamLabs;
 
@@ -15,7 +15,7 @@ describe('CheckRun', async () => {
 		twitchChat = new TwitchChatMock();
 		streamLabs = new StreamLabsMock();
 	});
-	describe('#canHandle', async () => {
+	describe('#canHandle', () => {
 		it('returns true if the action is === completed AND the status is === completed AND conclusion === success', async () => {
 			const subject = new CheckRun(twitchChat, streamLabs);
 			const event = 'check_run';
@@ -25,6 +25,9 @@ describe('CheckRun', async () => {
 					html_url: 'https://github.com/Codertocat/Hello-World/runs/128620228',
 					conclusion: 'success',
 					status: 'completed',
+					check_suite: {
+						head_branch: 'master',
+					},
 				},
 				repository: {
 					full_name: 'streamdevs/webhook',
@@ -46,6 +49,9 @@ describe('CheckRun', async () => {
 					html_url: 'https://github.com/Codertocat/Hello-World/runs/128620228',
 					conclusion: 'failure',
 					status: 'completed',
+					check_suite: {
+						head_branch: 'master',
+					},
 				},
 				repository: {
 					full_name: 'streamdevs/webhook',
@@ -67,6 +73,9 @@ describe('CheckRun', async () => {
 					html_url: 'https://github.com/Codertocat/Hello-World/runs/128620228',
 					conclusion: null,
 					status: 'queued',
+					check_suite: {
+						head_branch: 'master',
+					},
 				},
 				repository: {
 					full_name: 'streamdevs/webhook',
@@ -80,7 +89,7 @@ describe('CheckRun', async () => {
 			expect(subject.canHandle({ event, payload })).toEqual(false);
 		});
 	});
-	describe('#getStreamLabsMessage', async () => {
+	describe('#getStreamLabsMessage', () => {
 		it('generates the appropriate message when the build is successful', () => {
 			const subject = new CheckRun(twitchChat, streamLabs);
 			const repositoryFullName = 'streamdevs/webhook';
@@ -90,6 +99,9 @@ describe('CheckRun', async () => {
 					html_url: 'https://github.com/Codertocat/Hello-World/runs/128620228',
 					conclusion: 'success',
 					status: 'completed',
+					check_suite: {
+						head_branch: 'master',
+					},
 				},
 				repository: {
 					full_name: repositoryFullName,
@@ -113,6 +125,9 @@ describe('CheckRun', async () => {
 					html_url: 'https://github.com/Codertocat/Hello-World/runs/128620228',
 					conclusion: 'failure',
 					status: 'completed',
+					check_suite: {
+						head_branch: 'master',
+					},
 				},
 				repository: {
 					full_name: repositoryFullName,
@@ -136,6 +151,9 @@ describe('CheckRun', async () => {
 					html_url: 'https://github.com/Codertocat/Hello-World/runs/128620228',
 					conclusion: 'timed_out',
 					status: 'completed',
+					check_suite: {
+						head_branch: 'master',
+					},
 				},
 				repository: {
 					full_name: repositoryFullName,
@@ -151,7 +169,7 @@ describe('CheckRun', async () => {
 			);
 		});
 	});
-	describe('#getTwitchChatMessage', async () => {
+	describe('#getTwitchChatMessage', () => {
 		it('generates the appropriate message when the build is successful', () => {
 			const subject = new CheckRun(twitchChat, streamLabs);
 			const repositoryFullName = 'streamdevs/webhook';
@@ -161,6 +179,9 @@ describe('CheckRun', async () => {
 					html_url: 'https://github.com/Codertocat/Hello-World/runs/128620228',
 					conclusion: 'success',
 					status: 'completed',
+					check_suite: {
+						head_branch: 'master',
+					},
 				},
 				repository: {
 					full_name: repositoryFullName,
@@ -184,6 +205,9 @@ describe('CheckRun', async () => {
 					html_url: 'https://github.com/Codertocat/Hello-World/runs/128620228',
 					conclusion: 'failure',
 					status: 'completed',
+					check_suite: {
+						head_branch: 'master',
+					},
 				},
 				repository: {
 					full_name: repositoryFullName,
@@ -210,6 +234,9 @@ describe('CheckRun', async () => {
 					html_url: buildUrl,
 					conclusion: 'timed_out',
 					status: 'completed',
+					check_suite: {
+						head_branch: 'master',
+					},
 				},
 				repository: {
 					full_name: repositoryFullName,
