@@ -7,8 +7,10 @@ export class CheckRun extends Reaction<CheckRunPayload> {
 	}
 
 	getStreamLabsMessage({ payload }: ReactionHandleOptions<CheckRunPayload>): string {
-		const conclusion = payload.check_run.conclusion;
-		const repositoryFullName = payload.repository.full_name;
+		const {
+			check_run: { conclusion },
+			repository: { full_name: repositoryFullName },
+		} = payload;
 
 		if (conclusion === 'failure') {
 			return `The build for *${repositoryFullName}* just failed 🙃`;
@@ -22,9 +24,10 @@ export class CheckRun extends Reaction<CheckRunPayload> {
 	}
 
 	getTwitchChatMessage({ payload }: ReactionHandleOptions<CheckRunPayload>): string {
-		const conclusion = payload.check_run.conclusion;
-		const repositoryFullName = payload.repository.full_name;
-		const resultUrl = payload.check_run.html_url;
+		const {
+			check_run: { conclusion, html_url: resultUrl },
+			repository: { full_name: repositoryFullName },
+		} = payload;
 
 		if (conclusion === 'failure') {
 			return `/me The build for ${repositoryFullName} just failed 🙃. See ${resultUrl} for details.`;
