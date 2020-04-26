@@ -29,6 +29,11 @@
 			"description": "The Twitch channel name where you want to run the bot.",
 			"value": "",
 			"required": true
+		},
+		"NOTIFY_CHECK_RUNS_FOR": {
+			"description": "Comma-separated list of branches to notify Check Runs for. Leave empty to notify for any branch",
+			"value": "",
+			"required": false
 		}
 	}
 }
