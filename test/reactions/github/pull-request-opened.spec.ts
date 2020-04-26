@@ -83,7 +83,10 @@ describe('PullRequestOpened', () => {
 
 			const result = subject.canHandle({
 				event: 'pull_request',
-				payload: { action: 'opened' } as PullRequestPayload,
+				payload: {
+					action: 'opened',
+					sender: { login: 'SantiMA10' },
+				} as PullRequestPayload,
 			});
 
 			expect(result).toEqual(true);
@@ -94,7 +97,10 @@ describe('PullRequestOpened', () => {
 
 			const result = subject.canHandle({
 				event: 'fork',
-				payload: { action: 'opened' } as PullRequestPayload,
+				payload: {
+					action: 'opened',
+					sender: { login: 'SantiMA10' },
+				} as PullRequestPayload,
 			});
 
 			expect(result).toEqual(false);
@@ -105,7 +111,10 @@ describe('PullRequestOpened', () => {
 
 			const result = subject.canHandle({
 				event: 'pull_request',
-				payload: { action: 'closed' } as PullRequestPayload,
+				payload: {
+					action: 'closed',
+					sender: { login: 'SantiMA10' },
+				} as PullRequestPayload,
 			});
 
 			expect(result).toEqual(false);
