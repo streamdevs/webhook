@@ -56,7 +56,7 @@ describe('TwitchChat', () => {
 
 			await subject.send('Hola');
 
-			expect(fakeClient.say).toHaveBeenCalledWith(config.channel, 'Hola');
+			expect(fakeClient.say).toHaveBeenCalledWith(config.channel, '/me Hola');
 		});
 
 		it('calls disconnect after send the message', async () => {

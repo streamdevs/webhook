@@ -48,7 +48,7 @@ describe('IssueAssigned', () => {
 			await subject.handle({ payload });
 
 			expect(twitchChat.send).toHaveBeenCalledWith(
-				`/me ${payload.assignee?.login} has a new assigned issue in ${payload.repository.html_url}`,
+				`${payload.assignee?.login} has a new assigned issue in ${payload.repository.html_url}`,
 			);
 		});
 	});

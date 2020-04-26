@@ -133,7 +133,7 @@ describe('/github', () => {
 					expect.objectContaining({
 						twitchChat: {
 							notified: true,
-							message: '/me streamdevs/webhook built successfully ✨!',
+							message: 'streamdevs/webhook built successfully ✨!',
 						},
 					}),
 				]),

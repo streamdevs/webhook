@@ -44,7 +44,7 @@ describe('Fork', () => {
 			await subject.handle({ payload });
 
 			expect(twitchChat.send).toHaveBeenCalledWith(
-				`*${payload.forkee.owner.login}* just forked 🍴 ${payload.repository.html_url}`,
+				`${payload.forkee.owner.login} just forked 🍴 ${payload.repository.html_url}`,
 			);
 		});
 
@@ -69,7 +69,7 @@ describe('Fork', () => {
 			});
 
 			expect(response).toEqual({
-				message: `*${payload.forkee.owner.login}* just forked 🍴 ${payload.repository.html_url}`,
+				message: `${payload.forkee.owner.login} just forked 🍴 ${payload.repository.html_url}`,
 				notified: true,
 			});
 		});

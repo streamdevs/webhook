@@ -276,7 +276,7 @@ describe('CheckRun', () => {
 			};
 
 			expect(subject.getTwitchChatMessage({ payload })).toEqual(
-				`/me ${repositoryFullName} built successfully ✨!`,
+				`${repositoryFullName} built successfully ✨!`,
 			);
 		});
 		it('generates the appropriate message when the build fails', () => {
@@ -302,7 +302,7 @@ describe('CheckRun', () => {
 			};
 
 			expect(subject.getTwitchChatMessage({ payload })).toEqual(
-				`/me The build for ${repositoryFullName} just failed 🙃. See ${payload.check_run.html_url} for details.`,
+				`The build for ${repositoryFullName} just failed 🙃. See ${payload.check_run.html_url} for details.`,
 			);
 		});
 		it('generates the appropriate message when the build times out', () => {
@@ -330,7 +330,7 @@ describe('CheckRun', () => {
 			};
 
 			expect(subject.getTwitchChatMessage({ payload })).toEqual(
-				`/me The build for ${repositoryFullName} finished with state: 🌰 timed_out. See ${buildUrl} for details.`,
+				`The build for ${repositoryFullName} finished with state: 🌰 timed_out. See ${buildUrl} for details.`,
 			);
 		});
 	});

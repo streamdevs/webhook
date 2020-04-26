@@ -11,6 +11,6 @@ export class Fork extends Reaction<ForkPayload> {
 	}
 
 	getTwitchChatMessage({ payload }: ReactionHandleOptions<ForkPayload>): string {
-		return `*${payload.forkee.owner.login}* just forked 🍴 ${payload.repository.html_url}`;
+		return `${payload.forkee.owner.login} just forked 🍴 ${payload.repository.html_url}`;
 	}
 }

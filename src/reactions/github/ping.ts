@@ -14,6 +14,6 @@ export class Ping extends Reaction<PingPayload> {
 		return `🎉 Your repo *${payload.repository.full_name}* is configured correctly for *${payload.hook.events}* events 🎉`;
 	}
 	getTwitchChatMessage({ payload }: ReactionHandleOptions<PingPayload>): string {
-		return `🎉 Your repo *${payload.repository.full_name}* is configured correctly for *${payload.hook.events}* events 🎉`;
+		return `🎉 Your repo ${payload.repository.full_name} is configured correctly for ${payload.hook.events} events 🎉`;
 	}
 }

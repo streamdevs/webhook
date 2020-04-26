@@ -44,7 +44,7 @@ describe('IssueOpened', () => {
 			await subject.handle({ payload });
 
 			expect(twitchChat.send).toHaveBeenCalledWith(
-				`*${payload.sender.login}* opened a issue in ${payload.repository.html_url}`,
+				`${payload.sender.login} opened a issue in ${payload.repository.html_url}`,
 			);
 		});
 	});

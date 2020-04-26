@@ -71,7 +71,7 @@ describe('POST /github', () => {
 
 				expect(statusCode).toBe(200);
 				expect(spyTwitchChat).toHaveBeenCalledWith(
-					`🎉 Your repo *${payload.repository.full_name}* is configured correctly for *fork* events 🎉`,
+					`🎉 Your repo ${payload.repository.full_name} is configured correctly for fork events 🎉`,
 				);
 			});
 		});
@@ -128,7 +128,7 @@ describe('POST /github', () => {
 				});
 
 				expect(spyTwitchChat).toHaveBeenCalledWith(
-					`🎉 Your repo *${payload.repository.full_name}* is configured correctly for *pull_request* events 🎉`,
+					`🎉 Your repo ${payload.repository.full_name} is configured correctly for pull_request events 🎉`,
 				);
 			});
 		});
@@ -185,7 +185,7 @@ describe('POST /github', () => {
 				});
 
 				expect(spyTwitchChat).toHaveBeenCalledWith(
-					`🎉 Your repo *${payload.repository.full_name}* is configured correctly for *star* events 🎉`,
+					`🎉 Your repo ${payload.repository.full_name} is configured correctly for star events 🎉`,
 				);
 			});
 		});
@@ -242,7 +242,7 @@ describe('POST /github', () => {
 				});
 
 				expect(spyTwitchChat).toHaveBeenCalledWith(
-					`🎉 Your repo *${payload.repository.full_name}* is configured correctly for *star,fork,pull_request* events 🎉`,
+					`🎉 Your repo ${payload.repository.full_name} is configured correctly for star,fork,pull_request events 🎉`,
 				);
 			});
 		});
