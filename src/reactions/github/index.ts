@@ -7,14 +7,9 @@ import { PullRequestMerged } from './pull-request-merged';
 import { PullRequestOpened } from './pull-request-opened';
 import { Reaction } from './reaction';
 import { Star } from './star';
+import { CheckRun } from './check-run';
 
-export default {
-	Fork,
-	Ping,
-	PullRequestMerged,
-	PullRequestOpened,
-	Star,
-};
+export { Fork, Ping, PullRequestMerged, PullRequestOpened, Star, CheckRun };
 
 export const reactionBuild = ({
 	twitchChat,
@@ -29,6 +24,7 @@ export const reactionBuild = ({
 		new PullRequestMerged(twitchChat, streamlabs),
 		new PullRequestOpened(twitchChat, streamlabs),
 		new Star(twitchChat, streamlabs),
+		new CheckRun(twitchChat, streamlabs),
 		new IssueOpened(twitchChat, streamlabs),
 	];
 };

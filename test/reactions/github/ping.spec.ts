@@ -1,4 +1,4 @@
-import { Ping } from '../../../src/reactions/github/ping';
+import { Ping } from '../../../src/reactions/github';
 import { PingPayload } from '../../../src/schemas/github/ping-payload';
 import { StreamLabsMock } from '../../__mocks__/StreamLabs';
 import { TwitchChatMock } from '../../__mocks__/TwitchChat';
@@ -175,6 +175,17 @@ describe('Ping', () => {
 			const result = subject.canHandle({
 				event: 'ping',
 				payload: { hook: { events: ['issues'] } } as PingPayload,
+			});
+
+			expect(result).toEqual(true);
+		});
+
+		it('returns true if the event is ping and the hook.events array contains check_run', () => {
+			const subject = new Ping(twitchChat, streamlabs);
+
+			const result = subject.canHandle({
+				event: 'ping',
+				payload: { hook: { events: ['check_run'] } } as PingPayload,
 			});
 
 			expect(result).toEqual(true);

@@ -3,7 +3,7 @@ import { PingPayload } from '../../schemas/github/ping-payload';
 
 export class Ping extends Reaction<PingPayload> {
 	canHandle({ payload, event }: ReactionCanHandleOptions<PingPayload>): boolean {
-		const compatibleEvents = ['star', 'fork', 'pull_request', 'issues'];
+		const compatibleEvents = ['star', 'fork', 'pull_request', 'issues', 'check_run'];
 
 		return (
 			event === 'ping' &&
