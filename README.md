@@ -37,7 +37,7 @@ We make use of the following environment variables:
 | TWITCH_BOT_NAME           | The account (username) that the chatbot uses to send chat messages.                                                                                                        | **Yes**   | _empty_       |
 | TWITCH_BOT_TOKEN          | The token to authenticate your chatbot. Generate this with https://twitchapps.com/tmi/, while logged in to your chatbot account. The token will be an alphanumeric string. | **Yes**   | _empty_       |
 | TWITCH_BOT_CHANNEL        | The Twitch channel name where you want to run the bot. Usually this is your main Twitch account.                                                                           | **Yes**   | _empty_       |
-| NOTIFY_ASSIGNED_ISSUES_TO | A comma-separated list of GitHub user names. Only issues assigned to these users will be notified or leave it empty to receive all notifications.                          | **No**    | _empty array_ |
+| NOTIFY_ISSUES_ASSIGNED_TO | A comma-separated list of GitHub user names. Only issues assigned to these users will be notified or leave it empty to receive all notifications.                          | **No**    | _empty array_ |
 
 ## Contributing
 

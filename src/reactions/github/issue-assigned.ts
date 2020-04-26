@@ -28,8 +28,8 @@ export class IssueAssigned extends Reaction {
 			payload.action === 'assigned' &&
 			!!payload.assignee &&
 			(!config ||
-				config.NOTIFY_ASSIGNED_ISSUES_TO.length === 0 ||
-				config.NOTIFY_ASSIGNED_ISSUES_TO.includes(payload.assignee.login))
+				config.NOTIFY_ISSUES_ASSIGNED_TO.length === 0 ||
+				config.NOTIFY_ISSUES_ASSIGNED_TO.includes(payload.assignee.login))
 		);
 	}
 }

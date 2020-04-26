@@ -106,7 +106,7 @@ describe('IssueAssigned', () => {
 					sender: { login: 'SantiMA10' },
 					assignee: { login: 'pepe' },
 				} as IssuePayload,
-				config: { NOTIFY_ASSIGNED_ISSUES_TO: ['SantiMA10'] } as Config,
+				config: { NOTIFY_ISSUES_ASSIGNED_TO: ['SantiMA10'] } as Config,
 			});
 
 			expect(result).toEqual(false);
@@ -122,7 +122,7 @@ describe('IssueAssigned', () => {
 					sender: { login: 'SantiMA10' },
 					assignee: { login: 'pepe' },
 				} as IssuePayload,
-				config: { NOTIFY_ASSIGNED_ISSUES_TO: [] as string[] } as Config,
+				config: { NOTIFY_ISSUES_ASSIGNED_TO: [] as string[] } as Config,
 			});
 
 			expect(result).toEqual(true);

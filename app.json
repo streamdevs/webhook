@@ -30,7 +30,7 @@
 			"value": "",
 			"required": true
 		},
-		"NOTIFY_ASSIGNED_ISSUES_TO": {
+		"NOTIFY_ISSUES_ASSIGNED_TO": {
 			"description": "A comma-separated list of GitHub user names. Only issues assigned to these users will be notified or leave it empty to receive all notifications.",
 			"value": "",
 			"required": false
