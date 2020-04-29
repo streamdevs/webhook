@@ -46,7 +46,7 @@ describe('Ping', () => {
 			await subject.handle({ payload });
 
 			expect(twitchChat.send).toHaveBeenCalledWith(
-				`🎉 Your repo *${payload.repository.full_name}* is configured correctly for *fork* events 🎉`,
+				`🎉 Your repo ${payload.repository.full_name} is configured correctly for fork events 🎉`,
 			);
 		});
 
@@ -63,7 +63,7 @@ describe('Ping', () => {
 			});
 
 			expect(response).toEqual({
-				message: `🎉 Your repo *${payload.repository.full_name}* is configured correctly for *pull_request* events 🎉`,
+				message: `🎉 Your repo ${payload.repository.full_name} is configured correctly for pull_request events 🎉`,
 				notified: true,
 			});
 		});

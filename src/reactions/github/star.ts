@@ -11,6 +11,6 @@ export class Star extends Reaction {
 	}
 
 	getTwitchChatMessage({ payload }: ReactionHandleOptions<StarPayload>): string {
-		return `*${payload.sender.login}* just starred ${payload.repository.html_url}`;
+		return `${payload.sender.login} just starred ${payload.repository.html_url}`;
 	}
 }

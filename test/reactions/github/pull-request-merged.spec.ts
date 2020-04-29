@@ -60,7 +60,7 @@ describe('PullRequestMerged', () => {
 
 			expect(response).toEqual({
 				notified: true,
-				message: `The pull request from *${payload.pull_request.user.login}* has been merged into ${payload.repository.html_url}`,
+				message: `The pull request from ${payload.pull_request.user.login} has been merged into ${payload.repository.html_url}`,
 			});
 		});
 

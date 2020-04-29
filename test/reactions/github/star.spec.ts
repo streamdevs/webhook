@@ -47,7 +47,7 @@ describe('Star', () => {
 			const { twitchChat: response } = await subject.handle({ payload });
 
 			expect(response).toEqual({
-				message: `*${payload.sender.login}* just starred ${payload.repository.html_url}`,
+				message: `${payload.sender.login} just starred ${payload.repository.html_url}`,
 				notified: true,
 			});
 		});

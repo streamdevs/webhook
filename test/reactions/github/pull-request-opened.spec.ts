@@ -61,7 +61,7 @@ describe('PullRequestOpened', () => {
 
 			expect(response).toEqual({
 				notified: true,
-				message: `*${payload.pull_request.user.login}* just opened a pull request in ${payload.repository.html_url}`,
+				message: `${payload.pull_request.user.login} just opened a pull request in ${payload.repository.html_url}`,
 			});
 		});
 

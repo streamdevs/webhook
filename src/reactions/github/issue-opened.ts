@@ -6,7 +6,7 @@ export class IssueOpened extends Reaction<IssuePayload> {
 		return `*${payload.sender.login}* opened a issue in *${payload.repository.full_name}*`;
 	}
 	getTwitchChatMessage({ payload }: ReactionHandleOptions<IssuePayload>): string {
-		return `*${payload.sender.login}* opened a issue in ${payload.repository.html_url}`;
+		return `${payload.sender.login} opened a issue in ${payload.repository.html_url}`;
 	}
 	canHandle({ payload, event }: ReactionCanHandleOptions<IssuePayload>): boolean {
 		return event === 'issues' && payload.action === 'opened';

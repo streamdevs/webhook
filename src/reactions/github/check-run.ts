@@ -35,14 +35,14 @@ export class CheckRun extends Reaction<CheckRunPayload> {
 		} = payload;
 
 		if (conclusion === 'failure') {
-			return `/me The build for ${repositoryFullName} just failed 🙃. See ${resultUrl} for details.`;
+			return `The build for ${repositoryFullName} just failed 🙃. See ${resultUrl} for details.`;
 		}
 
 		if (conclusion === 'success') {
-			return `/me ${repositoryFullName} built successfully ✨!`;
+			return `${repositoryFullName} built successfully ✨!`;
 		}
 
-		return `/me The build for ${repositoryFullName} finished with state: 🌰 ${conclusion}. See ${resultUrl} for details.`;
+		return `The build for ${repositoryFullName} finished with state: 🌰 ${conclusion}. See ${resultUrl} for details.`;
 	}
 
 	private isBranchAllowedInConfig(branch: string, config: Config): boolean {
