@@ -19,7 +19,6 @@
 		"axios": "^0.19.2",
 		"dotenv": "^8.2.0",
 		"laabr": "^6.0.2",
-		"lodash": "^4.17.15",
 		"tmi.js": "^1.5.0"
 	},
 	"devDependencies": {
