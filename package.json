@@ -4,7 +4,7 @@
 		"compile:check": "tsc --project . --noEmit",
 		"test": "jest",
 		"test:watch": "jest --watch",
-		"start": "node dist/src/index.js",
+		"start": "node dist/index.js",
 		"ci:lint": "eslint --ext .ts --ignore-path .gitignore .",
 		"ci:format": "prettier --ignore-path .gitignore -l .",
 		"lint": "yarn run ci:lint --fix",
