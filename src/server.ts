@@ -1,5 +1,5 @@
 import { Server } from '@hapi/hapi';
-import { routes } from './routes/github';
+import { routes } from './routes';
 import laabr from 'laabr';
 import { Config } from './config';
 
