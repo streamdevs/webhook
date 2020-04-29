@@ -35,7 +35,7 @@ export const routes = (config: Config): ServerRoute[] => [
 			const reactions = reactionBuild({
 				twitchChat,
 				streamlabs,
-			}).filter((reaction) => reaction.canHandle({ event, payload }));
+			}).filter((reaction) => reaction.canHandle({ event, payload, config }));
 
 			if (reactions.length === 0) {
 				return h.response({

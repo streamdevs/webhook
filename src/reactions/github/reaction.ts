@@ -10,6 +10,7 @@ export interface ReactionHandleOptions<P = WebhookPayload> {
 export interface ReactionCanHandleOptions<P = WebhookPayload> {
 	payload: P;
 	event: string;
+	config?: Config;
 }
 
 export interface ReactionStatus {

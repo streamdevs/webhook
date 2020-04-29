@@ -8,8 +8,18 @@ import { PullRequestOpened } from './pull-request-opened';
 import { Reaction } from './reaction';
 import { Star } from './star';
 import { CheckRun } from './check-run';
+import { IssueAssigned } from './issue-assigned';
 
-export { Fork, Ping, PullRequestMerged, PullRequestOpened, Star, CheckRun };
+export {
+	Fork,
+	Ping,
+	PullRequestMerged,
+	PullRequestOpened,
+	Star,
+	CheckRun,
+	IssueAssigned,
+	IssueOpened,
+};
 
 export const reactionBuild = ({
 	twitchChat,
@@ -26,5 +36,6 @@ export const reactionBuild = ({
 		new Star(twitchChat, streamlabs),
 		new CheckRun(twitchChat, streamlabs),
 		new IssueOpened(twitchChat, streamlabs),
+		new IssueAssigned(twitchChat, streamlabs),
 	];
 };
