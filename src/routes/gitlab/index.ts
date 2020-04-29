@@ -6,11 +6,15 @@ export const routes = (): ServerRoute[] => {
 		{
 			method: 'POST',
 			options: {
-				handler: async (request: Request, h: ResponseToolkit): Promise<ResponseObject> =>
-					h.response().code(200),
 				validate: {
 					headers: gitlabHeader(),
 				},
+			},
+			handler: async (request: Request, h: ResponseToolkit): Promise<ResponseObject> => {
+				const { headers } = request;
+				const event = headers['x-gitlab-event'];
+
+				return h.response({ message: `Ignoring event: '${event}'` }).code(200);
 			},
 			path: '/gitlab',
 		},
