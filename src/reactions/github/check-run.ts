@@ -1,9 +1,14 @@
 import { Reaction, ReactionCanHandleOptions, ReactionHandleOptions } from './reaction';
 import { CheckRunPayload } from '../../schemas/github/check-run-payload';
+import { Config } from '../../config';
 
 export class CheckRun extends Reaction<CheckRunPayload> {
 	canHandle({ event, payload }: ReactionCanHandleOptions<CheckRunPayload>): boolean {
-		return event === 'check_run' && payload.check_run.status === 'completed';
+		return (
+			event === 'check_run' &&
+			payload.check_run.status === 'completed' &&
+			this.isBranchAllowedInConfig(payload.check_run.check_suite.head_branch, this.config)
+		);
 	}
 
 	getStreamLabsMessage({ payload }: ReactionHandleOptions<CheckRunPayload>): string {
@@ -38,5 +43,13 @@ export class CheckRun extends Reaction<CheckRunPayload> {
 		}
 
 		return `/me The build for ${repositoryFullName} finished with state: 🌰 ${conclusion}. See ${resultUrl} for details.`;
+	}
+
+	private isBranchAllowedInConfig(branch: string, config: Config): boolean {
+		if (config.NOTIFY_CHECK_RUNS_FOR.length === 0) {
+			return true; // Allow from any branch
+		}
+
+		return config.NOTIFY_CHECK_RUNS_FOR.includes(branch); // Allow if branch is listed
 	}
 }

@@ -1,7 +1,7 @@
 import { StreamLabs } from '../../services/StreamLabs';
 import { TwitchChat } from '../../services/TwitchChat';
 import { WebhookPayload } from '../../schemas/github/webhook-payload';
-import { Config } from '../../config';
+import { Config, getConfig } from '../../config';
 
 export interface ReactionHandleOptions<P = WebhookPayload> {
 	payload: P;
@@ -19,7 +19,11 @@ export interface ReactionStatus {
 }
 
 export abstract class Reaction<P = WebhookPayload> {
-	public constructor(private twitchChat: TwitchChat, private streamlabs: StreamLabs) {}
+	public constructor(
+		private twitchChat: TwitchChat,
+		private streamlabs: StreamLabs,
+		protected config: Config = getConfig(),
+	) {}
 
 	abstract getStreamLabsMessage({ payload }: ReactionHandleOptions<P>): string;
 	abstract getTwitchChatMessage({ payload }: ReactionHandleOptions<P>): string;

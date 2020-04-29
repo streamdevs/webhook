@@ -6,14 +6,17 @@ import { StreamLabs } from '../../../src/services/StreamLabs';
 import { CheckRun } from '../../../src/reactions/github';
 
 import { CheckRunPayload } from '../../../src/schemas/github/check-run-payload';
+import { Config, getConfig } from '../../../src/config';
 
 describe('CheckRun', () => {
 	let twitchChat: TwitchChat;
 	let streamLabs: StreamLabs;
+	let config: Config;
 
 	beforeEach(() => {
 		twitchChat = new TwitchChatMock();
 		streamLabs = new StreamLabsMock();
+		config = getConfig();
 	});
 	describe('#canHandle', () => {
 		it('returns true if the action is === completed AND the status is === completed AND conclusion === success', async () => {
@@ -66,6 +69,86 @@ describe('CheckRun', () => {
 		});
 		it('returns false if the action is !== completed', async () => {
 			const subject = new CheckRun(twitchChat, streamLabs);
+			const event = 'check_run';
+			const payload: CheckRunPayload = {
+				action: 'created',
+				check_run: {
+					html_url: 'https://github.com/Codertocat/Hello-World/runs/128620228',
+					conclusion: null,
+					status: 'queued',
+					check_suite: {
+						head_branch: 'master',
+					},
+				},
+				repository: {
+					full_name: 'streamdevs/webhook',
+					html_url: 'https://github.com/streamdevs/webhook',
+				},
+				sender: {
+					login: 'orestes',
+				},
+			};
+
+			expect(subject.canHandle({ event, payload })).toEqual(false);
+		});
+
+		it('returns true if the branch is in the configuration branch list', async () => {
+			config.NOTIFY_CHECK_RUNS_FOR = ['master'];
+
+			const subject = new CheckRun(twitchChat, streamLabs, config);
+			const event = 'check_run';
+			const payload: CheckRunPayload = {
+				action: 'completed',
+				check_run: {
+					html_url: 'https://github.com/Codertocat/Hello-World/runs/128620228',
+					conclusion: 'success',
+					status: 'completed',
+					check_suite: {
+						head_branch: 'master',
+					},
+				},
+				repository: {
+					full_name: 'streamdevs/webhook',
+					html_url: 'https://github.com/streamdevs/webhook',
+				},
+				sender: {
+					login: 'orestes',
+				},
+			};
+
+			expect(subject.canHandle({ event, payload })).toEqual(true);
+		});
+		it('returns true if the configuration branch list is empty', async () => {
+			config.NOTIFY_CHECK_RUNS_FOR = [];
+
+			const subject = new CheckRun(twitchChat, streamLabs, config);
+			const event = 'check_run';
+			const payload: CheckRunPayload = {
+				action: 'completed',
+				check_run: {
+					html_url: 'https://github.com/Codertocat/Hello-World/runs/128620228',
+					conclusion: 'success',
+					status: 'completed',
+					check_suite: {
+						head_branch: 'master',
+					},
+				},
+				repository: {
+					full_name: 'streamdevs/webhook',
+					html_url: 'https://github.com/streamdevs/webhook',
+				},
+				sender: {
+					login: 'orestes',
+				},
+			};
+
+			expect(subject.canHandle({ event, payload })).toEqual(true);
+		});
+
+		it('returns false if the branch is not on the configuration branch list', async () => {
+			config.NOTIFY_CHECK_RUNS_FOR = ['develop'];
+
+			const subject = new CheckRun(twitchChat, streamLabs, config);
 			const event = 'check_run';
 			const payload: CheckRunPayload = {
 				action: 'created',
