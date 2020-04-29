@@ -1,6 +1,6 @@
-import { WebhookPayload } from './webhook-payload';
+import { RepositoryWebhookPayload } from './repository-webhook-payload';
 
-export interface ForkPayload extends WebhookPayload {
+export interface ForkPayload extends RepositoryWebhookPayload {
 	forkee: {
 		owner: {
 			login: string;

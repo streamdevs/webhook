@@ -1,6 +1,6 @@
-import { WebhookPayload } from './webhook-payload';
+import { RepositoryWebhookPayload } from './repository-webhook-payload';
 
-export interface CheckRunPayload extends WebhookPayload {
+export interface CheckRunPayload extends RepositoryWebhookPayload {
 	action: 'created' | 'completed' | 'rerequested' | 'requested_action';
 	check_run: {
 		html_url: string;

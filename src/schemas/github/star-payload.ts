@@ -1,5 +1,5 @@
-import { WebhookPayload } from './webhook-payload';
+import { RepositoryWebhookPayload } from './repository-webhook-payload';
 
-export interface StarPayload extends WebhookPayload {
+export interface StarPayload extends RepositoryWebhookPayload {
 	action: string;
 }
