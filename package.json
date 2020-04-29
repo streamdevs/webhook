@@ -19,10 +19,10 @@
 		"axios": "^0.19.2",
 		"dotenv": "^8.2.0",
 		"laabr": "^6.0.2",
-		"lodash": "^4.17.15",
 		"tmi.js": "^1.5.0"
 	},
 	"devDependencies": {
+		"lodash": "^4.17.15",
 		"@types/faker": "^4.1.11",
 		"@types/hapi__hapi": "^19.0.2",
 		"@types/hapi__joi": "^16.0.12",
