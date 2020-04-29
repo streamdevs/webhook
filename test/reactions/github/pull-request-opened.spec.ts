@@ -2,6 +2,7 @@ import { PullRequestOpened } from '../../../src/reactions/github/pull-request-op
 import { PullRequestPayload } from '../../../src/schemas/github/pull-request-payload';
 import { StreamLabsMock } from '../../__mocks__/StreamLabs';
 import { TwitchChatMock } from '../../__mocks__/TwitchChat';
+import { Config } from '../../../src/config';
 
 describe('PullRequestOpened', () => {
 	let streamlabs: StreamLabsMock;
@@ -82,7 +83,10 @@ describe('PullRequestOpened', () => {
 
 			const result = subject.canHandle({
 				event: 'pull_request',
-				payload: { action: 'opened' } as PullRequestPayload,
+				payload: {
+					action: 'opened',
+					sender: { login: 'SantiMA10' },
+				} as PullRequestPayload,
 			});
 
 			expect(result).toEqual(true);
@@ -93,7 +97,10 @@ describe('PullRequestOpened', () => {
 
 			const result = subject.canHandle({
 				event: 'fork',
-				payload: { action: 'opened' } as PullRequestPayload,
+				payload: {
+					action: 'opened',
+					sender: { login: 'SantiMA10' },
+				} as PullRequestPayload,
 			});
 
 			expect(result).toEqual(false);
@@ -104,10 +111,43 @@ describe('PullRequestOpened', () => {
 
 			const result = subject.canHandle({
 				event: 'pull_request',
-				payload: { action: 'closed' } as PullRequestPayload,
+				payload: {
+					action: 'closed',
+					sender: { login: 'SantiMA10' },
+				} as PullRequestPayload,
 			});
 
 			expect(result).toEqual(false);
+		});
+
+		it('returns false if the pull request is opened by someone in the ignore list', () => {
+			const subject = new PullRequestOpened(twitchChat, streamlabs);
+
+			const result = subject.canHandle({
+				event: 'pull_request',
+				payload: {
+					action: 'opened',
+					sender: { login: 'SantiMA10' },
+				} as PullRequestPayload,
+				config: { IGNORE_PR_OPENED_BY: ['SantiMA10'] } as Config,
+			});
+
+			expect(result).toEqual(false);
+		});
+
+		it('returns true if the pull request is opened and the ignore list is empty', () => {
+			const subject = new PullRequestOpened(twitchChat, streamlabs);
+
+			const result = subject.canHandle({
+				event: 'pull_request',
+				payload: {
+					action: 'opened',
+					sender: { login: 'SantiMA10' },
+				} as PullRequestPayload,
+				config: { IGNORE_PR_OPENED_BY: [] as string[] } as Config,
+			});
+
+			expect(result).toEqual(true);
 		});
 	});
 });
