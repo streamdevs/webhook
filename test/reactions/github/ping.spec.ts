@@ -190,5 +190,16 @@ describe('Ping', () => {
 
 			expect(result).toEqual(true);
 		});
+
+		it('returns true if the event is ping and the hook.events array contains sponsorship', () => {
+			const subject = new Ping(twitchChat, streamlabs);
+
+			const result = subject.canHandle({
+				event: 'ping',
+				payload: { hook: { events: ['sponsorship'] } } as PingPayload,
+			});
+
+			expect(result).toEqual(true);
+		});
 	});
 });

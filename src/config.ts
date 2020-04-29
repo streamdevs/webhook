@@ -7,6 +7,7 @@ export interface Config {
 	port: number | string;
 	NOTIFY_CHECK_RUNS_FOR: string[];
 	NOTIFY_ISSUES_ASSIGNED_TO: string[];
+	IGNORE_PR_OPENED_BY: string[];
 }
 
 export const getConfig = (): Config => {
@@ -20,6 +21,7 @@ export const getConfig = (): Config => {
 			port: 8080,
 			NOTIFY_CHECK_RUNS_FOR: [],
 			NOTIFY_ISSUES_ASSIGNED_TO: [],
+			IGNORE_PR_OPENED_BY: [],
 		};
 	}
 
@@ -32,5 +34,6 @@ export const getConfig = (): Config => {
 		port: process.env['PORT'] || process.env['HTTP_PORT'] || 8080,
 		NOTIFY_CHECK_RUNS_FOR: (process.env['NOTIFY_CHECK_RUNS_FOR'] || '').split(','),
 		NOTIFY_ISSUES_ASSIGNED_TO: process.env['NOTIFY_ISSUES_ASSIGNED_TO']?.split(',') || [],
+		IGNORE_PR_OPENED_BY: process.env['IGNORE_PR_OPENED_BY']?.split(',') || [],
 	};
 };
