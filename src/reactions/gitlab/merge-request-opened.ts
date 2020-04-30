@@ -7,6 +7,7 @@ export class MergeRequestOpened extends Reaction<Payload> {
 	getStreamLabsMessage({ payload }: ReactionHandleOptions<Payload>): string {
 		return `*${payload.user.username}* just opened a merge request in *${payload.repository.name}*`;
 	}
+
 	getTwitchChatMessage({ payload }: ReactionHandleOptions<Payload>): string {
 		return `${payload.user.username} just opened a merge request in ${payload.repository.homepage}`;
 	}
