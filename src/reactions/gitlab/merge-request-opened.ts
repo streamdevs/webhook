@@ -1,4 +1,5 @@
-import { Reaction, ReactionHandleOptions, ReactionCanHandleOptions } from '../github/reaction';
+import { Config } from '../../config';
+import { Reaction, ReactionCanHandleOptions, ReactionHandleOptions } from '../github/reaction';
 
 export class MergeRequestOpened extends Reaction<any> {
 	getStreamLabsMessage({ payload }: ReactionHandleOptions<any>): string {
@@ -11,9 +12,15 @@ export class MergeRequestOpened extends Reaction<any> {
 		return (
 			event === 'Merge Request Hook' &&
 			payload.object_attributes.state === 'opened' &&
-			(!config ||
-				!config.IGNORE_PR_OPENED_BY.includes(payload.user.username) ||
-				config.IGNORE_PR_OPENED_BY.length === 0)
+			this.isAllowedByConfig(config, payload)
+		);
+	}
+
+	private isAllowedByConfig(config: Config | undefined, payload: any): boolean {
+		return (
+			!config ||
+			!config.IGNORE_PR_OPENED_BY.includes(payload.user.username) ||
+			config.IGNORE_PR_OPENED_BY.length === 0
 		);
 	}
 }
