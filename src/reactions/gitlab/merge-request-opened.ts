@@ -11,7 +11,9 @@ export class MergeRequestOpened extends Reaction<any> {
 		return (
 			event === 'Merge Request Hook' &&
 			payload.object_attributes.state === 'opened' &&
-			(!config || !config.IGNORE_PR_OPENED_BY.includes(payload.user.username))
+			(!config ||
+				!config.IGNORE_PR_OPENED_BY.includes(payload.user.username) ||
+				config.IGNORE_PR_OPENED_BY.length === 0)
 		);
 	}
 }

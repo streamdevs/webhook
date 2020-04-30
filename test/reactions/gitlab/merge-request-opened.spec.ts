@@ -58,5 +58,17 @@ describe('MergeRequestOpened', () => {
 
 			expect(result).toEqual(false);
 		});
+
+		it("returns true if the event is 'Merge Request Hook', 'object_attributes.state' is 'opened' and the 'IGNORE_PR_OPENED_BY' is empty", () => {
+			const subject = new MergeRequestOpened(twitchChat, streamlabs);
+
+			const result = subject.canHandle({
+				event: 'Merge Request Hook',
+				payload: { object_attributes: { state: 'opened' }, user: { username: 'SantiMA10' } },
+				config: { IGNORE_PR_OPENED_BY: [] as string[] } as Config,
+			});
+
+			expect(result).toEqual(true);
+		});
 	});
 });
