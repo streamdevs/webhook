@@ -1,18 +1,17 @@
 import { Config } from '../../config';
 import { Reaction, ReactionCanHandleOptions, ReactionHandleOptions } from '../github/reaction';
+import { MergeRequestPayload } from '../../schemas/gitlab/merge-request-payload';
 
-type Payload = any;
-
-export class MergeRequestOpened extends Reaction<Payload> {
-	getStreamLabsMessage({ payload }: ReactionHandleOptions<Payload>): string {
+export class MergeRequestOpened extends Reaction<MergeRequestPayload> {
+	getStreamLabsMessage({ payload }: ReactionHandleOptions<MergeRequestPayload>): string {
 		return `*${payload.user.username}* just opened a merge request in *${payload.repository.name}*`;
 	}
 
-	getTwitchChatMessage({ payload }: ReactionHandleOptions<Payload>): string {
+	getTwitchChatMessage({ payload }: ReactionHandleOptions<MergeRequestPayload>): string {
 		return `${payload.user.username} just opened a merge request in ${payload.repository.homepage}`;
 	}
 
-	canHandle({ payload, event, config }: ReactionCanHandleOptions<Payload>): boolean {
+	canHandle({ payload, event, config }: ReactionCanHandleOptions<MergeRequestPayload>): boolean {
 		return (
 			event === 'Merge Request Hook' &&
 			payload.object_attributes.state === 'opened' &&
@@ -20,7 +19,7 @@ export class MergeRequestOpened extends Reaction<Payload> {
 		);
 	}
 
-	private isAllowedByConfig(config: Config | undefined, payload: Payload): boolean {
+	private isAllowedByConfig(config: Config | undefined, payload: MergeRequestPayload): boolean {
 		return (
 			!config ||
 			!config.IGNORE_PR_OPENED_BY.includes(payload.user.username) ||

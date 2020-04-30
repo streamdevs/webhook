@@ -2,6 +2,7 @@ import { StreamLabsMock } from '../../__mocks__/StreamLabs';
 import { TwitchChatMock } from '../../__mocks__/TwitchChat';
 import { MergeRequestOpened } from '../../../src/reactions/gitlab/merge-request-opened';
 import { Config } from '../../../src/config';
+import { MergeRequestPayload } from '../../../src/schemas/gitlab/merge-request-payload';
 
 describe('MergeRequestOpened', () => {
 	const twitchChat = new TwitchChatMock();
@@ -19,7 +20,7 @@ describe('MergeRequestOpened', () => {
 
 			const result = subject.canHandle({
 				event: 'Merge Request Hook',
-				payload: { object_attributes: { state: 'opened' } },
+				payload: { object_attributes: { state: 'opened' } } as MergeRequestPayload,
 			});
 
 			expect(result).toEqual(true);
@@ -30,7 +31,7 @@ describe('MergeRequestOpened', () => {
 
 			const result = subject.canHandle({
 				event: 'Fork',
-				payload: { object_attributes: { state: 'opened' } },
+				payload: { object_attributes: { state: 'opened' } } as MergeRequestPayload,
 			});
 
 			expect(result).toEqual(false);
@@ -41,7 +42,7 @@ describe('MergeRequestOpened', () => {
 
 			const result = subject.canHandle({
 				event: 'Merge Request Hook',
-				payload: { object_attributes: { state: 'merged' } },
+				payload: { object_attributes: { state: 'merged' } } as MergeRequestPayload,
 			});
 
 			expect(result).toEqual(false);
@@ -52,7 +53,10 @@ describe('MergeRequestOpened', () => {
 
 			const result = subject.canHandle({
 				event: 'Merge Request Hook',
-				payload: { object_attributes: { state: 'opened' }, user: { username: 'SantiMA10' } },
+				payload: {
+					object_attributes: { state: 'opened' },
+					user: { username: 'SantiMA10' },
+				} as MergeRequestPayload,
 				config: { IGNORE_PR_OPENED_BY: ['SantiMA10'] } as Config,
 			});
 
@@ -64,7 +68,10 @@ describe('MergeRequestOpened', () => {
 
 			const result = subject.canHandle({
 				event: 'Merge Request Hook',
-				payload: { object_attributes: { state: 'opened' }, user: { username: 'SantiMA10' } },
+				payload: {
+					object_attributes: { state: 'opened' },
+					user: { username: 'SantiMA10' },
+				} as MergeRequestPayload,
 				config: { IGNORE_PR_OPENED_BY: [] as string[] } as Config,
 			});
 
@@ -79,7 +86,7 @@ describe('MergeRequestOpened', () => {
 				object_attributes: { state: 'opened' },
 				user: { username: 'SantiMA10' },
 				repository: { homepage: 'https://gitlab.com/streamlabs/webhook' },
-			};
+			} as MergeRequestPayload;
 
 			const { twitchChat: response } = await subject.handle({ payload });
 
@@ -94,7 +101,7 @@ describe('MergeRequestOpened', () => {
 			const payload = {
 				user: { username: 'SantiMA10' },
 				repository: { name: 'streamdevs/webhook' },
-			};
+			} as MergeRequestPayload;
 
 			const { streamlabs: response } = await subject.handle({ payload });
 
