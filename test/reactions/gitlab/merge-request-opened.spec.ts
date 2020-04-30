@@ -1,6 +1,7 @@
 import { StreamLabsMock } from '../../__mocks__/StreamLabs';
 import { TwitchChatMock } from '../../__mocks__/TwitchChat';
 import { MergeRequestOpened } from '../../../src/reactions/gitlab/merge-request-opened';
+import { Config } from '../../../src/config';
 
 describe('MergeRequestOpened', () => {
 	const twitchChat = new TwitchChatMock();
@@ -41,6 +42,18 @@ describe('MergeRequestOpened', () => {
 			const result = subject.canHandle({
 				event: 'Merge Request Hook',
 				payload: { object_attributes: { state: 'merged' } },
+			});
+
+			expect(result).toEqual(false);
+		});
+
+		it("returns false if the event is 'Merge Request Hook', 'object_attributes.state' is 'opened' but the opener is in the ignore list", () => {
+			const subject = new MergeRequestOpened(twitchChat, streamlabs);
+
+			const result = subject.canHandle({
+				event: 'Merge Request Hook',
+				payload: { object_attributes: { state: 'opened' }, user: { username: 'SantiMA10' } },
+				config: { IGNORE_PR_OPENED_BY: ['SantiMA10'] } as Config,
 			});
 
 			expect(result).toEqual(false);
