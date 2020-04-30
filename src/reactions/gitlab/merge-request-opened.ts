@@ -8,6 +8,6 @@ export class MergeRequestOpened extends Reaction<any> {
 		throw new Error('Method not implemented.');
 	}
 	canHandle({ payload, event }: ReactionCanHandleOptions<any>): boolean {
-		return true;
+		return event === 'Merge Request Hook';
 	}
 }

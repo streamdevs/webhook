@@ -23,5 +23,16 @@ describe('MergeRequestOpened', () => {
 
 			expect(result).toEqual(true);
 		});
+
+		it("returns false if the event is 'Fork' and 'object_attributes.state' is 'opened'", () => {
+			const subject = new MergeRequestOpened(twitchChat, streamlabs);
+
+			const result = subject.canHandle({
+				event: 'Fork',
+				payload: { object_attributes: { state: 'opened' } },
+			});
+
+			expect(result).toEqual(false);
+		});
 	});
 });
