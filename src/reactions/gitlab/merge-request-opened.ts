@@ -8,8 +8,9 @@ export class MergeRequestOpened extends Reaction<Payload> {
 		throw new Error('Method not implemented.');
 	}
 	getTwitchChatMessage({ payload }: ReactionHandleOptions<Payload>): string {
-		throw new Error('Method not implemented.');
+		return `${payload.user.username} just opened a merge request in ${payload.repository.homepage}`;
 	}
+
 	canHandle({ payload, event, config }: ReactionCanHandleOptions<Payload>): boolean {
 		return (
 			event === 'Merge Request Hook' &&

@@ -71,4 +71,22 @@ describe('MergeRequestOpened', () => {
 			expect(result).toEqual(true);
 		});
 	});
+
+	describe('#handle', () => {
+		it('sends the expected message to TwitchChat', async () => {
+			const subject = new MergeRequestOpened(twitchChat, streamlabs);
+			const payload = {
+				object_attributes: { state: 'opened' },
+				user: { username: 'SantiMA10' },
+				repository: { homepage: 'https://gitlab.com/streamlabs/webhook' },
+			};
+
+			const { twitchChat: response } = await subject.handle({ payload });
+
+			expect(response).toEqual({
+				notified: true,
+				message: `${payload.user.username} just opened a merge request in ${payload.repository.homepage}`,
+			});
+		});
+	});
 });
