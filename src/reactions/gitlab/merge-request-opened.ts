@@ -1,14 +1,16 @@
 import { Config } from '../../config';
 import { Reaction, ReactionCanHandleOptions, ReactionHandleOptions } from '../github/reaction';
 
-export class MergeRequestOpened extends Reaction<any> {
-	getStreamLabsMessage({ payload }: ReactionHandleOptions<any>): string {
+type Payload = any;
+
+export class MergeRequestOpened extends Reaction<Payload> {
+	getStreamLabsMessage({ payload }: ReactionHandleOptions<Payload>): string {
 		throw new Error('Method not implemented.');
 	}
-	getTwitchChatMessage({ payload }: ReactionHandleOptions<any>): string {
+	getTwitchChatMessage({ payload }: ReactionHandleOptions<Payload>): string {
 		throw new Error('Method not implemented.');
 	}
-	canHandle({ payload, event, config }: ReactionCanHandleOptions<any>): boolean {
+	canHandle({ payload, event, config }: ReactionCanHandleOptions<Payload>): boolean {
 		return (
 			event === 'Merge Request Hook' &&
 			payload.object_attributes.state === 'opened' &&
@@ -16,7 +18,7 @@ export class MergeRequestOpened extends Reaction<any> {
 		);
 	}
 
-	private isAllowedByConfig(config: Config | undefined, payload: any): boolean {
+	private isAllowedByConfig(config: Config | undefined, payload: Payload): boolean {
 		return (
 			!config ||
 			!config.IGNORE_PR_OPENED_BY.includes(payload.user.username) ||
