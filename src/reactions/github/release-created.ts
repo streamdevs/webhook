@@ -1,12 +1,12 @@
 import { Reaction, ReactionCanHandleOptions, ReactionHandleOptions } from './reaction';
-import { ReleasePayload } from '../../schemas/github/release-payload';
+import { ReleaseCreatedPayload } from '../../schemas/github/release-created-payload';
 
-export class ReleaseCreated extends Reaction<ReleasePayload> {
-	canHandle({ payload, event }: ReactionCanHandleOptions<ReleasePayload>): boolean {
+export class ReleaseCreated extends Reaction<ReleaseCreatedPayload> {
+	canHandle({ payload, event }: ReactionCanHandleOptions<ReleaseCreatedPayload>): boolean {
 		return event === 'release' && payload.action === 'published';
 	}
 
-	getStreamLabsMessage({ payload }: ReactionHandleOptions<ReleasePayload>): string {
+	getStreamLabsMessage({ payload }: ReactionHandleOptions<ReleaseCreatedPayload>): string {
 		const {
 			repository: { full_name: repositoryFullName },
 			release: { tag_name: releaseName },
@@ -15,7 +15,7 @@ export class ReleaseCreated extends Reaction<ReleasePayload> {
 		return `${repositoryFullName} version ${releaseName} has just been released 🚀!`;
 	}
 
-	getTwitchChatMessage({ payload }: ReactionHandleOptions<ReleasePayload>): string {
+	getTwitchChatMessage({ payload }: ReactionHandleOptions<ReleaseCreatedPayload>): string {
 		const {
 			repository: { full_name: repositoryFullName },
 			release: { tag_name: releaseName, html_url: releaseUrl },
