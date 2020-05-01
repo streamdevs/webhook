@@ -12,7 +12,7 @@ export class ReleaseCreated extends Reaction<ReleaseCreatedPayload> {
 			release: { tag_name: releaseName },
 		} = payload;
 
-		return `${repositoryFullName} version ${releaseName} has just been released 🚀!`;
+		return `*${repositoryFullName}* version *${releaseName}* has just been released 🚀!`;
 	}
 
 	getTwitchChatMessage({ payload }: ReactionHandleOptions<ReleaseCreatedPayload>): string {
