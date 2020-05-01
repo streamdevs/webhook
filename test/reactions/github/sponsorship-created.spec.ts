@@ -1,7 +1,7 @@
-import { SponsorshipCreated } from '../../../src/reactions/github/sponsorshipt-created';
 import { SponsorshipPayloadBuilder } from '../../builders/sponsorship-payload-builder';
 import { StreamLabsMock } from '../../__mocks__/StreamLabs';
 import { TwitchChatMock } from '../../__mocks__/TwitchChat';
+import { SponsorshipCreated } from '../../../src/reactions/github/sponsorship-created';
 
 describe('SponsorshipCreated', () => {
 	const streamlabs = new StreamLabsMock();

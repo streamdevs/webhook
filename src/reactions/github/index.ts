@@ -9,6 +9,7 @@ import { Reaction } from './reaction';
 import { Star } from './star';
 import { CheckRun } from './check-run';
 import { IssueAssigned } from './issue-assigned';
+import { SponsorshipCreated } from './sponsorship-created';
 
 export {
 	Fork,
@@ -37,5 +38,6 @@ export const reactionBuild = ({
 		new CheckRun(twitchChat, streamlabs),
 		new IssueOpened(twitchChat, streamlabs),
 		new IssueAssigned(twitchChat, streamlabs),
+		new SponsorshipCreated(twitchChat, streamlabs),
 	];
 };

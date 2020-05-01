@@ -9,7 +9,15 @@ export function gitHubWebhookPayload(): Schema {
 			merged: boolean(),
 		}).unknown(),
 		sender: object({ login: string().required() }).required().unknown(),
-		repository: object({ full_name: string().required() }).required().unknown(),
+		repository: object({ full_name: string().required() }).unknown(),
+		sponsorship: object({
+			sponsorable: object({
+				login: string().required(),
+			}).unknown(),
+			sponsor: object({
+				login: string().required(),
+			}).unknown(),
+		}).unknown(),
 		forkee: object({
 			owner: object({
 				login: string().required(),

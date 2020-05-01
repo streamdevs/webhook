@@ -1,4 +1,6 @@
-export interface SponsorshipPayload {
+import { WebhookPayload } from './webhook-payload';
+
+export interface SponsorshipPayload extends WebhookPayload {
 	action:
 		| 'created'
 		| 'cancelled'
@@ -14,5 +16,4 @@ export interface SponsorshipPayload {
 			login: string;
 		};
 	};
-	sender: { login: string };
 }

@@ -6,7 +6,7 @@ import { Config } from '../../config';
 
 import { reactionBuild } from '../../reactions/github';
 import { Request, ResponseObject, ResponseToolkit, ServerRoute } from '@hapi/hapi';
-import { WebhookPayload } from '../../schemas/github/webhook-payload';
+import { RepositoryWebhookPayload } from '../../schemas/github/repository-webhook-payload';
 
 export const routes = (config: Config): ServerRoute[] => [
 	{
@@ -20,7 +20,7 @@ export const routes = (config: Config): ServerRoute[] => [
 		},
 		handler: async (request: Request, h: ResponseToolkit): Promise<ResponseObject> => {
 			const { payload, headers } = (request as unknown) as {
-				payload: WebhookPayload;
+				payload: RepositoryWebhookPayload;
 				headers: { 'x-github-event': string };
 			};
 			const event = headers['x-github-event'];
