@@ -6,7 +6,7 @@ import { ReleaseCreatedPayloadBuilder } from '../../builders/release-created-pay
 import { ReleaseCreatedPayload } from '../../../src/schemas/github/release-created-payload';
 import { WebhookResponse } from '../../../src/schemas/webhook-response';
 
-describe('/github', () => {
+describe('POST /github', () => {
 	let streamLabsSpy: jest.SpyInstance<Promise<void>>;
 	let twitchChatSpy: jest.SpyInstance<Promise<void>>;
 
