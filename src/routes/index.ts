@@ -4,5 +4,5 @@ import { routes as github } from './github';
 import { Config } from '../config';
 
 export const routes = (config: Config): ServerRoute[] => {
-	return [...github(config), ...gitlab()];
+	return [...github(config), ...gitlab(config)];
 };
