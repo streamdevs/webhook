@@ -1,7 +1,7 @@
 {
 	"scripts": {
-		"compile": "tsc --project .",
-		"compile:check": "tsc --project . --noEmit",
+		"compile": "tsc --project ./src",
+		"compile:check": "yarn compile --noEmit",
 		"test": "jest",
 		"test:watch": "jest --watch",
 		"start": "node dist/index.js",
