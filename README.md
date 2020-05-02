@@ -13,7 +13,6 @@
 
 A webhook to forward GitHub and GitLab events to StreamLabs Alerts and Twitch Chat.
 
-## Deploy to Heroku
 This is a tool created with live-coding streamers in mind. The goal is to have another source of
 interaction and showcase relevant activity on GitHub to their audience on streaming platforms
 generating more interest in their Open Source projects.
@@ -39,6 +38,7 @@ We support the following events:
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## Manual deploy
+### Deploy to Heroku
 
 ```
 git clone https://github.com/streamdevs/webhook.git
