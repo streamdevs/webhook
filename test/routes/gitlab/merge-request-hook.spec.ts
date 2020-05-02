@@ -32,5 +32,21 @@ describe('POST /gitlab', () => {
 
 			expect(result).toEqual(expect.objectContaining({ messages: expect.anything() }));
 		});
+
+		it('handles merge request opened event', async () => {
+			const subject = await initServer(getConfig());
+			const payload = new MergeRequestPayloadBuilder()
+				.with({ object_attributes: { state: 'opened' } })
+				.getInstance();
+
+			const { result } = await subject.inject({
+				method: 'POST',
+				url: '/gitlab',
+				payload,
+				headers: { 'x-gitlab-event': 'Merge Request Hook' },
+			});
+
+			expect(result).toEqual(expect.objectContaining({ messages: expect.anything() }));
+		});
 	});
 });
