@@ -118,3 +118,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-end -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+## License
+
+This project is under the [CC-BY 4.0](https://github.com/streamdevs/webhook/blob/master/license.md) license
