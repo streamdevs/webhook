@@ -30,7 +30,16 @@ describe('POST /gitlab', () => {
 				headers: { 'x-gitlab-event': 'Merge Request Hook' },
 			});
 
-			expect(result).toEqual(expect.objectContaining({ messages: expect.anything() }));
+			expect(result).toEqual(
+				expect.objectContaining({
+					messages: [
+						expect.objectContaining({
+							twitchChat: expect.anything(),
+							streamlabs: expect.anything(),
+						}),
+					],
+				}),
+			);
 		});
 
 		it('handles merge request opened event', async () => {
@@ -46,7 +55,16 @@ describe('POST /gitlab', () => {
 				headers: { 'x-gitlab-event': 'Merge Request Hook' },
 			});
 
-			expect(result).toEqual(expect.objectContaining({ messages: expect.anything() }));
+			expect(result).toEqual(
+				expect.objectContaining({
+					messages: [
+						expect.objectContaining({
+							twitchChat: expect.anything(),
+							streamlabs: expect.anything(),
+						}),
+					],
+				}),
+			);
 		});
 	});
 });
