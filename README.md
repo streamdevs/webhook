@@ -19,6 +19,22 @@ interaction and showcase relevant activity on GitHub to their audience on stream
 generating more interest in their Open Source projects.
 
 ![StreamDevs Webhook Demo](https://user-images.githubusercontent.com/7255298/79904917-bc816e00-8415-11ea-98ca-7525b169ef49.gif)
+## Features
+
+### GitHub
+
+We support the following events:
+
+- Stars
+- Forks
+- Releases
+- Issues
+    - Opened
+    - Assigned
+- Pull Requests
+    - Opened
+    - Merged
+    
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
