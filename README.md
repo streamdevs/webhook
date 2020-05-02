@@ -17,16 +17,15 @@ A webhook to forward GitHub events to StreamLabs Alerts and Twitch Chat.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-    
 ## Setup
 
 There are a few requirements for the integration to work.
- 
-- [ ] Your webhook is on a server, running 24/7 
+
+- [ ] Your webhook is on a server, running 24/7
 - [ ] Your webhook is able to receive HTTP requests from GitHub/GitLab.
 - [ ] Your repository (and/or user/organisation) on GitHub/GitLab is configured to notify your
- webhook
- 
+      webhook
+
 You can deploy this webhook in different ways
 
 ### Deploy to Heroku
@@ -34,35 +33,40 @@ You can deploy this webhook in different ways
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## Configuration
+
 ### Deploy to your own server
 
 0. Get the source code
-    ```
-    git clone https://github.com/streamdevs/webhook.git
-    ```
-0. Change into the source code directory
-    ```
-    cd webhook
-    ```
-0. Install the dependencies with yarn (or alternative you can use `npm`)
-    ```
-    yarn install
-    ```
-    ```
-0. Create a .env file with your (configuration)[#configuration] and the edit it
-    ```
-   cp .env.example .env
-    ```
-0. Compile the project to JavaScript
-    ```
-    yarn build
-    ```
-0. Run the start command
-    ```
-    yarn run start
-    ```
-0. You should see your webhook running on the port specified in the configuration below
+   ```
+   git clone https://github.com/streamdevs/webhook.git
+   ```
+1. Change into the source code directory
+   ```
+   cd webhook
+   ```
+2. Install the dependencies with yarn (or alternative you can use `npm`)
 
+   ```
+   yarn install
+   ```
+
+   ```
+
+   ```
+
+3. Create a .env file with your (configuration)[#configuration] and the edit it
+   ```
+   cp .env.example .env
+   ```
+4. Compile the project to JavaScript
+   ```
+   yarn build
+   ```
+5. Run the start command
+   ```
+   yarn run start
+   ```
+6. You should see your webhook running on the port specified in the configuration below
 
 We make use of the following environment variables:
 
@@ -86,23 +90,21 @@ We make use of the following environment variables:
 #### Repositories
 
 0. Open your repository settings on GitHub.
-0. Go to the **Webhooks** section.
-0. Click on **Add webhook**.
-0. On the **Payload** field, enter the GitHub endpoint for your deployed webhook. For example `https://YOUR-SITE-HERE.herokuapp.com/github`.
-0. For **Content type** we want to select `application/json`.
-0. On **Which events would you like to trigger this webhook?** select `Let me select individual
- events`.
-0. On the list of events check the following:
-    - Check runs
-    - Forks
-    - Issues
-    - Pull requests
-    - Releases
-    - Stars
-0. Make sure the `Active` checkbox is checked
-0. Click on `Add webhook`
-0. You will receive your first notification on Twitch Chat and StreamLabs letting you now your webhook has been configured correctly.
-
+1. Go to the **Webhooks** section.
+2. Click on **Add webhook**.
+3. On the **Payload** field, enter the GitHub endpoint for your deployed webhook. For example `https://YOUR-SITE-HERE.herokuapp.com/github`.
+4. For **Content type** we want to select `application/json`.
+5. On **Which events would you like to trigger this webhook?** select `Let me select individual events`.
+6. On the list of events check the following:
+   - Check runs
+   - Forks
+   - Issues
+   - Pull requests
+   - Releases
+   - Stars
+7. Make sure the `Active` checkbox is checked
+8. Click on `Add webhook`
+9. You will receive your first notification on Twitch Chat and StreamLabs letting you now your webhook has been configured correctly.
 
 [Check the GitHub documentation](https://help.github.com/en/github/supporting-the-open-source-community-with-github-sponsors/configuring-webhooks-for-events-in-your-sponsored-account)
 
