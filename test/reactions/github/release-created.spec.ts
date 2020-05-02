@@ -43,20 +43,28 @@ describe('ReleaseCreated', () => {
 	});
 
 	describe('#getTwitchChatMessage', () => {
-		const subject = new ReleaseCreated(twitchChat, streamLabs);
-		const payload = new ReleaseCreatedPayloadBuilder().with({ action: 'published' }).getInstance();
+		it('returns the expected message', () => {
+			const subject = new ReleaseCreated(twitchChat, streamLabs);
+			const payload = new ReleaseCreatedPayloadBuilder()
+				.with({ action: 'published' })
+				.getInstance();
 
-		expect(subject.getTwitchChatMessage({ payload })).toEqual(
-			`streamdevs/webhook version 1.0.0 has just been released 🚀! Check it out http://github.com/streamdevs/webhook/releases/1.0.0`,
-		);
+			expect(subject.getTwitchChatMessage({ payload })).toEqual(
+				`streamdevs/webhook version 1.0.0 has just been released 🚀! Check it out http://github.com/streamdevs/webhook/releases/1.0.0`,
+			);
+		});
 	});
 
 	describe('#getStreamLabsMessage', () => {
-		const subject = new ReleaseCreated(twitchChat, streamLabs);
-		const payload = new ReleaseCreatedPayloadBuilder().with({ action: 'published' }).getInstance();
+		it('returns the expected message', () => {
+			const subject = new ReleaseCreated(twitchChat, streamLabs);
+			const payload = new ReleaseCreatedPayloadBuilder()
+				.with({ action: 'published' })
+				.getInstance();
 
-		expect(subject.getStreamLabsMessage({ payload })).toEqual(
-			`*streamdevs/webhook* version *1.0.0* has just been released 🚀!`,
-		);
+			expect(subject.getStreamLabsMessage({ payload })).toEqual(
+				`*streamdevs/webhook* version *1.0.0* has just been released 🚀!`,
+			);
+		});
 	});
 });
