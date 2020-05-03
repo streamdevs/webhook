@@ -2,6 +2,7 @@ import { TwitchChat } from '../../../src/services/TwitchChat';
 import { StreamLabs } from '../../../src/services/StreamLabs';
 import { IssueOpened } from '../../../src/reactions/github/issue-opened';
 import { IssuePayload } from '../../../src/schemas/github/issue-payload';
+import { IssuePayloadBuilder } from '../../builders/github/issue-payload-builder';
 
 describe('IssueOpened', () => {
 	let twitchChat: TwitchChat;
@@ -16,16 +17,18 @@ describe('IssueOpened', () => {
 		let payload: IssuePayload;
 
 		beforeEach(() => {
-			payload = {
-				action: 'opened',
-				repository: {
-					html_url: 'https://github.com/streamdevs/webhook',
-					full_name: 'streamdevs/webhook',
-				},
-				sender: {
-					login: 'orestes',
-				},
-			};
+			payload = new IssuePayloadBuilder()
+				.with({
+					action: 'opened',
+					repository: {
+						html_url: 'https://github.com/streamdevs/webhook',
+						full_name: 'streamdevs/webhook',
+					},
+					sender: {
+						login: 'orestes',
+					},
+				})
+				.getInstance();
 		});
 
 		it('calls StreamLabs with the expected message', async () => {
@@ -44,7 +47,7 @@ describe('IssueOpened', () => {
 			await subject.handle({ payload });
 
 			expect(twitchChat.send).toHaveBeenCalledWith(
-				`${payload.sender.login} opened a issue in ${payload.repository.html_url}`,
+				`${payload.sender.login} opened a issue in ${payload.issue.html_url}`,
 			);
 		});
 	});

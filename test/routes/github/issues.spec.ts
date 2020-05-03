@@ -3,6 +3,7 @@ import { IssuePayload } from '../../../src/schemas/github/issue-payload';
 import { initServer } from '../../../src/server';
 import { StreamLabs } from '../../../src/services/StreamLabs';
 import { TwitchChat } from '../../../src/services/TwitchChat';
+import { IssuePayloadBuilder } from '../../builders/github/issue-payload-builder';
 
 describe('POST /github', () => {
 	let payload: IssuePayload;
@@ -17,15 +18,17 @@ describe('POST /github', () => {
 		twitchChatSpy = jest.spyOn(TwitchChat.prototype, 'send');
 		twitchChatSpy.mockImplementationOnce(jest.fn());
 
-		payload = {
-			action: 'assigned',
-			assignee: { login: 'SantiMA10' },
-			sender: { login: 'SantiMA10' },
-			repository: {
-				html_url: 'https://github.com/streamdevs/webhook',
-				full_name: 'streamdevs/webhook',
-			},
-		};
+		payload = new IssuePayloadBuilder()
+			.with({
+				action: 'assigned',
+				assignee: { login: 'SantiMA10' },
+				sender: { login: 'SantiMA10' },
+				repository: {
+					html_url: 'https://github.com/streamdevs/webhook',
+					full_name: 'streamdevs/webhook',
+				},
+			})
+			.getInstance();
 	});
 
 	it('returns a 200 OK', async () => {
