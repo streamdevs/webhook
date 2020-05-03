@@ -9,15 +9,37 @@
 ![license](https://img.shields.io/github/license/streamdevs/webhook.svg)
 ![Node.js CI](https://github.com/streamdevs/webhook/workflows/Node.js%20CI/badge.svg)
 
-A webhook to forward GitHub events to StreamLabs Alerts and Twitch Chat.
+## Goal
 
-![Apr-21-2020 9-18-24 PM](https://user-images.githubusercontent.com/7255298/79904917-bc816e00-8415-11ea-98ca-7525b169ef49.gif)
+A webhook to forward GitHub and GitLab events to StreamLabs Alerts and Twitch Chat.
 
-## Deploy to Heroku
+This is a tool created with live-coding streamers in mind. The goal is to have another source of
+interaction and showcase relevant activity on GitHub to their audience on streaming platforms
+generating more interest in their Open Source projects.
+
+![StreamDevs Webhook Demo](https://user-images.githubusercontent.com/7255298/79904917-bc816e00-8415-11ea-98ca-7525b169ef49.gif)
+
+## Features
+
+### GitHub
+
+We support the following events:
+
+- Stars
+- Forks
+- Releases
+- Issues
+  - Opened
+  - Assigned
+- Pull Requests
+  - Opened
+  - Merged
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## Manual deploy
+
+### Deploy to Heroku
 
 ```
 git clone https://github.com/streamdevs/webhook.git
@@ -97,3 +119,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-end -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+## License
+
+This project is under the [CC-BY 4.0](https://github.com/streamdevs/webhook/blob/master/license.md) license
