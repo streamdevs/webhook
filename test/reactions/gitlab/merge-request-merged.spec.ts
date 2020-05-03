@@ -55,7 +55,7 @@ describe('MergeRequestMerged', () => {
 				expect.objectContaining({
 					twitchChat: {
 						notified: true,
-						message: `The merge request from ${payload.user.username} has been merged into ${payload.repository.homepage}`,
+						message: `The merge request from ${payload.user.username} has been merged into ${payload.object_attributes.url}`,
 					},
 				}),
 			);

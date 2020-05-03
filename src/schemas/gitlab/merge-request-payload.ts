@@ -14,5 +14,6 @@ export interface MergeRequestPayload {
 	};
 	object_attributes: {
 		state: 'merged' | 'created' | 'updated' | 'closed' | 'opened';
+		url: url;
 	};
 }
