@@ -22,7 +22,6 @@
 		"tmi.js": "^1.5.0"
 	},
 	"devDependencies": {
-		"lodash": "^4.17.15",
 		"@types/faker": "^4.1.11",
 		"@types/hapi__hapi": "^19.0.2",
 		"@types/hapi__joi": "^16.0.12",
@@ -36,10 +35,12 @@
 		"husky": "^4.2.5",
 		"jest": "^25.2.7",
 		"lint-staged": ">=10",
+		"lodash": "^4.17.15",
 		"nock": "^12.0.3",
 		"nodemon": "^2.0.3",
 		"prettier": "^2.0.4",
 		"ts-jest": "^25.4.0",
-		"typescript": "^3.8.3"
+		"typescript": "^3.8.3",
+		"utility-types": "^3.10.0"
 	}
 }
