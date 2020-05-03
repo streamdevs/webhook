@@ -166,7 +166,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- prettier-ignore-start -->
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
   <tr>
@@ -177,9 +176,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/riolcrt"><img src="https://avatars0.githubusercontent.com/u/5069644?v=4" width="100px;" alt=""/><br /><sub><b>riolcrt</b></sub></a><br /><a href="#ideas-riolcrt" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
-
 <!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 <!-- prettier-ignore-end -->
 
