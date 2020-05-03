@@ -87,13 +87,13 @@ We make use of the following environment variables:
 | Variable                  | Setting                                                                                                                                                                    | Mandatory | Default         |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | --------------- |
 | PORT                      | Where the HTTP server should listen.                                                                                                                                       | No        | `8080`          |
-| STREAMLABS_TOKEN          | A token to use the StreamLabs API. You can get one by using [StreamDevs/streamlabs-token](https://github.com/streamdevs/streamlabs-token)                                  | No   | _empty_         |
-| TWITCH_BOT_NAME           | The account (username) that the chatbot uses to send chat messages.                                                                                                        | No   | _empty_         |
-| TWITCH_BOT_TOKEN          | The token to authenticate your chatbot. Generate this with https://twitchapps.com/tmi/, while logged in to your chatbot account. The token will be an alphanumeric string. | No   | _empty_         |
-| TWITCH_BOT_CHANNEL        | The Twitch channel name where you want to run the bot. Usually this is your main Twitch account.                                                                           | No   | _empty_         |
-| NOTIFY_ISSUES_ASSIGNED_TO | A comma-separated list of GitHub user names. Only issues assigned to these users will be notified or leave it empty to receive all notifications.                          | No    | _empty array_   |
-| IGNORE_PR_OPENED_BY       | A comma-separated list of GitHub user names. Only PR not opened by these users will be notified or leave it empty to receive all notifications.                            | No    | _empty array_   |
-| NOTIFY_CHECK_RUNS_FOR     | Comma-separated list of branches to notify Check Runs for. Leave empty to notify for any branch                                                                            | No    | _empty_ _array_ |
+| STREAMLABS_TOKEN          | A token to use the StreamLabs API. You can get one by using [StreamDevs/streamlabs-token](https://github.com/streamdevs/streamlabs-token)                                  | No        | _empty_         |
+| TWITCH_BOT_NAME           | The account (username) that the chatbot uses to send chat messages.                                                                                                        | No        | _empty_         |
+| TWITCH_BOT_TOKEN          | The token to authenticate your chatbot. Generate this with https://twitchapps.com/tmi/, while logged in to your chatbot account. The token will be an alphanumeric string. | No        | _empty_         |
+| TWITCH_BOT_CHANNEL        | The Twitch channel name where you want to run the bot. Usually this is your main Twitch account.                                                                           | No        | _empty_         |
+| NOTIFY_ISSUES_ASSIGNED_TO | A comma-separated list of GitHub user names. Only issues assigned to these users will be notified or leave it empty to receive all notifications.                          | No        | _empty array_   |
+| IGNORE_PR_OPENED_BY       | A comma-separated list of GitHub user names. Only PR not opened by these users will be notified or leave it empty to receive all notifications.                            | No        | _empty array_   |
+| NOTIFY_CHECK_RUNS_FOR     | Comma-separated list of branches to notify Check Runs for. Leave empty to notify for any branch                                                                            | No        | _empty_ _array_ |
 
 ### GitHub Configuration
 
