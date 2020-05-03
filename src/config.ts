@@ -32,7 +32,7 @@ export const getConfig = (): Config => {
 		TWITCH_BOT_TOKEN: process.env['TWITCH_BOT_TOKEN'],
 		TWITCH_BOT_CHANNEL: process.env['TWITCH_BOT_CHANNEL'],
 		port: process.env['PORT'] || process.env['HTTP_PORT'] || 8080,
-		NOTIFY_CHECK_RUNS_FOR: (process.env['NOTIFY_CHECK_RUNS_FOR'] || '').split(','),
+		NOTIFY_CHECK_RUNS_FOR: process.env['NOTIFY_CHECK_RUNS_FOR']?.split(',') || [],
 		NOTIFY_ISSUES_ASSIGNED_TO: process.env['NOTIFY_ISSUES_ASSIGNED_TO']?.split(',') || [],
 		IGNORE_PR_OPENED_BY: process.env['IGNORE_PR_OPENED_BY']?.split(',') || [],
 	};
