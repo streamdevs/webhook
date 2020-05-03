@@ -35,6 +35,14 @@ We support the following events:
   - Opened
   - Merged
 
+### GitLab
+
+At the moment GitLab's webhooks don't support as many events. So far, we support:
+
+- Merge Request
+  - Opened
+  - Merged
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## Manual deploy
