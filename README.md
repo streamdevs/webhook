@@ -35,8 +35,6 @@ We support the following events:
   - Opened
   - Merged
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
 ## Setup
 
 There are a few requirements for the integration to work.
@@ -134,7 +132,7 @@ Everyone is welcome to contribute to this repository. To do so follow these step
 
 ### Deploying to Heroku
 
-You can use the "[deploy to Heroku](#webhook)" button link at the top of this readme file or use the Heroku CLI
+You can use the "[deploy to Heroku](#deploy-to-heroku)" button or use the Heroku CLI
 
 ### Configuring your local repo to deploy on Heroku
 
