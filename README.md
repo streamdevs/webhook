@@ -35,6 +35,14 @@ We support the following events:
   - Opened
   - Merged
 
+### GitLab
+
+At the moment GitLab's webhooks don't support as many events. So far, we support:
+
+- Merge Request
+  - Opened
+  - Merged
+
 ## Setup
 
 There are a few requirements for the integration to work.
