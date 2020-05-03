@@ -113,13 +113,7 @@ We make use of the following environment variables:
 3. On the **Payload** field, enter the GitHub endpoint for your deployed webhook. For example `https://YOUR-SITE-HERE.herokuapp.com/github`.
 4. For **Content type** we want to select `application/json`.
 5. On **Which events would you like to trigger this webhook?** select `Let me select individual events`.
-6. On the list of events check the following:
-   - Check runs
-   - Forks
-   - Issues
-   - Pull requests
-   - Releases
-   - Stars
+6. On the list of events check any of the [supported events](#github)
 7. Make sure the `Active` checkbox is checked
 8. Click on `Add webhook`
 9. You will receive your first notification on Twitch Chat and StreamLabs letting you now your webhook has been configured correctly.
@@ -127,6 +121,14 @@ We make use of the following environment variables:
 #### Sponsorships
 
 [Check the GitHub documentation](https://help.github.com/en/github/supporting-the-open-source-community-with-github-sponsors/configuring-webhooks-for-events-in-your-sponsored-account)
+
+### GitLab Configuration
+
+0. Open your repository settings on GitLab.
+1. Go to the **Settings/Webhooks** section.
+2. On the **URL** field, enter the GitLab endpoint for your deployed webhook. For example `https://YOUR-SITE-HERE.herokuapp.com/gitlab`.
+3. On the list of **Trigger** you can activate any of the [supported events](#gitlab)
+4. Click on `Add webhook`
 
 ## Contributing
 
