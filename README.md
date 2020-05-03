@@ -52,8 +52,6 @@ You can deploy this webhook in different ways
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-## Configuration
-
 ### Deploy to your own server
 
 0. Get the source code
@@ -69,6 +67,7 @@ You can deploy this webhook in different ways
    ```
    yarn install
    ```
+
 3. Create a .env file with your (configuration)[#configuration] and the edit it
    ```
    cp .env.example .env
@@ -83,6 +82,8 @@ You can deploy this webhook in different ways
    ```
 6. You should see your webhook running on the port specified in the configuration below
 
+## Configuration
+
 We make use of the following environment variables:
 
 | Variable                  | Setting                                                                                                                                                                    | Mandatory | Default         |
@@ -95,8 +96,6 @@ We make use of the following environment variables:
 | NOTIFY_ISSUES_ASSIGNED_TO | A comma-separated list of GitHub user names. Only issues assigned to these users will be notified or leave it empty to receive all notifications.                          | **No**    | _empty array_   |
 | IGNORE_PR_OPENED_BY       | A comma-separated list of GitHub user names. Only PR not opened by these users will be notified or leave it empty to receive all notifications.                            | **No**    | _empty array_   |
 | NOTIFY_CHECK_RUNS_FOR     | Comma-separated list of branches to notify Check Runs for. Leave empty to notify for any branch                                                                            | **No**    | _empty_ _array_ |
-
-## How to configure the webhook in GitHub
 
 ### GitHub Configuration
 
@@ -119,7 +118,7 @@ We make use of the following environment variables:
 8. Click on `Add webhook`
 9. You will receive your first notification on Twitch Chat and StreamLabs letting you now your webhook has been configured correctly.
 
-### For sponsorships
+#### Sponsorships
 
 [Check the GitHub documentation](https://help.github.com/en/github/supporting-the-open-source-community-with-github-sponsors/configuring-webhooks-for-events-in-your-sponsored-account)
 
