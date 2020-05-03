@@ -2,7 +2,7 @@ import { getConfig } from '../../../src/config';
 import { initServer } from '../../../src/server';
 import { StreamLabs } from '../../../src/services/StreamLabs';
 import { TwitchChat } from '../../../src/services/TwitchChat';
-import { MergeRequestPayloadBuilder } from '../../builders/payload/gitlab/merge-request-payload-builder';
+import { MergeRequestPayloadBuilder } from '../../builders/gitlab/merge-request-payload-builder';
 
 describe('POST /gitlab', () => {
 	let streamLabsSpy: jest.SpyInstance<Promise<void>>;

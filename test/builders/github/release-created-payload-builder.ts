@@ -1,4 +1,4 @@
-import { ReleaseCreatedPayload } from '../../src/schemas/github/release-created-payload';
+import { ReleaseCreatedPayload } from '../../../src/schemas/github/release-created-payload';
 import { merge } from 'lodash';
 
 export class ReleaseCreatedPayloadBuilder {

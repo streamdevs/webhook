@@ -2,7 +2,7 @@ import { initServer } from '../../../src/server';
 import { getConfig } from '../../../src/config';
 import { StreamLabs } from '../../../src/services/StreamLabs';
 import { TwitchChat } from '../../../src/services/TwitchChat';
-import { ReleaseCreatedPayloadBuilder } from '../../builders/release-created-payload-builder';
+import { ReleaseCreatedPayloadBuilder } from '../../builders/github/release-created-payload-builder';
 import { ReleaseCreatedPayload } from '../../../src/schemas/github/release-created-payload';
 import { WebhookResponse } from '../../../src/schemas/webhook-response';
 
