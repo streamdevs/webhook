@@ -1,6 +1,6 @@
 import { initServer } from '../../../src/server';
 import { getConfig } from '../../../src/config';
-import { SponsorshipPayloadBuilder } from '../../builders/sponsorship-payload-builder';
+import { SponsorshipPayloadBuilder } from '../../builders/github/sponsorship-payload-builder';
 import { StreamLabs } from '../../../src/services/StreamLabs';
 import { TwitchChat } from '../../../src/services/TwitchChat';
 

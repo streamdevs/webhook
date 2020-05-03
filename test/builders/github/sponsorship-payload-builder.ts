@@ -1,4 +1,4 @@
-import { SponsorshipPayload } from '../../src/schemas/github/sponsorship-payload';
+import { SponsorshipPayload } from '../../../src/schemas/github/sponsorship-payload';
 import { internet, random } from 'faker';
 import { merge } from 'lodash';
 

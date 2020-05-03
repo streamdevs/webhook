@@ -1,5 +1,5 @@
 import { ReleaseCreatedPayloadBuilder } from './release-created-payload-builder';
-import { ReleaseCreatedPayload } from '../../src/schemas/github/release-created-payload';
+import { ReleaseCreatedPayload } from '../../../src/schemas/github/release-created-payload';
 
 describe('ReleasePayloadBuilder', () => {
 	describe('#constructor', () => {

@@ -2,7 +2,7 @@ import { ReleaseCreated } from '../../../src/reactions/github/release-created';
 import { TwitchChatMock } from '../../__mocks__/TwitchChat';
 import { StreamLabsMock } from '../../__mocks__/StreamLabs';
 import { ReleaseCreatedPayload } from '../../../src/schemas/github/release-created-payload';
-import { ReleaseCreatedPayloadBuilder } from '../../builders/release-created-payload-builder';
+import { ReleaseCreatedPayloadBuilder } from '../../builders/github/release-created-payload-builder';
 
 describe('ReleaseCreated', () => {
 	let twitchChat: TwitchChatMock;
