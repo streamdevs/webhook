@@ -43,18 +43,50 @@ At the moment GitLab's webhooks don't support as many events. So far, we support
   - Opened
   - Merged
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+## Setup
 
-## Manual deploy
+There are a few requirements for the integration to work.
+
+- [ ] Your webhook is on a server, running 24/7
+- [ ] Your webhook is able to receive HTTP requests from GitHub/GitLab.
+- [ ] Your repository (and/or user/organisation) on GitHub/GitLab is configured to notify your
+      webhook
+
+You can deploy this webhook in different ways
 
 ### Deploy to Heroku
 
-```
-git clone https://github.com/streamdevs/webhook.git
-cd webhook
-yarn
-yarn start
-```
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+### Deploy to your own server
+
+0. Get the source code
+   ```
+   git clone https://github.com/streamdevs/webhook.git
+   ```
+1. Change into the source code directory
+   ```
+   cd webhook
+   ```
+2. Install the dependencies with yarn (or alternative you can use `npm`)
+
+   ```
+   yarn install
+   ```
+
+3. Create a .env file with your (configuration)[#configuration] and the edit it
+   ```
+   cp .env.example .env
+   ```
+4. Compile the project to JavaScript
+   ```
+   yarn build
+   ```
+5. Run the start command
+   ```
+   yarn run start
+   ```
+6. You should see your webhook running on the port specified in the configuration below
 
 ## Configuration
 
@@ -63,17 +95,36 @@ We make use of the following environment variables:
 | Variable                  | Setting                                                                                                                                                                    | Mandatory | Default         |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | --------------- |
 | PORT                      | Where the HTTP server should listen.                                                                                                                                       | No        | `8080`          |
-| STREAMLABS_TOKEN          | A token to use the StreamLabs API. You can get one by using [StreamDevs/streamlabs-token](https://github.com/streamdevs/streamlabs-token)                                  | **Yes**   | _empty_         |
-| TWITCH_BOT_NAME           | The account (username) that the chatbot uses to send chat messages.                                                                                                        | **Yes**   | _empty_         |
-| TWITCH_BOT_TOKEN          | The token to authenticate your chatbot. Generate this with https://twitchapps.com/tmi/, while logged in to your chatbot account. The token will be an alphanumeric string. | **Yes**   | _empty_         |
-| TWITCH_BOT_CHANNEL        | The Twitch channel name where you want to run the bot. Usually this is your main Twitch account.                                                                           | **Yes**   | _empty_         |
-| NOTIFY_ISSUES_ASSIGNED_TO | A comma-separated list of GitHub user names. Only issues assigned to these users will be notified or leave it empty to receive all notifications.                          | **No**    | _empty array_   |
-| IGNORE_PR_OPENED_BY       | A comma-separated list of GitHub user names. Only PR not opened by these users will be notified or leave it empty to receive all notifications.                            | **No**    | _empty array_   |
-| NOTIFY_CHECK_RUNS_FOR     | Comma-separated list of branches to notify Check Runs for. Leave empty to notify for any branch                                                                            | **No**    | _empty_ _array_ |
+| STREAMLABS_TOKEN          | A token to use the StreamLabs API. You can get one by using [StreamDevs/streamlabs-token](https://github.com/streamdevs/streamlabs-token)                                  | No        | _empty_         |
+| TWITCH_BOT_NAME           | The account (username) that the chatbot uses to send chat messages.                                                                                                        | No        | _empty_         |
+| TWITCH_BOT_TOKEN          | The token to authenticate your chatbot. Generate this with https://twitchapps.com/tmi/, while logged in to your chatbot account. The token will be an alphanumeric string. | No        | _empty_         |
+| TWITCH_BOT_CHANNEL        | The Twitch channel name where you want to run the bot. Usually this is your main Twitch account.                                                                           | No        | _empty_         |
+| NOTIFY_ISSUES_ASSIGNED_TO | A comma-separated list of GitHub user names. Only issues assigned to these users will be notified or leave it empty to receive all notifications.                          | No        | _empty array_   |
+| IGNORE_PR_OPENED_BY       | A comma-separated list of GitHub user names. Only PR not opened by these users will be notified or leave it empty to receive all notifications.                            | No        | _empty array_   |
+| NOTIFY_CHECK_RUNS_FOR     | Comma-separated list of branches to notify Check Runs for. Leave empty to notify for any branch                                                                            | No        | _empty_ _array_ |
 
-## How to configure the webhook in GitHub
+### GitHub Configuration
 
-### For sponsorships
+#### Repositories
+
+0. Open your repository settings on GitHub.
+1. Go to the **Webhooks** section.
+2. Click on **Add webhook**.
+3. On the **Payload** field, enter the GitHub endpoint for your deployed webhook. For example `https://YOUR-SITE-HERE.herokuapp.com/github`.
+4. For **Content type** we want to select `application/json`.
+5. On **Which events would you like to trigger this webhook?** select `Let me select individual events`.
+6. On the list of events check the following:
+   - Check runs
+   - Forks
+   - Issues
+   - Pull requests
+   - Releases
+   - Stars
+7. Make sure the `Active` checkbox is checked
+8. Click on `Add webhook`
+9. You will receive your first notification on Twitch Chat and StreamLabs letting you now your webhook has been configured correctly.
+
+#### Sponsorships
 
 [Check the GitHub documentation](https://help.github.com/en/github/supporting-the-open-source-community-with-github-sponsors/configuring-webhooks-for-events-in-your-sponsored-account)
 
@@ -89,7 +140,7 @@ Everyone is welcome to contribute to this repository. To do so follow these step
 
 ### Deploying to Heroku
 
-You can use the "[deploy to Heroku](#webhook)" button link at the top of this readme file or use the Heroku CLI
+You can use the "[deploy to Heroku](#deploy-to-heroku)" button or use the Heroku CLI
 
 ### Configuring your local repo to deploy on Heroku
 

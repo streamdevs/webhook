@@ -1,4 +1,4 @@
-import { MergeRequestPayload } from '../../../../src/schemas/gitlab/merge-request-payload';
+import { MergeRequestPayload } from '../../../src/schemas/gitlab/merge-request-payload';
 import { merge } from 'lodash';
 
 export class MergeRequestPayloadBuilder {

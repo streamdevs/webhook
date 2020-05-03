@@ -1,7 +1,7 @@
 import { Config } from '../../../src/config';
 import { IssueAssigned } from '../../../src/reactions/github/issue-assigned';
 import { IssuePayload } from '../../../src/schemas/github/issue-payload';
-import { IssuePayloadBuilder } from '../../builders/payload/issue-payload-builder';
+import { IssuePayloadBuilder } from '../../builders/github/issue-payload-builder';
 import { StreamLabsMock } from '../../__mocks__/StreamLabs';
 import { TwitchChatMock } from '../../__mocks__/TwitchChat';
 

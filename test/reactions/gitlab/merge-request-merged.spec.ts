@@ -1,5 +1,5 @@
 import { MergeRequestMerged } from '../../../src/reactions/gitlab/merge-request-merged';
-import { MergeRequestPayloadBuilder } from '../../builders/payload/gitlab/merge-request-payload-builder';
+import { MergeRequestPayloadBuilder } from '../../builders/gitlab/merge-request-payload-builder';
 import { StreamLabsMock } from '../../__mocks__/StreamLabs';
 import { TwitchChatMock } from '../../__mocks__/TwitchChat';
 
