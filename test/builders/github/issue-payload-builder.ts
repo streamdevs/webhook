@@ -11,6 +11,7 @@ export class IssuePayloadBuilder {
 		},
 		sender: { login: internet.userName() },
 		assignee: { login: internet.userName() },
+		issue: { html_url: internet.url() },
 	};
 
 	public with(payload: Partial<IssuePayload>): IssuePayloadBuilder {
