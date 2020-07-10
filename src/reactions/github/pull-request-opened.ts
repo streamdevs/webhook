@@ -34,6 +34,6 @@ export class PullRequestOpened extends Reaction<PullRequestPayload> {
 	}
 
 	getTwitchChatMessage({ payload }: HandleOptions): string {
-		return `${payload.pull_request.user.login} just opened a pull request in ${payload.repository.html_url}`;
+		return `${payload.pull_request.user.login} just opened a pull request in ${payload.pull_request.html_url}`;
 	}
 }
