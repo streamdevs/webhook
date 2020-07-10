@@ -1,5 +1,6 @@
-import { MergeRequestPayload } from '../../../src/schemas/gitlab/merge-request-payload';
 import { merge } from 'lodash';
+import { DeepPartial } from 'utility-types';
+import { MergeRequestPayload } from '../../../src/schemas/gitlab/merge-request-payload';
 
 export class MergeRequestPayloadBuilder {
 	private payload: MergeRequestPayload = {
@@ -17,10 +18,11 @@ export class MergeRequestPayloadBuilder {
 		},
 		object_attributes: {
 			state: 'merged',
+			url: 'http://example.com/diaspora/merge_requests/1',
 		},
 	};
 
-	public with(payload: Partial<MergeRequestPayload>): MergeRequestPayloadBuilder {
+	public with(payload: DeepPartial<MergeRequestPayload>): MergeRequestPayloadBuilder {
 		merge(this.payload, payload);
 
 		return this;

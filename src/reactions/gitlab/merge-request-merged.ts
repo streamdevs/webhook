@@ -7,7 +7,7 @@ export class MergeRequestMerged extends Reaction<MergeRequestPayload> {
 	}
 
 	getTwitchChatMessage({ payload }: ReactionHandleOptions<MergeRequestPayload>): string {
-		return `The merge request from ${payload.user.username} has been merged into ${payload.repository.homepage}`;
+		return `The merge request from ${payload.user.username} has been merged into ${payload.object_attributes.url}`;
 	}
 
 	canHandle({ payload, event }: ReactionCanHandleOptions<MergeRequestPayload>): boolean {

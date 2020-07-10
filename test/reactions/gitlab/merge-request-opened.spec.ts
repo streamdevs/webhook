@@ -92,7 +92,7 @@ describe('MergeRequestOpened', () => {
 
 			expect(response).toEqual({
 				notified: true,
-				message: `${payload.user.username} just opened a merge request in ${payload.repository.homepage}`,
+				message: `${payload.user.username} just opened a merge request in ${payload.object_attributes.url}`,
 			});
 		});
 
