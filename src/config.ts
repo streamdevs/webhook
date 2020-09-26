@@ -4,6 +4,7 @@ export interface Config {
 	TWITCH_BOT_NAME?: string;
 	TWITCH_BOT_TOKEN?: string;
 	TWITCH_BOT_CHANNEL?: string;
+	GITHUB_SECRET?: string;
 	port: number | string;
 	NOTIFY_CHECK_RUNS_FOR: string[];
 	NOTIFY_ISSUES_ASSIGNED_TO: string[];
@@ -35,5 +36,6 @@ export const getConfig = (): Config => {
 		NOTIFY_CHECK_RUNS_FOR: process.env['NOTIFY_CHECK_RUNS_FOR']?.split(',') || [],
 		NOTIFY_ISSUES_ASSIGNED_TO: process.env['NOTIFY_ISSUES_ASSIGNED_TO']?.split(',') || [],
 		IGNORE_PR_OPENED_BY: process.env['IGNORE_PR_OPENED_BY']?.split(',') || [],
+		GITHUB_SECRET: process.env['GITHUB_SECRET'],
 	};
 };
