@@ -102,6 +102,7 @@ We make use of the following environment variables:
 | NOTIFY_ISSUES_ASSIGNED_TO | A comma-separated list of GitHub user names. Only issues assigned to these users will be notified or leave it empty to receive all notifications.                          | No        | _empty array_   |
 | IGNORE_PR_OPENED_BY       | A comma-separated list of GitHub user names. Only PR not opened by these users will be notified or leave it empty to receive all notifications.                            | No        | _empty array_   |
 | NOTIFY_CHECK_RUNS_FOR     | Comma-separated list of branches to notify Check Runs for. Leave empty to notify for any branch                                                                            | No        | _empty_ _array_ |
+| GITHUB_SECRET             | Allows you to set a secret in order to verify that the request are from GitHub                                                                                             | No        | _empty_         |
 
 ### GitHub Configuration
 
