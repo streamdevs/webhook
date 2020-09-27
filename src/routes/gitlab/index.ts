@@ -5,6 +5,7 @@ import { TwitchChat } from '../../services/TwitchChat';
 import { Config } from '../../config';
 import { StreamLabs } from '../../services/StreamLabs';
 import { MergeRequestPayload } from '../../schemas/gitlab/merge-request-payload';
+import { Boom, forbidden } from '@hapi/boom';
 
 export const routes = (config: Config): ServerRoute[] => {
 	return [
@@ -15,11 +16,24 @@ export const routes = (config: Config): ServerRoute[] => {
 					headers: gitlabHeader(),
 				},
 			},
-			handler: async (request: Request, h: ResponseToolkit): Promise<ResponseObject> => {
+			handler: async (request: Request, h: ResponseToolkit): Promise<ResponseObject | Boom> => {
 				const { headers, payload } = (request as unknown) as {
-					headers: { 'x-gitlab-event': string };
+					headers: { 'x-gitlab-event': string; 'x-gitlab-token': string };
 					payload: MergeRequestPayload;
 				};
+
+				if (config.GITLAB_TOKEN) {
+					if (!headers['x-gitlab-token']) {
+						console.error("Missing 'X-GitLab-Token' header");
+						return forbidden();
+					}
+
+					if (config.GITLAB_TOKEN !== headers['x-gitlab-token']) {
+						console.error("'X-GitLab-Token' mismatch");
+						return forbidden();
+					}
+				}
+
 				const event = headers['x-gitlab-event'];
 
 				const twitchChat = new TwitchChat({
