@@ -8,6 +8,7 @@ export interface Config {
 	NOTIFY_CHECK_RUNS_FOR: string[];
 	NOTIFY_ISSUES_ASSIGNED_TO: string[];
 	IGNORE_PR_OPENED_BY: string[];
+	GITLAB_TOKEN?: string;
 }
 
 export const getConfig = (): Config => {
@@ -35,5 +36,6 @@ export const getConfig = (): Config => {
 		NOTIFY_CHECK_RUNS_FOR: process.env['NOTIFY_CHECK_RUNS_FOR']?.split(',') || [],
 		NOTIFY_ISSUES_ASSIGNED_TO: process.env['NOTIFY_ISSUES_ASSIGNED_TO']?.split(',') || [],
 		IGNORE_PR_OPENED_BY: process.env['IGNORE_PR_OPENED_BY']?.split(',') || [],
+		GITLAB_TOKEN: process.env['GITLAB_TOKEN'],
 	};
 };
