@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@hapi/hapi": "^19.1.1",
 		"@hapi/joi": "^17.1.1",
-		"axios": "^0.19.2",
+		"axios": "^0.21.1",
 		"dotenv": "^8.2.0",
 		"laabr": "^6.0.2",
 		"tmi.js": "^1.5.0"
